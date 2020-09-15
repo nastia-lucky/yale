@@ -1,0 +1,16 @@
+<suite name="Smoke test">
+    <test name="Smoke test">
+        <classes>
+            <class name="yale.tests.MainPageTests"></class>
+            <class name="yale.tests.OpenMainPage"></class>
+            <class name="yale.tests.SearchForClinicalTrial"></class>
+            <class name="yale.tests.SearchForDocument"></class>
+            <class name="yale.tests.SearchForEvent"></class>
+            <class name="yale.tests.SearchForMedia"></class>
+            <class name="yale.tests.SearchForNews"></class>
+            <class name="yale.tests.SearchForWebPage"></class>
+            <class name="yale.tests.SearchOverlayTest"></class>
+            <class name="yale.tests.SearchPeople"></class>
+        </classes>
+    </test>
+</suite>
