@@ -8,7 +8,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import framework.logger.Log;
-import framework.utilities.Browser;
+import framework.Browser;
 
 import java.io.File;
 import java.io.IOException;

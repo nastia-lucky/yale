@@ -1,10 +1,8 @@
 package yale.tests;
 
+import framework.BaseTest;
 import framework.listener.TestListener;
-import framework.utilities.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -14,19 +12,14 @@ import yale.pageObjects.WebSiteSearch;
 import yale.services.OpenSearchPage;
 
 @Listeners({TestListener.class})
-public class SearchForWebPage {
-    SearchPage searchPage = new SearchPage();
-    WebSiteSearch webPageSearch = new WebSiteSearch();
-    MainPage mainPage = new MainPage();
-
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
+public class SearchForWebPage extends BaseTest {
 
     @Test
     public void checkWebPageFilter() {
+        MainPage mainPage = new MainPage();
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        WebSiteSearch webPageSearch = new WebSiteSearch();
         int numberWebPagesWithoutFilter = searchPage
                 .addWebPageFilter()
                 .getSearchResult();
@@ -45,6 +38,7 @@ public class SearchForWebPage {
     @Test
     public void checkResultsNumberInBracketsForWebPages() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberWebSiteBracketsSearchResult = searchPage.addWebPageFilter()
                 .getBracketsWebSiteResultNumber();
         int numberWebSiteSearchResults = searchPage.getSearchResult();
@@ -55,6 +49,7 @@ public class SearchForWebPage {
     @Test
     public void checkSearchResultWebPageInfo() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         searchPage.addWebPageFilter()
                 .addActiveWebPageFilter()
                 .getSearchResult();
@@ -66,10 +61,5 @@ public class SearchForWebPage {
         softAssert.assertTrue(searchPage.isEachResultHaveTitle(),
                 "Not each web page result contains title");
         softAssert.assertAll();
-    }
-
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
     }
 }

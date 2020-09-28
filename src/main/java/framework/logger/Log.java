@@ -59,23 +59,23 @@ public class Log {
         logger.debug(String.format("Check the element [%s] inside other element [%s] contains text [%s]", by2, by, value));
     }
 
-    public static void logGetNumberFromElementByAttribute(By by, String text){
+    public static void logGetNumberFromElementByAttribute(By by, String text) {
         logger.debug(String.format("Get Number From  element [%s] by attribute [%s]", by, text));
     }
 
-    public static void logCheckElementsContainText(By by1, By by2, String text){
-        logger.debug(String.format("Check one of the elements ([%s] or [%s]) contain text [%s]", by1, by2,  text));
+    public static void logCheckElementsContainText(By by1, By by2, String text) {
+        logger.debug(String.format("Check one of the elements ([%s] or [%s]) contain text [%s]", by1, by2, text));
     }
 
-    public static void logCheckTheSecondElementContainsOneOfTheTexts(By by, String text, String text2){
-        logger.debug(String.format("Check the element [%s] contain text one of the texts( [%s] or [%s] )", by, text,  text2));
+    public static void logCheckTheSecondElementContainsOneOfTheTexts(By by, String text, String text2) {
+        logger.debug(String.format("Check the element [%s] contain text one of the texts( [%s] or [%s] )", by, text, text2));
     }
 
-    public static void logGetTextFromElementInsideOtherElement(By by, By by2){
+    public static void logGetTextFromElementInsideOtherElement(By by, By by2) {
         logger.debug(String.format("Get text from element [%s] inside other element [%s]", by2, by));
     }
 
-    public static void logCheckAllElementsContainTexts(By by, By by2, String text, String text2){
+    public static void logCheckAllElementsContainTexts(By by, By by2, String text, String text2) {
         logger.debug(String.format("Check the element [%s] inside other element [%s] contain one of the texts ([%s] or [%s])", by2, by, text, text2));
     }
 

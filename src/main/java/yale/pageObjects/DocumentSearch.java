@@ -1,7 +1,7 @@
 package yale.pageObjects;
 
 import framework.logger.Log;
-import framework.utilities.Browser;
+import framework.BaseElement;
 import org.openqa.selenium.By;
 
 public class DocumentSearch extends SearchPage {
@@ -10,13 +10,13 @@ public class DocumentSearch extends SearchPage {
 
     public DocumentSearch addActiveDocumentFilter() {
         Log.logInfo("Add Active Document Filter");
-        browser.clickFirstElementFromArray(ACTIVE_DOCUMENT);
+        baseElement.clickFirstElementFromArray(ACTIVE_DOCUMENT);
         return this;
     }
 
     public int getBracketsDocumentTypeResultNumber() {
         Log.logInfo("Get Documents number in brackets");
-        Browser.waitForTheFirstElementFromArrayIsClickable(ACTIVE_DOCUMENT);
-        return browser.clickFirstElementFromArrayAndGetNumberText(ACTIVE_DOCUMENT);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_DOCUMENT);
+        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_DOCUMENT);
     }
 }

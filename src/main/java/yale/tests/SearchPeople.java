@@ -1,64 +1,40 @@
 package yale.tests;
 
+import framework.BaseTest;
 import framework.listener.TestListener;
-import framework.utilities.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import yale.pageObjects.*;
-import yale.services.CheckPopUp;
+import yale.pageObjects.MainPage;
+import yale.pageObjects.ProfilePage;
+import yale.pageObjects.ProfileSearch;
+import yale.pageObjects.SearchPage;
 import yale.services.OpenSearchPage;
 
 @Listeners({TestListener.class})
-public class SearchPeople {
-    MainPage mainPage = new MainPage();
-    SearchPage searchPage = new SearchPage();
+public class SearchPeople extends BaseTest {
+
     String researchArea = "Epidemiology";
-    ProfileSearch profileSearch = new ProfileSearch();
-
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
-
-    @Test
-    public void searchUser() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
-        SearchOverlay searchOverlay = mainPage.clickPerformSearch();
-        SearchPage searchPage = searchOverlay.clickSearchButton()
-                .addPeopleFilter();
-        //SoftAssert softAssert=new SoftAssert();
-        //softAssert.assertTrue(searchPage.isSearchResultPeopleTypeIsDisplayed());
-        Assert.assertTrue(searchPage.isSearchResultPeopleImageIsDisplayed());
-        //softAssert.assertAll();
-    }
 
     @Test
     public void openProfilePageFromSearch() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
-        SearchPage searchPage =
-                mainPage.clickPerformSearch()
-                        .clickSearchButton()
-                        .addPeopleFilter();
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        searchPage.addPeopleFilter()
+                .getSearchResult();
+        String searchPeopleName = searchPage.getFirstTitleText();
         ProfilePage profilePage = searchPage.clickFirstPeopleName();
-        Assert.assertTrue(profilePage.isNameIsDisplayed(),
+        Assert.assertEquals(profilePage.getPeopleName(), searchPeopleName,
                 "Profile name is not displayed on the profile page");
     }
 
     @Test
     public void checkProfilePage() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
-        SearchPage searchPage =
-                mainPage.clickPerformSearch()
-                        .clickSearchButton()
-                        .addPeopleFilter();
-        ProfilePage profilePage = searchPage.clickFirstPeopleName();
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        ProfilePage profilePage = searchPage.addPeopleFilter()
+                .clickFirstPeopleName();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(profilePage.isImageDisplayed(),
                 "The image is not displayed");
@@ -79,8 +55,7 @@ public class SearchPeople {
 
     @Test
     public void checkDownloadPhoto() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         SearchPage searchPage =
                 mainPage.clickPerformSearch()
                         .clickSearchButton()
@@ -94,6 +69,8 @@ public class SearchPeople {
     @Test
     public void checkPeopleSearchByRole() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        ProfileSearch profileSearch = new ProfileSearch();
         int numberPeopleWithoutFilter = searchPage.addPeopleFilter().
                 getSearchResult();
         String chosenRole = profileSearch.addRoleFilter();
@@ -109,20 +86,28 @@ public class SearchPeople {
     @Test
     public void checkResearchFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        ProfileSearch profileSearch = new ProfileSearch();
         int numberPeopleWithoutFilter = searchPage.addPeopleFilter().
                 getSearchResult();
         int numberPeopleWithResearchFilter = profileSearch.
                 inputResearchArea(researchArea)
                 .chooseFirstSuggestion()
                 .getSearchResult();
-        searchPage.clickFirstPeopleName();
-        Assert.assertTrue(numberPeopleWithoutFilter > numberPeopleWithResearchFilter,
+        ProfilePage profilePage = searchPage.clickFirstPeopleName()
+                .openResearchAndPublicationTab();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(numberPeopleWithoutFilter > numberPeopleWithResearchFilter,
                 "Search Results number haven't changed after applying Research Filter");
+        softAssert.assertTrue(profilePage.isResearchInterestContainInputResearchArea(researchArea),
+                "Research  interests don't contain inputted research area");
+        softAssert.assertAll();
     }
 
     @Test
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberRoleBracketsSearchResult = searchPage.addPeopleFilter()
                 .getBracketsRoleResultNumber();
         int numberRoleSearchResults = searchPage.getSearchResult();
@@ -133,20 +118,16 @@ public class SearchPeople {
     @Test
     public void checkSearchResultPeopleInfo() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         searchPage.addPeopleFilter();
         searchPage.getSearchResult();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertTrue(searchPage.isAllElementsHaveImage(),
+        softAssert.assertTrue(searchPage.isAllElementsHavePhotoOrDefaultImage(),
                 "Not All elements have image");
         softAssert.assertTrue(searchPage.isAllElementsHaveType(),
                 "Not All elements have types");
         softAssert.assertTrue(searchPage.isEachResultHaveTitle(),
                 "Not All elements have titles");
         softAssert.assertAll();
-    }
-
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
     }
 }

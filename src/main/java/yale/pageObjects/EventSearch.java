@@ -1,7 +1,7 @@
 package yale.pageObjects;
 
 import framework.logger.Log;
-import framework.utilities.Browser;
+import framework.BaseElement;
 import org.openqa.selenium.By;
 
 public class EventSearch extends SearchPage {
@@ -13,30 +13,30 @@ public class EventSearch extends SearchPage {
 
     public EventSearch addAudienceFilter() {
         Log.logInfo("Add Audience Filter");
-        browser.clickElement(AUDIENCE_FILTER);
+        baseElement.clickElement(AUDIENCE_FILTER);
         return this;
     }
 
     public String addActiveAudience() {
         Log.logInfo("Add active audience");
-        String chosenAudience = browser.clickFirstElementFromArrayAndGetTitleText(ACTIVE_AUDIENCE);
+        String chosenAudience = baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_AUDIENCE);
         return chosenAudience;
     }
 
     public EventSearch addEventTypeFilter() {
         Log.logInfo("Add Event Type Filter");
-        browser.clickElement(EVENT_TYPE_FILTER);
+        baseElement.clickElement(EVENT_TYPE_FILTER);
         return this;
     }
 
     public String addActiveEventType() {
         Log.logInfo("Add Active Event Type");
-        return browser.clickFirstElementFromArrayAndGetTitleText(ACTIVE_EVENT_TYPE);
+        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_EVENT_TYPE);
     }
 
     public int getAudienceBracketsResultNumber() {
         Log.logInfo("Get Events numbers in brackets ");
-        Browser.waitForTheFirstElementFromArrayIsClickable(ACTIVE_AUDIENCE);
-        return browser.clickFirstElementFromArrayAndGetNumberText(ACTIVE_AUDIENCE);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_AUDIENCE);
+        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_AUDIENCE);
     }
 }

@@ -1,7 +1,7 @@
 package yale.pageObjects;
 
 import framework.logger.Log;
-import framework.utilities.Browser;
+import framework.BaseElement;
 import org.openqa.selenium.By;
 
 public class ClinicalTrialSearch extends SearchPage {
@@ -15,41 +15,41 @@ public class ClinicalTrialSearch extends SearchPage {
 
     public ClinicalTrialSearch addGenderFilter() {
         Log.logInfo("Add Gender Filter");
-        browser.clickElement(GENDER_FILTER);
+        baseElement.clickElement(GENDER_FILTER);
         return this;
     }
 
     public String addActiveGender() {
         Log.logInfo("Add active Gender");
-        return browser.clickFirstElementFromArrayAndGetTitleText(ACTIVE_GENDER);
+        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_GENDER);
     }
 
     public ClinicalTrialSearch addAcceptHealthyFilter() {
         Log.logInfo("Add Accept Healthy Volunteers Filter");
-        browser.clickElement(ACCEPT_HEALTHY_FILTER);
+        baseElement.clickElement(ACCEPT_HEALTHY_FILTER);
         return this;
     }
 
     public ClinicalTrialSearch addActiveHealthyItem() {
         Log.logInfo("Add active healthy item");
-        browser.clickFirstElementFromArray(ACTIVE_HEALTHY_FILTER);
+        baseElement.clickFirstElementFromArray(ACTIVE_HEALTHY_FILTER);
         return this;
     }
 
     public ClinicalTrialSearch addCategoryFilter() {
         Log.logInfo("Add Category Filter");
-        browser.clickElement(CATEGORY_FILTER);
+        baseElement.clickElement(CATEGORY_FILTER);
         return this;
     }
 
     public String addActiveCategory() {
         Log.logInfo("Add active category");
-        return browser.clickFirstElementFromArrayAndGetTitleText(ACTIVE_CATEGORY);
+        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_CATEGORY);
     }
 
     public int getBracketsGenderResultNumber() {
         Log.logInfo("Get Clinical Trials number in brackets");
-        Browser.waitForTheFirstElementFromArrayIsClickable(ACTIVE_GENDER);
-        return browser.clickFirstElementFromArrayAndGetNumberText(ACTIVE_GENDER);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_GENDER);
+        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_GENDER);
     }
 }

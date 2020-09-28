@@ -1,34 +1,25 @@
 package yale.tests;
 
+import framework.BaseTest;
+import framework.listener.TestListener;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import framework.listener.TestListener;
 import yale.pageObjects.MainPage;
 import yale.pageObjects.SearchOverlay;
 import yale.pageObjects.SearchPage;
-import yale.services.CheckPopUp;
-import framework.utilities.Browser;
 
 @Listeners({TestListener.class})
-public class SearchOverlayTest {
+public class SearchOverlayTest extends BaseTest {
 
-    MainPage mainPage = new MainPage();
     private String searchValue1 = "Peggy";
     private String researchArea = "Epidemiology";
 
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
-
     @Test
     public void openSearchOverlay() {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(searchOverlay.isInputSearchPanelDisplayed(),
@@ -44,8 +35,8 @@ public class SearchOverlayTest {
 
     @Test
     public void checkClearButton() {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch().inputSearchPanelValue(searchValue1);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(searchOverlay.isSearchResultDetailsDisplayed(),
@@ -58,8 +49,8 @@ public class SearchOverlayTest {
 
     @Test
     public void checkSuggestions() {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch().inputSearchPanelValue(searchValue1);
         Assert.assertTrue(searchOverlay.isSearchResultContainsSearchValue(searchValue1),
                 "Search Results don't contain inputted search value");
@@ -67,8 +58,8 @@ public class SearchOverlayTest {
 
     @Test
     public void checkOpenSearchPageFromSearchOverlay() {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchPage searchPage = mainPage.clickPerformSearch()
                 .inputSearchPanelValue(searchValue1)
                 .clickSearchButton();
@@ -78,20 +69,20 @@ public class SearchOverlayTest {
 
     @Test
     public void openPageFromSuggestion() throws InterruptedException {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
                 .inputSearchPanelValue(searchValue1);
         Thread.sleep(3000);
-        searchOverlay .openFirstResult();
+        searchOverlay.openFirstResult();
         Assert.assertTrue(searchOverlay.isTitleContainsSearchValue(searchValue1),
                 "Page title doesn't contain Search value");
     }
 
     @Test
     public void checkFindPeople() throws InterruptedException {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
                 .clickFindPeopleTab()
                 .typePeopleName(searchValue1);
@@ -102,8 +93,8 @@ public class SearchOverlayTest {
 
     @Test
     public void checkSearchCountByResearchArea() throws InterruptedException {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
                 .clickFindPeopleTab()
                 .typePeopleName(searchValue1);
@@ -117,8 +108,8 @@ public class SearchOverlayTest {
 
     @Test
     public void checkSearchCountByUserRole() throws InterruptedException {
+        MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
                 .clickFindPeopleTab()
                 .typePeopleName(searchValue1);
@@ -126,12 +117,7 @@ public class SearchOverlayTest {
         searchOverlay.openRoleDropDown()
                 .addRoleOption();
         int searchCountByUserRoleAndPeopleName = searchOverlay.getSearchCount();
-        Assert.assertTrue(searchCountByPeopleName> searchCountByUserRoleAndPeopleName,
+        Assert.assertTrue(searchCountByPeopleName > searchCountByUserRoleAndPeopleName,
                 "Search Results number haven't changed after applying User Role Filter");
-    }
-
-   @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
     }
 }

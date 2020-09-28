@@ -1,19 +1,14 @@
 package yale.pageObjects;
 
+import framework.BaseElement;
 import framework.logger.Log;
-import framework.utilities.Browser;
-import framework.utilities.Config;
 import org.openqa.selenium.By;
 
 public class MainPage extends BasePage {
 
-    Config config = new Config();
-
     private final By LINK_TO_PATIENT_CARE_PAGE = By.xpath("//a[@aria-label='Link to Patient Care page']");
-    private final By YSM_LOGO = By.xpath("//div[@class='header-top-panel__title-wrapper']");
+    private static By YSM_LOGO = By.xpath("//div[@class='header-top-panel__title-wrapper']");
     private final By SEARCH_PANEL = By.xpath("//div[@class='search-panel search-panel--light search-panel--thin']");
-    private final By ANOUNCEMENT = By.xpath("//article[@class='announcement']");
-    private final By CLOSE_POP_UP_BUTTON = By.xpath("//button[@aria-label='Close announcement']");
     private final By NAVIGATION_LINK = By.xpath("//div[@class='navigation-link-dropdown__top-link']");
     private final By MAPS_FOOTER_LINK = By.xpath("//a[@aria-label='Maps & Directions']");
     private final By SUPPORT_US_LINK = By.xpath("//a[@aria-label='Support Us']");
@@ -24,42 +19,39 @@ public class MainPage extends BasePage {
     protected final By PERFORM_SEARCH = By.xpath("//button[@aria-label='Perform search']");
     private final By SEE_ALL_EVENTS_BUTTON = By.xpath("//a[@aria-label='See All Upcoming Events']");
     private final By EVENT_TITLE = By.xpath("//h3[@class='event-list-item__title']");
-    private final By CLINICAL_TRIAL_HEADER = By.xpath("//div[@class='department-info-panel__department-link']//a[contains(text(), 'Clinical Trials at Yale')]");
     private final By TWITTER_FEED = By.xpath("//span[contains(text(), 'Follow @YaleMed')]");
+    private final By CLINICAL_TRIAL_RESEARCH_LINK = By.xpath("//span[contains(text(), 'Clinical Research at Yale')]");
+    private final By ABOUT_YSM_LINK = By.xpath("//a[contains(text(), 'About YSM')]");
+    private final By FIND_PEOPLE_LINK = By.xpath("//span[contains(text(), 'Find People')]");
+    private final By A_Z_FACULTY_LINK = By.xpath("//span[contains(text(), 'A-Z Faculty List')]");
+    private final By ANCHOR_ALPHABET_LINK = By.xpath("//ul[@class='category-anchors-list category-anchors-list--alphabet']//button[@tabindex=0]");
 
+    public MainPage() {
+        super(YSM_LOGO);
+    }
 
     public MainPage openMainPage() {
         Log.logInfo("Open Main Page");
-        browser.getUrl(config.getProperty("mainPageURL"));
+        //browser.getUrl(config.getProperty("mainPageURL"));
         return this;
     }
 
     public void clickPatientCareLink() {
         Log.logInfo("Click Patient Care Link");
-        Browser.waitForElementToBePresent(LINK_TO_PATIENT_CARE_PAGE);
-        browser.clickElement(LINK_TO_PATIENT_CARE_PAGE);
+        BaseElement.waitForElementToBePresent(LINK_TO_PATIENT_CARE_PAGE);
+        baseElement.clickElement(LINK_TO_PATIENT_CARE_PAGE);
     }
 
     public boolean searchPanelIsDisplayed() {
         Log.logInfo("Check that Search Panel is displayed");
-        Browser.waitForElementToBePresent(SEARCH_PANEL);
-        return browser.isElementDisplayed(SEARCH_PANEL);
+        BaseElement.waitForElementToBePresent(SEARCH_PANEL);
+        return baseElement.isElementDisplayed(SEARCH_PANEL);
     }
 
     public boolean ysmLogoIsDisplayed() {
         Log.logInfo("Check that YSM logo is displayed");
-        Browser.waitForElementToBePresent(YSM_LOGO);
-        return browser.isElementDisplayed(YSM_LOGO);
-    }
-
-    public boolean anouncementDisplayed() {
-        Log.logInfo("Check that anouncement is displayed");
-        return browser.isElementDisplayed(ANOUNCEMENT);
-    }
-
-    public void closePopUp() {
-        Log.logInfo("Close Pop-up");
-        browser.clickElement(CLOSE_POP_UP_BUTTON);
+        BaseElement.waitForElementToBePresent(YSM_LOGO);
+        return baseElement.isElementDisplayed(YSM_LOGO);
     }
 
     public String getCurrentURL() {
@@ -69,111 +61,144 @@ public class MainPage extends BasePage {
 
     public void clickSiteIcon() {
         Log.logInfo("Click Site Icon");
-        Browser.waitForElementToBePresent(YSM_LOGO);
-        browser.clickElement(YSM_LOGO);
+        BaseElement.waitForElementToBePresent(YSM_LOGO);
+        baseElement.clickElement(YSM_LOGO);
     }
 
     public void hoverOnNavigationLink() {
         Log.logInfo("Hover on navigation Link");
-        Browser.waitForElementToBePresent(NAVIGATION_LINK);
-        browser.hoverOnElement(NAVIGATION_LINK);
+        BaseElement.waitForElementToBePresent(NAVIGATION_LINK);
+        baseElement.hoverOnElement(NAVIGATION_LINK);
     }
 
     public MainPage clickMapsFooterLink() {
         Log.logInfo("Click Maps Footer Link");
-        browser.clickElement(MAPS_FOOTER_LINK);
+        baseElement.clickElement(MAPS_FOOTER_LINK);
         return this;
     }
 
     public void clickSupportUsLink() {
         Log.logInfo("Click Support Us Link");
-        Browser.waitForElementToBePresent(SUPPORT_US_LINK);
-        browser.clickElement(SUPPORT_US_LINK);
+        BaseElement.waitForElementToBePresent(SUPPORT_US_LINK);
+        baseElement.clickElement(SUPPORT_US_LINK);
     }
 
     public MainPage clickCalendarLink() {
         Log.logInfo("Click Calendar Link");
-        Browser.waitForElementToBePresent(CALENDAR_LINK);
-        browser.clickElement(CALENDAR_LINK);
+        BaseElement.waitForElementToBePresent(CALENDAR_LINK);
+        baseElement.clickElement(CALENDAR_LINK);
         return this;
     }
 
     public MainPage clickLogo() {
         Log.logInfo("Click Logo");
-        browser.clickElement(YSM_LOGO);
-        Browser.waitForElementToBePresent(YSM_LOGO);
+        baseElement.clickElement(YSM_LOGO);
+        BaseElement.waitForElementToBePresent(YSM_LOGO);
         return this;
     }
 
     public MainPage clickContactUsLink() {
         Log.logInfo("Click Contact Us Link");
-        Browser.waitForElementToBePresent(CONTACT_US_LINK);
-        browser.clickElement(CONTACT_US_LINK);
+        BaseElement.waitForElementToBePresent(CONTACT_US_LINK);
+        baseElement.clickElement(CONTACT_US_LINK);
         return this;
     }
 
     public NewsPage clickNewsTitle() {
         Log.logInfo("Click News Title");
-        Browser.waitForElementToBePresent(NEWS_TITLE);
-        browser.clickElement(NEWS_TITLE);
+        BaseElement.waitForElementToBePresent(NEWS_TITLE);
+        baseElement.clickElement(NEWS_TITLE);
         return new NewsPage();
     }
 
     public String getNewsTitle() {
         Log.logInfo("Get News Title");
-        return browser.getText(NEWS_TITLE);
+        return baseElement.getText(NEWS_TITLE);
     }
 
     public SearchPage clickMoreTopStoriesButton() {
         Log.logInfo("Click More Top Stories Button");
-        Browser.waitForElementToBeClickable(MORE_TOP_STORIES);
-        browser.clickElement(MORE_TOP_STORIES);
+        BaseElement.waitForElementToBeClickable(MORE_TOP_STORIES);
+        baseElement.clickElement(MORE_TOP_STORIES);
         return new SearchPage();
     }
 
     public SearchPage clickMoreEventsButton() {
         Log.logInfo("Click More Events Button");
-        Browser.waitForElementToBeClickable(SEE_ALL_EVENTS_BUTTON);
-        browser.clickElement(SEE_ALL_EVENTS_BUTTON);
+        BaseElement.waitForElementToBeClickable(SEE_ALL_EVENTS_BUTTON);
+        baseElement.clickElement(SEE_ALL_EVENTS_BUTTON);
         return new SearchPage();
     }
 
     public SearchOverlay clickPerformSearch() {
         Log.logInfo("Click Perform Search button");
-        browser.clickElement(PERFORM_SEARCH);
+        baseElement.clickElement(PERFORM_SEARCH);
         return new SearchOverlay();
     }
 
     public String getTitleWebsitePage() {
         Log.logInfo("Get Web Site Title");
-        String title = browser.getTitle();
+        String title = baseElement.getTitle();
         String websiteTitle = title.substring(title.lastIndexOf("<") + 1).trim();
         return websiteTitle;
     }
 
     public boolean isClinicalTrialHeaderIsDisplayed() {
         Log.logInfo("Check the Clinical Trial Header is displayed");
-        Browser.waitForElementToBePresent(CLINICAL_TRIAL_HEADER);
-        return browser.isElementDisplayed(CLINICAL_TRIAL_HEADER);
+        BaseElement.waitForElementToBeClickable(CLINICAL_TRIAL_RESEARCH_LINK);
+        return baseElement.isElementDisplayed(CLINICAL_TRIAL_RESEARCH_LINK);
     }
 
     public EventPage openFirstEvent() {
         Log.logInfo("Open first event");
-        Browser.waitForTheFirstElementFromArrayIsClickable(EVENT_TITLE);
-        browser.clickFirstElementFromArray(EVENT_TITLE);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(EVENT_TITLE);
+        baseElement.clickFirstElementFromArray(EVENT_TITLE);
         return new EventPage();
     }
 
     public String getFirstEventTitle() {
-        Browser.waitForTheFirstElementFromArrayIsClickable(EVENT_TITLE);
-        String eventTitle = browser.getTextFirstElementFromArray(EVENT_TITLE);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(EVENT_TITLE);
+        String eventTitle = baseElement.getTextFirstElementFromArray(EVENT_TITLE);
         return eventTitle;
     }
 
     public MainPage goToTwitter() {
         Log.logInfo("Go to twitter");
-        Browser.waitForElementToBeClickable(TWITTER_FEED);
-        browser.clickElement(TWITTER_FEED);
+        BaseElement.waitForElementToBeClickable(TWITTER_FEED);
+        baseElement.clickElement(TWITTER_FEED);
         return this;
+    }
+
+    public MainPage goAToAboutYSMPage() {
+        Log.logInfo("Go to AboutYSMPage");
+        BaseElement.waitForElementToBeClickable(ABOUT_YSM_LINK);
+        baseElement.clickWithJS(ABOUT_YSM_LINK);
+        return this;
+    }
+
+    public MainPage goToFindPeoplePage() {
+        Log.logInfo("Go to Find People Page");
+        BaseElement.waitForElementToBeClickable(FIND_PEOPLE_LINK);
+        baseElement.clickWithJS(FIND_PEOPLE_LINK);
+        return this;
+    }
+
+    public MainPage goToA_ZFacultyPage() {
+        Log.logInfo("Go to A_Z Faculty Page");
+        BaseElement.waitForElementToBeClickable(A_Z_FACULTY_LINK);
+        baseElement.clickWithJS(A_Z_FACULTY_LINK);
+        return this;
+    }
+
+    public String clickAnyAnchorLink() {
+        Log.logInfo("Click Any Anchor Link");
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ANCHOR_ALPHABET_LINK);
+        String anchorLetter = baseElement.chooseValueFromArrayAndGetText(ANCHOR_ALPHABET_LINK);
+        return anchorLetter;
+    }
+
+    public boolean isTheFirstLetterCoincidesWithTheChosenAnchorLink(String chosenLetter) {
+        Log.logInfo("Get Text Active Element");
+        return baseElement.isChosenValueCoincidesWithTheFirstLetterOnFocus(chosenLetter);
     }
 }

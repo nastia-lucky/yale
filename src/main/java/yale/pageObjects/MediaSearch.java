@@ -1,8 +1,8 @@
 package yale.pageObjects;
 
+import framework.BaseElement;
 import org.openqa.selenium.By;
 import framework.logger.Log;
-import framework.utilities.Browser;
 
 public class MediaSearch extends SearchPage {
 
@@ -10,12 +10,12 @@ public class MediaSearch extends SearchPage {
 
     public String addActiveMediaFilter() {
         Log.logInfo("Add active media filter");
-        return browser.clickFirstElementFromArrayAndGetTitleText(ACTIVE_MEDIA_FILTER);
+        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_MEDIA_FILTER);
     }
 
     public int getBracketsMediaTypeResultNumber() {
         Log.logInfo("Get Media Types numbers in brackets");
-        Browser.waitForTheFirstElementFromArrayIsClickable(ACTIVE_MEDIA_FILTER);
-        return browser.clickFirstElementFromArrayAndGetNumberText(ACTIVE_MEDIA_FILTER);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_MEDIA_FILTER);
+        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_MEDIA_FILTER);
     }
 }

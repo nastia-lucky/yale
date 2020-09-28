@@ -1,10 +1,8 @@
 package yale.tests;
 
+import framework.BaseTest;
 import framework.listener.TestListener;
-import framework.utilities.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -12,12 +10,9 @@ import yale.pageObjects.EventPage;
 import yale.pageObjects.MainPage;
 import yale.pageObjects.NewsPage;
 import yale.pageObjects.SearchPage;
-import yale.services.CheckPopUp;
 
 @Listeners({TestListener.class})
-public class MainPageTests {
-
-    MainPage mainPage = new MainPage();
+public class MainPageTests extends BaseTest {
 
     private final String patientCareLink = "https://www.yalemedicine.org/";
     private final String YSMuRL = "https://acceptance.medicine.yale.edu/ysm/";
@@ -27,31 +22,23 @@ public class MainPageTests {
     private final String contactUsLink = "https://acceptance.medicine.yale.edu/contact/";
     private final String twitterLink = "https://twitter.com/YaleMed";
 
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
-
     @Test
     public void openPatientCare() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         mainPage.clickPatientCareLink();
         Assert.assertEquals(mainPage.getCurrentURL(), patientCareLink, "Links don't coincide");
     }
 
     @Test
     public void redirectSiteIcon() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         mainPage.clickSiteIcon();
         Assert.assertEquals(mainPage.getCurrentURL(), YSMuRL, "Logo leads to incorrect URL");
     }
 
     @Test
     public void checkFooterLinks() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         SoftAssert anAssert = new SoftAssert();
         mainPage.clickMapsFooterLink();
         anAssert.assertEquals(mainPage.getCurrentURL(), mapsURL,
@@ -73,8 +60,7 @@ public class MainPageTests {
 
     @Test
     public void openNewsPage() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         String newsTitleSearchPage = mainPage.getNewsTitle();
         NewsPage newsPage = mainPage.clickNewsTitle();
         String newsTitle = newsPage.getNewsTitle();
@@ -84,8 +70,7 @@ public class MainPageTests {
 
     @Test
     public void moreTopStoriesButton() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         SearchPage searchPage = mainPage.clickMoreTopStoriesButton();
         Assert.assertTrue(searchPage.isRemoveTopStoriesFilterDisplayed(),
                 "Remove Top Stories Filters is not displayed");
@@ -93,8 +78,7 @@ public class MainPageTests {
 
     @Test
     public void moreEventsButton() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         SearchPage searchPage = mainPage.clickMoreEventsButton();
         Assert.assertTrue(searchPage.isRemoveEventsFilterIsDisplayed(),
                 "Remove events filter is not displayed");
@@ -102,8 +86,7 @@ public class MainPageTests {
 
     @Test
     public void openEvent() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         String searchTitle = mainPage.getFirstEventTitle();
         EventPage eventPage = mainPage.openFirstEvent();
         Assert.assertEquals(searchTitle, eventPage.getEventModalTitle(),
@@ -112,15 +95,20 @@ public class MainPageTests {
 
     @Test
     public void openTwitter() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         mainPage.goToTwitter();
         Assert.assertEquals(mainPage.getCurrentURL(), twitterLink,
-                "Link to twitter feed doesn't coincide with expected");
+                "Link to twitter feed doesn't coincide with expected " + twitterLink);
     }
 
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
+    @Test
+    public void checkAZList() {
+        MainPage mainPage = new MainPage();
+        String anchorLetter = mainPage.goAToAboutYSMPage()
+                .goToFindPeoplePage()
+                .goToA_ZFacultyPage()
+                .clickAnyAnchorLink();
+        Assert.assertTrue(mainPage.isTheFirstLetterCoincidesWithTheChosenAnchorLink(anchorLetter),
+                "The First letter of focused element doesn't coincide with chosen anchor link");
     }
 }
