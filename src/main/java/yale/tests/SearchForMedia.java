@@ -1,33 +1,24 @@
 package yale.tests;
 
+import framework.BaseTest;
+import framework.listener.TestListener;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import framework.listener.TestListener;
 import yale.pageObjects.MediaPage;
 import yale.pageObjects.MediaSearch;
 import yale.pageObjects.SearchPage;
 import yale.services.OpenSearchPage;
-import framework.utilities.Browser;
 
 @Listeners({TestListener.class})
-public class SearchForMedia {
-
-    SearchPage searchPage = new SearchPage();
-    MediaPage mediaPage = new MediaPage();
-    MediaSearch mediaSearchPage = new MediaSearch();
-
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
+public class SearchForMedia extends BaseTest {
 
     @Test
     public void checkMediaFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        MediaSearch mediaSearchPage = new MediaSearch();
         int numberMediaWithoutFilters = searchPage
                 .addMediaFilter()
                 .getSearchResult();
@@ -44,9 +35,11 @@ public class SearchForMedia {
     @Test
     public void checkAudioModal() {
         OpenSearchPage.openSearch();
-        mediaPage = searchPage.addMediaFilter()
+        SearchPage searchPage = new SearchPage();
+        searchPage.addMediaFilter()
                 .openMediaPopUp()
                 .clickPlayButton();
+        MediaPage mediaPage = new MediaPage();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(mediaPage.isPauseButtonIsDisplayed());
         mediaPage.clickTranscriptButton();
@@ -60,34 +53,31 @@ public class SearchForMedia {
     @Test
     public void checkSearchResultMediaInfo() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         String mediaFilter = searchPage
                 .addMediaFilter()
                 .addActiveMediaFilter();
         searchPage.getSearchResult();
         SoftAssert softAssert = new SoftAssert();
-            softAssert.assertTrue(searchPage.isEachSearchResultHaveType(mediaFilter),
-                    "Not each Search Media Result has Type");
-            softAssert.assertTrue(searchPage.isEachResultHaveTitle(),
-                    "Not each Search Media Result has Title");
-            softAssert.assertTrue(searchPage.isEachMediaHaveDuration(),
-                    "Not each Search Media Result has Duration");
-            softAssert.assertTrue(searchPage.isAllElementsHaveSummary(),
-                    "Not each Search Media Result has Summary");
-            softAssert.assertAll();
+        softAssert.assertTrue(searchPage.isEachSearchResultHaveType(mediaFilter),
+                "Not each Search Media Result has Type");
+        softAssert.assertTrue(searchPage.isEachResultHaveTitle(),
+                "Not each Search Media Result has Title");
+        softAssert.assertTrue(searchPage.isEachMediaHaveDuration(),
+                "Not each Search Media Result has Duration");
+        softAssert.assertTrue(searchPage.isAllElementsHaveSummary(),
+                "Not each Search Media Result has Summary");
+        softAssert.assertAll();
     }
 
     @Test
     public void checkMediaResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberMediaTypeBracketsSearchResult = searchPage.addMediaFilter()
                 .getBracketsMediaTypeResultNumber();
         int numberRoleSearchResults = searchPage.getSearchResult();
         Assert.assertEquals(numberMediaTypeBracketsSearchResult, numberRoleSearchResults,
                 "The results numbers in brackets and on the search results page don't coincide for Media Type Filter");
-    }
-
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
     }
 }

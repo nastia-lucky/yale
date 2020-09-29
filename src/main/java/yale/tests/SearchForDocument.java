@@ -1,10 +1,8 @@
 package yale.tests;
 
+import framework.BaseTest;
 import framework.listener.TestListener;
-import framework.utilities.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -13,19 +11,13 @@ import yale.pageObjects.SearchPage;
 import yale.services.OpenSearchPage;
 
 @Listeners({TestListener.class})
-public class SearchForDocument {
-
-    SearchPage searchPage = new SearchPage();
-    DocumentSearch documentSearch = new DocumentSearch();
-
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
+public class SearchForDocument extends BaseTest {
 
     @Test
     public void searchForDocument() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        DocumentSearch documentSearch = new DocumentSearch();
         int numberDocumentsWithoutFilter = searchPage
                 .addDocumentFilter()
                 .getSearchResult();
@@ -39,6 +31,7 @@ public class SearchForDocument {
     @Test
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberDocumentTypeBracketsSearchResult = searchPage
                 .addDocumentFilter()
                 .getBracketsDocumentTypeResultNumber();
@@ -50,6 +43,7 @@ public class SearchForDocument {
     @Test
     public void checkSearchResultDocumentInfo() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         searchPage.addDocumentFilter()
                 .addActiveDocumentFilter()
                 .getSearchResult();
@@ -61,10 +55,5 @@ public class SearchForDocument {
         softAssert.assertTrue(searchPage.isEachDocumentResultHaveBreadcrumb(),
                 "Not each Search Document Result has BreadCrumb");
         softAssert.assertAll();
-    }
-
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
     }
 }

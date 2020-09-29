@@ -1,8 +1,8 @@
 package yale.pageObjects;
 
+import framework.BaseElement;
 import org.openqa.selenium.By;
 import framework.logger.Log;
-import framework.utilities.Browser;
 
 public class ProfileSearch extends SearchPage {
 
@@ -12,25 +12,25 @@ public class ProfileSearch extends SearchPage {
 
     public String addRoleFilter() {
         Log.logInfo("Add Role Filter");
-        return browser.clickFirstElementFromArrayAndGetTitleText(ACTIVE_ROLE_FILTER);
+        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_ROLE_FILTER);
     }
 
     public ProfileSearch inputResearchArea(String researchArea) {
         Log.logInfo("Input research area "+ researchArea );
-        browser.typeTo(RESEARCH_AREA_INPUT, researchArea);
+        baseElement.typeTo(RESEARCH_AREA_INPUT, researchArea);
         return this;
     }
 
     public ProfileSearch chooseFirstSuggestion() {
         Log.logInfo("Choose Research Area Suggestion");
-        Browser.waitForTheFirstElementFromArrayIsClickable(RESEARCH_AREA_SUGGESTION);
-        browser.clickFirstElementFromArray(RESEARCH_AREA_SUGGESTION);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(RESEARCH_AREA_SUGGESTION);
+        baseElement.clickFirstElementFromArray(RESEARCH_AREA_SUGGESTION);
         return this;
     }
 
     public int getBracketsRoleResultNumber() {
         Log.logInfo("Get Role People type numbers in brackets");
-        Browser.waitForTheFirstElementFromArrayIsClickable(ACTIVE_ROLE_FILTER);
-        return browser.clickFirstElementFromArrayAndGetNumberText(ACTIVE_ROLE_FILTER);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_ROLE_FILTER);
+        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_ROLE_FILTER);
     }
 }

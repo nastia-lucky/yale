@@ -1,55 +1,37 @@
 package yale.tests;
 
+import framework.BaseTest;
 import framework.listener.TestListener;
-import framework.utilities.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.EventPage;
 import yale.pageObjects.EventSearch;
-import yale.pageObjects.MainPage;
 import yale.pageObjects.SearchPage;
-import yale.services.CheckPopUp;
 import yale.services.OpenSearchPage;
 
 @Listeners({TestListener.class})
-public class SearchForEvent {
+public class SearchForEvent extends BaseTest {
 
-    MainPage mainPage = new MainPage();
-    SearchPage searchPage = new SearchPage();
     String keyword = "Cancer";
-    EventSearch eventSearch = new EventSearch();
-
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
 
     @Test
     public void openEventDetailsPageFromSearch() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
-        SearchPage searchPage =
-                mainPage.clickPerformSearch()
-                        .clickSearchButton()
-                        .addEventFilter();
-        String firstResultTitle = searchPage.getFirstEventTitle();
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        searchPage.addEventFilter();
+        String searchResultTitle = searchPage.getFirstEventTitle();
         EventPage eventPage = searchPage.openFirstEvent();
-        Assert.assertEquals(eventPage.getEventTitle(), firstResultTitle,
-                "Event Details Page Title is not displayed");
+        Assert.assertEquals(eventPage.getEventTitle(), searchResultTitle,
+                "Title of Event From Search result and on the details page don't coincide");
     }
 
     @Test
-    public void checkEvent() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
-        SearchPage searchPage =
-                mainPage.clickPerformSearch()
-                        .clickSearchButton()
-                        .addEventFilter();
+    public void checkEventFields() {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        searchPage.addEventFilter();
         EventPage eventPage = searchPage.openFirstEvent();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(eventPage.isEventDateIsDisplayed(),
@@ -68,6 +50,8 @@ public class SearchForEvent {
     @Test
     public void checkAudienceFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        EventSearch eventSearch = new EventSearch();
         int numberEventsWithoutFilter = searchPage
                 .addEventFilter()
                 .getSearchResult();
@@ -87,6 +71,8 @@ public class SearchForEvent {
     @Test
     public void checkEventTypeFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        EventSearch eventSearch = new EventSearch();
         int numberEventsWithoutFilter = searchPage
                 .addEventFilter()
                 .getSearchResult();
@@ -107,6 +93,7 @@ public class SearchForEvent {
     @Test
     public void checkKeywordFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberEventsWithoutFilter = searchPage
                 .addEventFilter()
                 .getSearchResult();
@@ -120,6 +107,7 @@ public class SearchForEvent {
     @Test
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberAudienceBracketsSearchResult = searchPage
                 .addEventFilter()
                 .addAudienceFilter()
@@ -132,6 +120,7 @@ public class SearchForEvent {
     @Test
     public void checkSearchResultEventInfo() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         searchPage.addEventFilter()
                 .getSearchResult();
         SoftAssert softAssert = new SoftAssert();
@@ -144,11 +133,6 @@ public class SearchForEvent {
         softAssert.assertTrue(searchPage.isAllElementsHaveEventDate(),
                 "Not each Search Event Result has Date");
         softAssert.assertAll();
-    }
-
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
     }
 }
 

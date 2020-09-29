@@ -1,10 +1,8 @@
 package yale.tests;
 
+import framework.BaseTest;
 import framework.listener.TestListener;
-import framework.utilities.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -12,25 +10,16 @@ import yale.pageObjects.ClinicalTrialPage;
 import yale.pageObjects.ClinicalTrialSearch;
 import yale.pageObjects.MainPage;
 import yale.pageObjects.SearchPage;
-import yale.services.CheckPopUp;
 import yale.services.OpenSearchPage;
 
 @Listeners({TestListener.class})
-public class SearchForClinicalTrial {
-    MainPage mainPage = new MainPage();
-    SearchPage searchPage = new SearchPage();
-    private String volunteerNowLink = "https://acceptance.medicine.yale.edu/ycci/clinicaltrials/find/mychart/";
-    ClinicalTrialSearch trialSearch = new ClinicalTrialSearch();
+public class SearchForClinicalTrial extends BaseTest {
 
-    @BeforeMethod
-    public void openBrowser() {
-        Browser.getInstance();
-    }
+    private String volunteerNowLink = "https://acceptance.medicine.yale.edu/ycci/clinicaltrials/find/mychart/";
 
     @Test
     public void openClinicalTrialPageFromSearch() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+        MainPage mainPage = new MainPage();
         SearchPage searchPage =
                 mainPage.clickPerformSearch()
                         .clickSearchButton()
@@ -43,12 +32,9 @@ public class SearchForClinicalTrial {
 
     @Test
     public void checkClinicalTrialPage() {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
-        SearchPage searchPage =
-                mainPage.clickPerformSearch()
-                        .clickSearchButton()
-                        .addClinicalTrialFilter();
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        searchPage.addClinicalTrialFilter();
         ClinicalTrialPage trialPage = searchPage.openFirstTrial();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(trialPage.isClinicalTrialTitleDisplayed(),
@@ -63,16 +49,14 @@ public class SearchForClinicalTrial {
     }
 
     @Test
-    public void checkVolunteerNowButton() throws InterruptedException {
-        mainPage.openMainPage();
-        CheckPopUp.checkPopUp();
+    public void checkVolunteerNowButton() {
+        MainPage mainPage = new MainPage();
         SearchPage searchPage =
                 mainPage.clickPerformSearch()
                         .clickSearchButton()
                         .addClinicalTrialFilter();
         ClinicalTrialPage trialPage = searchPage.openFirstTrial();
         trialPage.clickVolunteerNowButton();
-        Thread.sleep(4000);
         Assert.assertTrue(mainPage.isClinicalTrialHeaderIsDisplayed(),
                 "Volunteer Now Link isn't correct");
     }
@@ -80,6 +64,8 @@ public class SearchForClinicalTrial {
     @Test
     public void checkGenderFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        ClinicalTrialSearch trialSearch = new ClinicalTrialSearch();
         int numberTrialWithoutFilters = searchPage.addClinicalTrialFilter()
                 .getSearchResult();
         String chosenGender = trialSearch.addGenderFilter()
@@ -97,6 +83,8 @@ public class SearchForClinicalTrial {
     @Test
     public void checkAcceptHealthyVolunteersFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        ClinicalTrialSearch trialSearch = new ClinicalTrialSearch();
         int numberTrialWithoutFilters = searchPage.addClinicalTrialFilter()
                 .getSearchResult();
         int numberTrialWithHealthyFilter = trialSearch.addAcceptHealthyFilter()
@@ -109,6 +97,8 @@ public class SearchForClinicalTrial {
     @Test
     public void checkCategoryFilter() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        ClinicalTrialSearch trialSearch = new ClinicalTrialSearch();
         int numberTrialWithoutFilters = searchPage.addClinicalTrialFilter()
                 .getSearchResult();
         String chosenCategory = trialSearch.addCategoryFilter()
@@ -125,6 +115,7 @@ public class SearchForClinicalTrial {
     @Test
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         int numberGenderBracketsSearchResult = searchPage
                 .addClinicalTrialFilter()
                 .addGenderFilter()
@@ -137,6 +128,7 @@ public class SearchForClinicalTrial {
     @Test
     public void checkSearchResultClinicalTrialInfo() {
         OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
         searchPage.addClinicalTrialFilter()
                 .getSearchResult();
         SoftAssert softAssert = new SoftAssert();
@@ -145,8 +137,16 @@ public class SearchForClinicalTrial {
         softAssert.assertAll();
     }
 
-    @AfterMethod
-    public void closeBrowser() {
-        Browser.closeBrowser();
+    @Test
+    public void checkHealthProfessionalTab() {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        searchPage.addClinicalTrialFilter();
+        ClinicalTrialPage trialPage = searchPage.openFirstTrial()
+                .openHealthProfessionalTab();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(trialPage.isTrialPurposeTitleIsDisplayed());
+        softAssert.assertTrue(trialPage.isTrialDescriptionDisplayed());
+        softAssert.assertAll();
     }
 }

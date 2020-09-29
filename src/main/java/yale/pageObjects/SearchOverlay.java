@@ -1,9 +1,10 @@
 package yale.pageObjects;
 
+import framework.BaseElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import framework.logger.Log;
-import framework.utilities.Browser;
+import framework.Browser;
 
 import java.util.List;
 
@@ -30,17 +31,17 @@ public class SearchOverlay extends MainPage {
 
     public SearchPage clickSearchButton() {
         Log.logInfo("Click Search button");
-        Browser.waitForElementToBePresent(SEARCH_BUTTON);
-        browser.clickElement(SEARCH_BUTTON);
-        Browser.waitForElementToBePresent(SEARCH_INPUT);
+        BaseElement.waitForElementToBePresent(SEARCH_BUTTON);
+        baseElement.clickElement(SEARCH_BUTTON);
+        BaseElement.waitForElementToBePresent(SEARCH_INPUT);
         return new SearchPage();
     }
 
     public int getSearchCount() throws InterruptedException {
         Log.logInfo("Get search count");
-        Browser.waitForElementToBePresent(SEARCH_COUNT);
+        BaseElement.waitForElementToBePresent(SEARCH_COUNT);
         Thread.sleep(3000);
-        String searchCount = browser.getText(SEARCH_COUNT);
+        String searchCount = baseElement.getText(SEARCH_COUNT);
         String[] stringArray = searchCount.split(" ");
         String stringNumber = stringArray[0];
         int number = Integer.parseInt(stringNumber);
@@ -50,77 +51,77 @@ public class SearchOverlay extends MainPage {
 
     public MainPage inputSearchValue(String value) {
         Log.logInfo("Input search value" + value);
-        Browser.waitForElementToBePresent(SEARCH_INPUT);
-        browser.typeTo(SEARCH_INPUT, value);
+        BaseElement.waitForElementToBePresent(SEARCH_INPUT);
+        baseElement.typeTo(SEARCH_INPUT, value);
         return this;
     }
 
     public boolean isInputSearchPanelDisplayed() {
         Log.logInfo("Check that Input Search Panel is displayed");
-        Browser.waitForElementToBePresent(INPUT_SEARCH_PANEL);
-        return browser.isElementDisplayed(INPUT_SEARCH_PANEL);
+        BaseElement.waitForElementToBeClickable(SEARCH_BUTTON);
+        return baseElement.isElementDisplayed(INPUT_SEARCH_PANEL);
     }
 
     public boolean isFindPeopleTabDisplayed() {
         Log.logInfo("Check that Find People Tab is displayed");
-        Browser.waitForElementToBePresent(FIND_PEOPLE_TAB);
-        return browser.isElementDisplayed(FIND_PEOPLE_TAB);
+        BaseElement.waitForElementToBePresent(FIND_PEOPLE_TAB);
+        return baseElement.isElementDisplayed(FIND_PEOPLE_TAB);
     }
 
     public boolean isPopularLinksTabDisplayed() {
         Log.logInfo("Check that Popular Links Tab is displayed");
-        Browser.waitForElementToBePresent(POPULAR_LINKS_TAB);
-        return browser.isElementDisplayed(POPULAR_LINKS_TAB);
+        BaseElement.waitForElementToBePresent(POPULAR_LINKS_TAB);
+        return baseElement.isElementDisplayed(POPULAR_LINKS_TAB);
     }
 
     public boolean isSearchTabDisplayed() {
         Log.logInfo("Check that Search Tab is displayed");
-        Browser.waitForElementToBePresent(SEARCH_TAB);
-        return browser.isElementDisplayed(SEARCH_TAB);
+        BaseElement.waitForElementToBePresent(SEARCH_TAB);
+        return baseElement.isElementDisplayed(SEARCH_TAB);
     }
 
     public boolean isSearchResultDetailsDisplayed() {
         Log.logInfo("Check that search result details is displayed");
-        Browser.waitForElementsFromArrayArePresent(SEARCH_RESULT_DETAILS);
-        return browser.isElementsDisplayed(SEARCH_RESULT_DETAILS);
+        BaseElement.waitForElementsFromArrayArePresent(SEARCH_RESULT_DETAILS);
+        return baseElement.isElementsDisplayed(SEARCH_RESULT_DETAILS);
     }
 
     public SearchOverlay inputSearchPanelValue(String value) {
         Log.logInfo("Input Search Value" + value);
-        browser.typeTo(INPUT_SEARCH_PANEL, value);
+        baseElement.typeTo(INPUT_SEARCH_PANEL, value);
         return this;
     }
 
     public SearchOverlay clickClearButton() {
         Log.logInfo("Click Clear Button");
-        browser.clickElement(CLEAR_BUTTON);
+        baseElement.clickElement(CLEAR_BUTTON);
         return this;
     }
 
     public boolean isResultsDisappears() {
         Log.logInfo("Check that Results disappear");
-        return browser.isArrayEmpty(SEARCH_RESULT_DETAILS);
+        return baseElement.isArrayEmpty(SEARCH_RESULT_DETAILS);
     }
 
     public boolean isSearchResultContainsSearchValue(String searchValue) {
         Log.logInfo("Check that search results contain search value " + searchValue);
-        Browser.waitForElementToBeClickable(SEARCH_RESULT_TITLE);
-        return browser.compareText(SEARCH_RESULT_TITLE, HIGHLIGHTED_TEXT, searchValue);
+        BaseElement.waitForElementToBeClickable(SEARCH_RESULT_TITLE);
+        return baseElement.compareText(SEARCH_RESULT_TITLE, HIGHLIGHTED_TEXT, searchValue);
     }
 
     public SearchOverlay openFirstResult() {
         Log.logInfo("Open First Result");
         List<WebElement> elements = Browser.getDriver().findElements(FIRST_SEARCH_RESULT);
         WebElement element = elements.get(0);
-        Browser.waitForTheFirstElementFromArrayIsClickable(FIRST_SEARCH_RESULT);
-        browser.clickFirstElementFromArray(FIRST_SEARCH_RESULT);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(FIRST_SEARCH_RESULT);
+        baseElement.clickFirstElementFromArray(FIRST_SEARCH_RESULT);
         return this;
     }
 
     public boolean isTitleContainsSearchValue(String searchValue) {
         Log.logInfo("Compare title with inputted search value " + searchValue);
-        Browser.waitForElementToBePresent(PAGE_TITLE);
-        String title = browser.getTitle();
+        BaseElement.waitForElementToBePresent(PAGE_TITLE);
+        String title = baseElement.getTitle();
         System.out.println(title);
         if (title.contains(searchValue)) {
             return true;
@@ -130,40 +131,40 @@ public class SearchOverlay extends MainPage {
 
     public SearchOverlay clickFindPeopleTab() {
         Log.logInfo("Click Find People Tab");
-        Browser.waitForElementToBePresent(FIND_PEOPLE_TAB);
-        browser.clickElement(FIND_PEOPLE_TAB);
+        BaseElement.waitForElementToBePresent(FIND_PEOPLE_TAB);
+        baseElement.clickElement(FIND_PEOPLE_TAB);
         return this;
     }
 
     public SearchOverlay typePeopleName(String value) {
         Log.logInfo("Type people Name " + value);
-        Browser.waitForElementToBePresent(PEOPLE_NAME_INPUT);
-        browser.typeTo(PEOPLE_NAME_INPUT, value);
+        BaseElement.waitForElementToBePresent(PEOPLE_NAME_INPUT);
+        baseElement.typeTo(PEOPLE_NAME_INPUT, value);
         return this;
     }
 
     public SearchOverlay typeResearchArea(String researchArea) {
         Log.logInfo("Type research area " + researchArea);
-        browser.typeTo(RESEARCH_AREA_INPUT, researchArea);
+        baseElement.typeTo(RESEARCH_AREA_INPUT, researchArea);
         return this;
     }
 
     public SearchOverlay clickSuggestionForResearchArea() {
         Log.logInfo("Click suggestion for research area");
-        Browser.waitForTheFirstElementFromArrayIsClickable(RESEARCH_AREA_OPTION);
-        browser.clickFirstElementFromArray(RESEARCH_AREA_OPTION);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(RESEARCH_AREA_OPTION);
+        baseElement.clickFirstElementFromArray(RESEARCH_AREA_OPTION);
         return this;
     }
 
     public SearchOverlay openRoleDropDown() {
         Log.logInfo("Open role drop-down");
-        browser.clickElement(ROLE_DROP_DOWN);
+        baseElement.clickElement(ROLE_DROP_DOWN);
         return this;
     }
 
     public void addRoleOption() {
         Log.logInfo("Add Role Option");
-        Browser.waitForTheFirstElementFromArrayIsClickable(ROLE_OPTION);
-        browser.clickTheSecondElementFromArray(ROLE_OPTION);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(ROLE_OPTION);
+        baseElement.clickTheSecondElementFromArray(ROLE_OPTION);
     }
 }

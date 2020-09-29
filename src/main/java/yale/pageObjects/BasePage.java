@@ -1,12 +1,17 @@
 package yale.pageObjects;
 
-import framework.utilities.Browser;
+import framework.BaseElement;
+import framework.Browser;
+import framework.Config;
+import org.openqa.selenium.By;
 
-public class BasePage {
+public class BasePage  {
 
-    protected Browser browser;
+    protected Browser browser =Browser.getInstance();
+    protected BaseElement baseElement;
 
-    public BasePage() {
-        browser = Browser.getInstance();
+    public BasePage(By by) {
+        baseElement= new BaseElement();
+        BaseElement.getElement(by);
     }
 }
