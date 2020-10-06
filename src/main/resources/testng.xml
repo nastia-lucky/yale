@@ -2,15 +2,14 @@
     <test name="Smoke test">
         <classes>
             <class name="yale.tests.MainPageTests"></class>
-            <class name="yale.tests.OpenMainPage"></class>
-            <class name="yale.tests.SearchForClinicalTrial"></class>
-            <class name="yale.tests.SearchForDocument"></class>
-            <class name="yale.tests.SearchForEvent"></class>
-            <class name="yale.tests.SearchForMedia"></class>
-            <class name="yale.tests.SearchForNews"></class>
-            <class name="yale.tests.SearchForWebPage"></class>
+            <class name="yale.tests.OpenMainPageTest"></class>
+            <class name="yale.tests.SearchForClinicalTrialTest"></class>
+            <class name="yale.tests.SearchForDocumentTest"></class>
+            <class name="yale.tests.SearchForEventTest"></class>
+            <class name="yale.tests.SearchForNewsTest"></class>
+            <class name="yale.tests.SearchForWebPageTest"></class>
             <class name="yale.tests.SearchOverlayTest"></class>
-            <class name="yale.tests.SearchPeople"></class>
+            <class name="yale.tests.SearchPeopleTest"></class>
         </classes>
     </test>
 </suite>

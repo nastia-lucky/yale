@@ -1,7 +1,7 @@
 package yale.pageObjects;
 
-import framework.logger.Log;
 import framework.BaseElement;
+import framework.logger.Log;
 import org.openqa.selenium.By;
 
 public class ClinicalTrialPage extends BasePage {
@@ -15,8 +15,8 @@ public class ClinicalTrialPage extends BasePage {
     private final By SIDEBAR_CONTACT_INFORMATION = By.xpath("//section[@aria-label='Contact Information']");
     private final By DEMOGRAPHIC = By.xpath("//div[@class='clinical-trial-demographic-settings__item-value']");
     private final By CONDITIONS = By.xpath("//section[@aria-label='Conditions']");
-    private final By CLINICAL_TRIAL_PURPOSE_TITLE =By.xpath("//h3[contains(text(), 'Trial Purpose and Description')]");
-    private final By CLINICAL_TRIAL_DESCRIPTION=By.xpath("//div[@class='clinical-trial-health-pro-tab__summary']");
+    private final By CLINICAL_TRIAL_PURPOSE_TITLE = By.xpath("//h3[contains(text(), 'Trial Purpose and Description')]");
+    private final By CLINICAL_TRIAL_DESCRIPTION = By.xpath("//div[@class='clinical-trial-health-pro-tab__summary']");
 
     public ClinicalTrialPage() {
         super(VOLUNTEER_NOW_BUTTON);
@@ -24,31 +24,26 @@ public class ClinicalTrialPage extends BasePage {
 
     public boolean isClinicalTrialTitleDisplayed() {
         Log.logInfo("Check that Clinical Trial Title is displayed");
-        baseElement.waitForElementToBePresent(CLINICAL_TRIAL_TITLE);
         return baseElement.isElementDisplayed(CLINICAL_TRIAL_TITLE);
     }
 
     public boolean isClinicalTrialsInvestigatorsDisplayed() {
         Log.logInfo("Check that Clinical Trial Investigators Section is displayed");
-        BaseElement.waitForElementToBePresent(CLINICAL_TRIAL_INVESTIGATORS);
         return baseElement.isElementDisplayed(CLINICAL_TRIAL_INVESTIGATORS);
     }
 
     public boolean isVolunteerSummaryDisplayed() {
         Log.logInfo("Check that Clinical Trial Volunteer Summary is displayed");
-        BaseElement.waitForElementToBePresent(VOLUNTEER_SUMMARY);
         return baseElement.isElementDisplayed(VOLUNTEER_SUMMARY);
     }
 
     public void clickVolunteerNowButton() {
         Log.logInfo("Click Volunteer Now button");
-        BaseElement.waitForElementToBePresent(VOLUNTEER_NOW_BUTTON);
         baseElement.clickElement(VOLUNTEER_NOW_BUTTON);
     }
 
     public boolean isContactInformationDisplayed() {
         Log.logInfo("Check that Clinical Trial Contact Information is displayed");
-        BaseElement.waitForElementToBePresent(SIDEBAR_CONTACT_INFORMATION);
         return baseElement.isElementDisplayed(SIDEBAR_CONTACT_INFORMATION);
     }
 
@@ -59,7 +54,7 @@ public class ClinicalTrialPage extends BasePage {
     }
 
     public boolean isConditionsContainsChosenCategory(String chosenCategory) {
-        Log.logInfo("Check that Clinical Trial Conditions contain chosen category "+ chosenCategory);
+        Log.logInfo("Check that Clinical Trial Conditions contain chosen category " + chosenCategory);
         BaseElement.waitForElementToBeClickable(VOLUNTEER_NOW_BUTTON);
         return baseElement.isElementContainsText(CONDITIONS, chosenCategory);
     }
@@ -67,22 +62,22 @@ public class ClinicalTrialPage extends BasePage {
     public String getTrialPageTitle() {
         Log.logInfo("Get Clinical Trial Page Title");
         BaseElement.waitForElementToBeClickable(HEALTH_PROFESSIONALS_TAB);
-        String trialTitle = baseElement.getText(CLINICAL_TRIAL_TITLE);
-        return trialTitle;
+        return baseElement.getText(CLINICAL_TRIAL_TITLE);
+
     }
 
-    public ClinicalTrialPage openHealthProfessionalTab(){
+    public ClinicalTrialPage openHealthProfessionalTab() {
         Log.logInfo("Open Health Professional Tab");
         baseElement.clickWithJS(HEALTH_PROFESSIONALS_TAB);
         return this;
     }
 
-    public boolean isTrialPurposeTitleIsDisplayed(){
+    public boolean isTrialPurposeTitleIsDisplayed() {
         Log.logInfo("Check that Trial Purpose Title is Displayed");
-        return  baseElement.checkTheElementContainText(CLINICAL_TRIAL_PURPOSE_TITLE);
+        return baseElement.checkTheElementContainText(CLINICAL_TRIAL_PURPOSE_TITLE);
     }
 
-    public boolean isTrialDescriptionDisplayed(){
+    public boolean isTrialDescriptionDisplayed() {
         Log.logInfo("Check that Trial Description is Displayed");
         return baseElement.checkThatEachElementInArrayContainText(CLINICAL_TRIAL_DESCRIPTION);
     }

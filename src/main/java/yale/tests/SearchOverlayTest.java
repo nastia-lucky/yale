@@ -7,6 +7,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.MainPage;
+import yale.pageObjects.ProfilePage;
 import yale.pageObjects.SearchOverlay;
 import yale.pageObjects.SearchPage;
 
@@ -51,7 +52,9 @@ public class SearchOverlayTest extends BaseTest {
     public void checkSuggestions() {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
-        SearchOverlay searchOverlay = mainPage.clickPerformSearch().inputSearchPanelValue(searchValue1);
+        SearchOverlay searchOverlay = mainPage.clickPerformSearch()
+                .clickFindPeopleTab()
+                .typePeopleName(searchValue1);
         Assert.assertTrue(searchOverlay.isSearchResultContainsSearchValue(searchValue1),
                 "Search Results don't contain inputted search value");
     }
@@ -68,31 +71,30 @@ public class SearchOverlayTest extends BaseTest {
     }
 
     @Test
-    public void openPageFromSuggestion() throws InterruptedException {
-        MainPage mainPage = new MainPage();
-        mainPage.openMainPage();
-        SearchOverlay searchOverlay = mainPage.clickPerformSearch()
-                .inputSearchPanelValue(searchValue1);
-        Thread.sleep(3000);
-        searchOverlay.openFirstResult();
-        Assert.assertTrue(searchOverlay.isTitleContainsSearchValue(searchValue1),
-                "Page title doesn't contain Search value");
-    }
-
-    @Test
-    public void checkFindPeople() throws InterruptedException {
+    public void openPageFromSuggestion() {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
                 .clickFindPeopleTab()
                 .typePeopleName(searchValue1);
-        Thread.sleep(2000);
+        ProfilePage profilePage = searchOverlay.openFirstPeopleResult();
+        Assert.assertTrue(profilePage.isTitleContainsSearchValue(searchValue1),
+                "Page title doesn't contain Search value");
+    }
+
+    @Test
+    public void checkFindPeople() {
+        MainPage mainPage = new MainPage();
+        mainPage.openMainPage();
+        SearchOverlay searchOverlay = mainPage.clickPerformSearch()
+                .clickFindPeopleTab()
+                .typePeopleName(searchValue1);
         Assert.assertTrue(searchOverlay.isSearchResultContainsSearchValue(searchValue1),
                 "Search Results don't contain inputted search value");
     }
 
     @Test
-    public void checkSearchCountByResearchArea() throws InterruptedException {
+    public void checkSearchCountByResearchArea() {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
@@ -107,7 +109,7 @@ public class SearchOverlayTest extends BaseTest {
     }
 
     @Test
-    public void checkSearchCountByUserRole() throws InterruptedException {
+    public void checkSearchCountByUserRole() {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()

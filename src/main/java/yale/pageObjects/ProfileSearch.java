@@ -1,5 +1,6 @@
 package yale.pageObjects;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
 import framework.BaseElement;
 import org.openqa.selenium.By;
 import framework.logger.Log;
@@ -12,7 +13,10 @@ public class ProfileSearch extends SearchPage {
 
     public String addRoleFilter() {
         Log.logInfo("Add Role Filter");
-        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_ROLE_FILTER);
+        String firstResultText= SearchPage.getSearchResultText();
+        String text =  baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_ROLE_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstResultText);
+        return  text;
     }
 
     public ProfileSearch inputResearchArea(String researchArea) {
@@ -23,14 +27,18 @@ public class ProfileSearch extends SearchPage {
 
     public ProfileSearch chooseFirstSuggestion() {
         Log.logInfo("Choose Research Area Suggestion");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(RESEARCH_AREA_SUGGESTION);
+        String firstText=SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(RESEARCH_AREA_SUGGESTION);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
     }
 
     public int getBracketsRoleResultNumber() {
         Log.logInfo("Get Role People type numbers in brackets");
         BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_ROLE_FILTER);
-        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_ROLE_FILTER);
+        String firstText= SearchPage.getSearchResultText();
+        int numberText= baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_ROLE_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return  numberText;
     }
 }

@@ -3,7 +3,7 @@ package framework;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public abstract class BaseTest  {
+public abstract class BaseTest {
 
     Config config = new Config();
 
@@ -13,7 +13,7 @@ public abstract class BaseTest  {
         browser.getUrl(config.getProperty("mainPageURL"));
     }
 
-   @AfterMethod
+    @AfterMethod
     public void CloseBrowser() {
         Browser.closeBrowser();
     }

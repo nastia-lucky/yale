@@ -1,7 +1,7 @@
 package framework.runner;
 
-import org.testng.TestNG;
 import framework.Browser;
+import org.testng.TestNG;
 
 import java.util.Arrays;
 import java.util.List;

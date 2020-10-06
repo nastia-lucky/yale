@@ -17,28 +17,23 @@ public class NewsPage extends BasePage {
     }
     public String getNewsTitle() {
         Log.logInfo("Get News Title");
-        BaseElement.waitForElementToBePresent(NEWS_TITLE);
         String title = baseElement.getTitle();
         String[] parts = title.split(" <");
-        System.out.println(parts[0]);
         return parts[0];
     }
 
     public boolean isNewsDateDisplayed() {
         Log.logInfo("Check that News Date is displayed");
-        BaseElement.waitForElementToBePresent(NEWS_PUBLISH_DATE);
         return baseElement.isElementDisplayed(NEWS_PUBLISH_DATE);
     }
 
     public boolean isNewsContentDisplayed() {
         Log.logInfo("Check that News Content is displayed");
-        BaseElement.waitForElementToBePresent(NEWS_CONTENT);
         return baseElement.isElementDisplayed(NEWS_CONTENT);
     }
 
     public boolean isNewsSubmitterDisplayed() {
         Log.logInfo("Check that News Submitter is displayed");
-        BaseElement.waitForElementToBePresent(NEWS_SUBMITTER);
         return baseElement.isElementDisplayed(NEWS_SUBMITTER);
     }
 

@@ -20,8 +20,11 @@ public class ClinicalTrialSearch extends SearchPage {
     }
 
     public String addActiveGender() {
-        Log.logInfo("Add active Gender");
-        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_GENDER);
+        Log.logInfo("Add Active Gender");
+        String firstText= SearchPage.getSearchResultText();
+        String titleText=baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_GENDER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return titleText;
     }
 
     public ClinicalTrialSearch addAcceptHealthyFilter() {
@@ -32,7 +35,9 @@ public class ClinicalTrialSearch extends SearchPage {
 
     public ClinicalTrialSearch addActiveHealthyItem() {
         Log.logInfo("Add active healthy item");
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(ACTIVE_HEALTHY_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
     }
 
@@ -43,13 +48,20 @@ public class ClinicalTrialSearch extends SearchPage {
     }
 
     public String addActiveCategory() {
-        Log.logInfo("Add active category");
-        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_CATEGORY);
+        Log.logInfo("Add Active Category");
+        String firstText = SearchPage.getSearchResultText();
+        String firstTitleText= baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_CATEGORY);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return firstTitleText;
+
     }
 
     public int getBracketsGenderResultNumber() {
         Log.logInfo("Get Clinical Trials number in brackets");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_GENDER);
-        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_GENDER);
+        String firstText= SearchPage.getSearchResultText();
+        System.out.println(firstText);
+        int numberText=baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_GENDER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return numberText;
     }
 }

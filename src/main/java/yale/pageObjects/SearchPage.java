@@ -1,6 +1,8 @@
 package yale.pageObjects;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
 import framework.BaseElement;
+import framework.Browser;
 import framework.logger.Log;
 import org.openqa.selenium.By;
 
@@ -8,7 +10,7 @@ public class SearchPage extends BasePage {
 
     private final By REMOVE_TOP_STORIES_FILTER = By.xpath("//ul[@class='global-search-active-entity-filter__list']//button[@aria-label='Remove top stories filter']");
     private static final By SEARCH_INPUT = By.xpath("//input[@aria-label='Search input']");
-    private final By PEOPLE_FILTER = By.xpath("//div[@aria-label='Add People filter']");
+    protected final By PEOPLE_FILTER = By.xpath("//div[@aria-label='Add People filter']");
     private final By PEOPLE_SEARCH_RESULT = By.xpath("//ul[@class='global-search-results']//a[@class='search-result']");
     private final By SEARCH_RESULT_TYPE = By.xpath(".//p[@class='search-result__type']");
     private final By SEARCH_RESULT_IMAGE = By.xpath(".//img[@class='profile-search-result__image']");
@@ -19,7 +21,7 @@ public class SearchPage extends BasePage {
     private final By EVENT_FILTER = By.xpath("//div[@aria-label='Add Events filter']");
     private final By EVENT_DATE = By.xpath("//span[@class='event-search-result__time']");
     private final By NEWS_FILTER = By.xpath("//div[@aria-label='Add News filter']");
-    private final By SEARCH_RESULT = By.xpath("//span[@class='global-search-active-filter-message__text']");
+    protected static final By SEARCH_RESULT_MESSAGE = By.xpath("//span[@class='global-search-active-filter-message__text']");
     private final By KEYWORDS_INPUT = By.xpath("//input[@aria-label='Add keywords']");
     private final By PAGINATION_ITEM = By.xpath("//li[@class='pagination__item']//a[@role='button']");
     private final By MEDIA_FILTER = By.xpath("//div[@id='accordion__heading-Media']");
@@ -50,9 +52,10 @@ public class SearchPage extends BasePage {
     }
 
     public SearchPage chooseFirstSuggestion() {
-        Log.logInfo("Choose first suggestion");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(SUGGESTION);
+        Log.logInfo("Choose First Suggestion");
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(SUGGESTION);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
     }
 
@@ -63,28 +66,27 @@ public class SearchPage extends BasePage {
     }
 
     public ProfileSearch addPeopleFilter() {
-        Log.logInfo("Add people filter");
-        baseElement.waitForElementToBePresent(PEOPLE_FILTER);
+        Log.logInfo("Add People filter");
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickElement(PEOPLE_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new ProfileSearch();
     }
 
     public boolean isSearchResultPeopleTypeIsDisplayed() {
-        Log.logInfo("Check people type");
-        BaseElement.waitForElementToBePresent(SEARCH_RESULT_TYPE);
+        Log.logInfo("Check People Type");
         return baseElement.checkAllElementsFromArray(PEOPLE_SEARCH_RESULT, SEARCH_RESULT_TYPE);
     }
 
     public boolean isSearchResultPeopleImageIsDisplayed() {
         Log.logInfo("Check People Image");
-        BaseElement.waitForElementToBePresent(SEARCH_RESULT_IMAGE);
         return baseElement.checkAllElementsFromArray(PEOPLE_SEARCH_RESULT, SEARCH_RESULT_IMAGE);
     }
 
     public ProfilePage clickFirstPeopleName() {
         Log.logInfo("Click first People name");
         BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_IMAGE);
-        baseElement.clickTheFirstElementWithJE(SEARCH_RESULT_IMAGE);
+        baseElement.clickTheFirstElementWithJS(SEARCH_RESULT_IMAGE);
         return new ProfilePage();
     }
 
@@ -96,43 +98,42 @@ public class SearchPage extends BasePage {
 
     public ClinicalTrialSearch addClinicalTrialFilter() {
         Log.logInfo("Add Clinical Trial Filter");
-        BaseElement.waitForElementToBePresent(CLINICAL_TRIAL_FILTER);
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickElement(CLINICAL_TRIAL_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new ClinicalTrialSearch();
     }
 
     public ClinicalTrialPage openFirstTrial() {
         Log.logInfo("Open first Trial");
-        BaseElement.waitForElementsFromArrayArePresent(CLINICAL_TRIAL_SVG);
         baseElement.clickFirstElementFromArray(CLINICAL_TRIAL_SVG);
         return new ClinicalTrialPage();
     }
 
     public EventSearch addEventFilter() {
         Log.logInfo("Add Event Filter");
-        baseElement.waitForElementToBePresent(EVENT_FILTER);
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickElement(EVENT_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new EventSearch();
     }
 
     public EventPage openFirstEvent() {
         Log.logInfo("Open first event");
-        BaseElement.waitForElementsFromArrayArePresent(EVENT_DATE);
         baseElement.clickFirstElementFromArray(EVENT_DATE);
         return new EventPage();
     }
 
     public NewsSearch addNewsFilter() {
         Log.logInfo("Add News Filter");
-        BaseElement.waitForElementToBePresent(NEWS_FILTER);
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickElement(NEWS_FILTER);
-        BaseElement.waitForElementToBeClickable(REMOVE_NEWS_FILTER_BUTTON);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new NewsSearch();
     }
 
     public NewsPage openFirstNews() {
         Log.logInfo("Open First News");
-        BaseElement.waitForElementsFromArrayArePresent(NEWS_ARTICLE_THUMBNAIL);
         baseElement.clickElement(NEWS_ARTICLE_THUMBNAIL);
         return new NewsPage();
     }
@@ -140,27 +141,15 @@ public class SearchPage extends BasePage {
     public String getExistingSearchValue() {
         Log.logInfo("Get existing inserted value from Search input");
         BaseElement.waitForElementToBeClickable(PEOPLE_FILTER);
-        String value = baseElement.getAttribute(SEARCH_INPUT, "value");
-        System.out.println(value);
-        return value;
+        return baseElement.getAttribute(SEARCH_INPUT, "value");
     }
 
     public int getSearchResult() {
         Log.logInfo("Get Search Number");
-        //Browser.waitForJSandJQueryToLoad();
-        try {
-            Thread.sleep(5500);
-        } catch (Exception e) {
-
-        }
-        String searchQuery = baseElement.getText(SEARCH_RESULT);
-        System.out.println(searchQuery);
+        String searchQuery = baseElement.getText(SEARCH_RESULT_MESSAGE);
         String[] searchResults = searchQuery.split(" ");
         String searchResult = searchResults[1];
-        System.out.println(searchResult);
-        int number = Integer.parseInt(searchResult);
-        System.out.println(number);
-        return number;
+        return Integer.parseInt(searchResult);
     }
 
 
@@ -170,57 +159,51 @@ public class SearchPage extends BasePage {
         return this;
     }
 
-    public int getPageNumbers(String attribute) throws InterruptedException {
+    public int getPageNumbers(String attribute)  {
         Log.logInfo("Get Page Number");
-        Thread.sleep(4000);
-        int pageNumber = baseElement.getNumber(PAGINATION_ITEM, attribute);
-        System.out.println(pageNumber);
-        return pageNumber;
+        return baseElement.getNumber(PAGINATION_ITEM, attribute);
     }
 
     public int getExpectedPageNumber(int searchResult) {
         Log.logInfo("Get Expected Page Number");
-        int expectedPageNumber = searchResult / 20 + 1;
-        System.out.println(expectedPageNumber);
-        return expectedPageNumber;
+        return searchResult / 20 + 1;
     }
 
     public MediaSearch addMediaFilter() {
         Log.logInfo("Add media filter");
-        BaseElement.waitForElementToBeClickable(MEDIA_FILTER);
         baseElement.clickElement(MEDIA_FILTER);
         return new MediaSearch();
     }
 
     public boolean isSearchResultMediaTypeCoincideWithChosen(String chosenMediaType) {
-        Log.logInfo("Check that search result media type coincides with chosen" + chosenMediaType);
-        BaseElement.waitForElementsFromArrayArePresent(SEARCH_RESULT_TYPE);
+        Log.logInfo("Check that search result media type coincides with chosen " + chosenMediaType);
         return baseElement.isAllElementsInArrayContainsText(SEARCH_RESULT_TYPE, chosenMediaType);
     }
 
     public MediaPage openMediaPopUp() {
-        Log.logInfo("Open media pop-up");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(MEDIA_SEARCH_DETAILS);
+        Log.logInfo("Open Media Pop-up");
         baseElement.clickFirstElementFromArray(MEDIA_SEARCH_DETAILS);
         return new MediaPage();
     }
 
     public DocumentSearch addDocumentFilter() {
-        Log.logInfo("Add Document Filter");
-        BaseElement.waitForElementToBeClickable(DOCUMENT_FILTER);
+        Log.logInfo("Add Document filter");
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickElement(DOCUMENT_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new DocumentSearch();
     }
 
     public WebSiteSearch addWebPageFilter() {
-        Log.logInfo("Add Web Page Filter");
-        BaseElement.waitForElementToBeClickable(WEB_PAGE_FILTER);
+        Log.logInfo("Add Web Page filter");
+        String firstText=SearchPage.getSearchResultText();
         baseElement.clickElement(WEB_PAGE_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new WebSiteSearch();
     }
 
     public String openAndGetTextFromFirstWebSiteSearchResult() {
-        Log.logInfo("Open first web site result");
+        Log.logInfo("Open first Web Site Result");
         BaseElement.waitForTheFirstElementFromArrayIsClickable(WEB_RESULT_BREAD_CRUMB);
         return baseElement.getTextFromElementInsideOtherElement(SEARCH_RESULTS, WEB_RESULT_BREAD_CRUMB);
     }
@@ -228,9 +211,7 @@ public class SearchPage extends BasePage {
     public String getFirstSearchResultType() {
         Log.logInfo("Get First Search Result Type");
         BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_TYPE);
-        String firstSearchResultType = baseElement.getTextFirstElementFromArray(SEARCH_RESULT_TYPE);
-        System.out.println(firstSearchResultType);
-        return firstSearchResultType;
+        return baseElement.getTextFirstElementFromArray(SEARCH_RESULT_TYPE);
     }
 
     public boolean isEachWebPageResultHaveBreadcrumb() {
@@ -271,13 +252,13 @@ public class SearchPage extends BasePage {
 
     public String getFirstEventTitle() {
         Log.logInfo("Get First Event Title");
-        //baseElement.waitForElementToBeClickable(REMOVE_EVENT_FILTER_BUTTON);
         BaseElement.waitForTheFirstElementFromArrayIsClickable(EVENT_SEARCH_RESULT_TIME);
         return baseElement.getTextFromFirstElement(SEARCH_RESULT_TITLE);
     }
 
     public boolean isEachEventSearchResultHaveTypes(String text, String text2) {
         Log.logInfo("Check that each result has types " + text + " " + text2);
+        BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_TYPE);
         return baseElement.isAllElementsContainTexts(SEARCH_RESULTS, SEARCH_RESULT_TYPE, text, text2);
     }
 
@@ -322,5 +303,9 @@ public class SearchPage extends BasePage {
     public String getFirstTitleText() {
         baseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_TITLE);
         return baseElement.getTextFirstElementFromArray(SEARCH_RESULT_TITLE);
+    }
+
+    public static String getSearchResultText(){
+        return BaseElement.getText(SEARCH_RESULT_MESSAGE);
     }
 }

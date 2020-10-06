@@ -1,12 +1,14 @@
 package yale.pageObjects;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
+import framework.BaseElement;
 import framework.logger.Log;
 import org.openqa.selenium.By;
 
-public class NewsSearch extends SearchPage{
-    private final By SOURCE_BUTTON = By.xpath("//span[contains(text(), 'Source')]");
-    private final By ACTIVE_SOURCE=By.xpath("//div[@id='accordion__panel-articleSource']//button[@tabindex='0']");
+public class NewsSearch extends SearchPage {
 
+    private final By SOURCE_BUTTON = By.xpath("//span[contains(text(), 'Source')]");
+    private final By ACTIVE_SOURCE = By.xpath("//div[@id='accordion__panel-articleSource']//button[@tabindex='0']");
 
     public NewsSearch clickSourceButton() {
         Log.logInfo("Сlick Source Button");
@@ -14,9 +16,11 @@ public class NewsSearch extends SearchPage{
         return this;
     }
 
-    public SearchPage addYsmNewsFilter() {
-        Log.logInfo("Add YSM News Filter");
+    public SearchPage addSourceNewsFilter() {
+        Log.logInfo("Add Active News Source");
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickElement(ACTIVE_SOURCE);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
     }
 

@@ -17,27 +17,27 @@ public class MainPageTests extends BaseTest {
     private final String patientCareLink = "https://www.yalemedicine.org/";
     private final String YSMuRL = "https://acceptance.medicine.yale.edu/ysm/";
     private final String mapsURL = "https://acceptance.medicine.yale.edu/maps/";
-    private final String supportUsURL = "https://acceptance.medicine.yale.edu/ysm/about/giving/";
+    private final String supportUsURL = "https://acceptance.medicine.yale.edu/about/giving/";
     private final String calendarLink = "https://acceptance.medicine.yale.edu/calendar/";
     private final String contactUsLink = "https://acceptance.medicine.yale.edu/contact/";
     private final String twitterLink = "https://twitter.com/YaleMed";
 
     @Test
-    public void openPatientCare() {
+    public void openPatientCareTest() {
         MainPage mainPage = new MainPage();
         mainPage.clickPatientCareLink();
         Assert.assertEquals(mainPage.getCurrentURL(), patientCareLink, "Links don't coincide");
     }
 
     @Test
-    public void redirectSiteIcon() {
+    public void redirectSiteIconTest() {
         MainPage mainPage = new MainPage();
         mainPage.clickSiteIcon();
         Assert.assertEquals(mainPage.getCurrentURL(), YSMuRL, "Logo leads to incorrect URL");
     }
 
     @Test
-    public void checkFooterLinks() {
+    public void checkFooterLinksTest() {
         MainPage mainPage = new MainPage();
         SoftAssert anAssert = new SoftAssert();
         mainPage.clickMapsFooterLink();
@@ -45,7 +45,7 @@ public class MainPageTests extends BaseTest {
                 "Maps' URL is not correct");
         mainPage.clickLogo()
                 .clickSupportUsLink();
-        anAssert.assertEquals(mainPage.getCurrentURL(), supportUsURL,
+         anAssert.assertEquals(mainPage.getCurrentURL(), supportUsURL,
                 "Support Us URL is not correct");
         mainPage.clickLogo()
                 .clickCalendarLink();
@@ -59,7 +59,7 @@ public class MainPageTests extends BaseTest {
     }
 
     @Test
-    public void openNewsPage() {
+    public void openNewsPageTest() {
         MainPage mainPage = new MainPage();
         String newsTitleSearchPage = mainPage.getNewsTitle();
         NewsPage newsPage = mainPage.clickNewsTitle();
@@ -69,7 +69,7 @@ public class MainPageTests extends BaseTest {
     }
 
     @Test
-    public void moreTopStoriesButton() {
+    public void moreTopStoriesButtonTest() {
         MainPage mainPage = new MainPage();
         SearchPage searchPage = mainPage.clickMoreTopStoriesButton();
         Assert.assertTrue(searchPage.isRemoveTopStoriesFilterDisplayed(),
@@ -77,7 +77,7 @@ public class MainPageTests extends BaseTest {
     }
 
     @Test
-    public void moreEventsButton() {
+    public void moreEventsButtonTest() {
         MainPage mainPage = new MainPage();
         SearchPage searchPage = mainPage.clickMoreEventsButton();
         Assert.assertTrue(searchPage.isRemoveEventsFilterIsDisplayed(),
@@ -85,7 +85,7 @@ public class MainPageTests extends BaseTest {
     }
 
     @Test
-    public void openEvent() {
+    public void openEventFromMainPageTest() {
         MainPage mainPage = new MainPage();
         String searchTitle = mainPage.getFirstEventTitle();
         EventPage eventPage = mainPage.openFirstEvent();
@@ -94,7 +94,7 @@ public class MainPageTests extends BaseTest {
     }
 
     @Test
-    public void openTwitter() {
+    public void openTwitterTest() {
         MainPage mainPage = new MainPage();
         mainPage.goToTwitter();
         Assert.assertEquals(mainPage.getCurrentURL(), twitterLink,
@@ -102,7 +102,7 @@ public class MainPageTests extends BaseTest {
     }
 
     @Test
-    public void checkAZList() {
+    public void checkAZListTest() {
         MainPage mainPage = new MainPage();
         String anchorLetter = mainPage.goAToAboutYSMPage()
                 .goToFindPeoplePage()

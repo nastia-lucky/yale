@@ -1,5 +1,7 @@
 package framework.listener;
 
+import framework.Browser;
+import framework.logger.Log;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -7,8 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import framework.logger.Log;
-import framework.Browser;
 
 import java.io.File;
 import java.io.IOException;
