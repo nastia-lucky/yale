@@ -79,4 +79,20 @@ public class Log {
         logger.debug(String.format("Check the element [%s] inside other element [%s] contain one of the texts ([%s] or [%s])", by2, by, text, text2));
     }
 
+    public static void logCheckTheElementContainsText(By by) {
+        logger.debug(String.format("Check the element [%s] contains text", by));
+    }
+
+    public static void logCheckPresenceElementInsideOtherElement(By by1, By by2) {
+        logger.debug(String.format("Check the element [%s] contains another element [%s]", by1, by2));
+    }
+
+    public static void logCheckThatEachElementInArrayContainText(By by) {
+        logger.debug(String.format("Check each element [%s] in array contains text", by));
+    }
+
+    public static void logСheckPresenceOneOfTwoElementInsideAnother(By by, By by1, By by2) {
+        logger.debug(String.format("Check that element [%s] contains one of two elements: [%s] or [%s] ", by, by1, by2));
+    }
+
 }

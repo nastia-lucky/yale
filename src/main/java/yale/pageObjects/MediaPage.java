@@ -1,7 +1,6 @@
 package yale.pageObjects;
 
 import framework.logger.Log;
-import framework.BaseElement;
 import org.openqa.selenium.By;
 
 public class MediaPage extends BasePage {
@@ -12,33 +11,29 @@ public class MediaPage extends BasePage {
     private final By MEDIA_DETAILS_PAGE_TITLE = By.xpath("//h1[@class='media-details-header__title']");
     private final By INFORMATION_TAB = By.xpath("//h2[contains(text(), 'Information')]");
 
-    public MediaPage (){
+    public MediaPage() {
         super(PLAY_BUTTON);
     }
 
     public MediaPage clickPlayButton() {
         Log.logInfo("Click Play Button");
-        BaseElement.waitForElementToBeClickable(PLAY_BUTTON);
         baseElement.clickElement(PLAY_BUTTON);
         return this;
     }
 
     public boolean isPauseButtonIsDisplayed() {
         Log.logInfo("Check Pause button is displayed");
-        BaseElement.waitForElementToBeClickable(PAUSE_BUTTON);
         return baseElement.isElementDisplayed(PAUSE_BUTTON);
     }
 
     public MediaPage clickTranscriptButton() {
         Log.logInfo("Click Transcript Button");
-        BaseElement.waitForElementToBeClickable(TRANSCRIPT_BUTTON);
         baseElement.clickElement(TRANSCRIPT_BUTTON);
         return this;
     }
 
     public boolean idMediaTitleDisplayed() {
         Log.logInfo("Check that Media Title is displayed");
-        BaseElement.waitForElementToBePresent(MEDIA_DETAILS_PAGE_TITLE);
         return baseElement.isElementDisplayed(MEDIA_DETAILS_PAGE_TITLE);
     }
 

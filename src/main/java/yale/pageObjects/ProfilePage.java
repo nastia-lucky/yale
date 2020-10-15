@@ -24,7 +24,6 @@ public class ProfilePage extends BasePage {
     }
 
     public String getName() {
-        BaseElement.waitForElementToBePresent(PROFILE_SIDEBAR_NAME);
         return baseElement.getTitle();
     }
 
@@ -35,25 +34,21 @@ public class ProfilePage extends BasePage {
 
     public boolean isImageDisplayed() {
         Log.logInfo("Check image displayed");
-        BaseElement.waitForElementToBePresent(PROFILE_IMAGE);
         return baseElement.isElementDisplayed(PROFILE_IMAGE);
     }
 
     public boolean isNameIsDisplayed() {
         Log.logInfo("Check name is displayed");
-        BaseElement.waitForElementToBePresent(PROFILE_NAME);
         return baseElement.isElementDisplayed(PROFILE_NAME);
     }
 
     public boolean isEditProfileLinkDisplayed() {
         Log.logInfo("Check Edit Profile Link is displayed");
-        BaseElement.waitForElementToBePresent(EDIT_PROFILE_LINK);
         return baseElement.isElementDisplayed(EDIT_PROFILE_LINK);
     }
 
     public boolean isSharePanelDisplayed() {
         Log.logInfo("Check Edit Profile Link is displayed");
-        BaseElement.waitForElementToBePresent(SHARE_PANEL);
         return baseElement.isElementDisplayed(SHARE_PANEL);
     }
 
@@ -74,17 +69,16 @@ public class ProfilePage extends BasePage {
 
     public boolean isDownLoadedImageDisplayed() {
         Log.logInfo("Check downloaded image");
-        BaseElement.waitForElementToBePresent(DOWNLOADED_IMAGE);
         return baseElement.isElementDisplayed(DOWNLOADED_IMAGE);
     }
 
     public boolean isTitleDisplayed() {
-        Log.logInfo("Check For Title");
+        Log.logInfo("Check the Title is displayed");
         return baseElement.isElementDisplayed(PROFILE_TITLE);
     }
 
     public boolean isContactInformationDisplayed() {
-        Log.logInfo("Check the contact Information Section");
+        Log.logInfo("Check the Contact Information Section");
         return baseElement.isElementDisplayed(CONTACT_INFORMATION_SECTION);
     }
 
@@ -99,4 +93,11 @@ public class ProfilePage extends BasePage {
         Log.logInfo("Check research interests contain inputted research area - " + researchArea);
         return baseElement.isElementContainsText(RESEARCH_INTERESTS, researchArea);
     }
+
+    public boolean isTitleContainsSearchValue(String text){
+        Log.logInfo("Check that title contains text");
+         BaseElement.waitForElementToBeClickable(EDIT_PROFILE_LINK);
+         return baseElement.isElementContainsText(PROFILE_NAME, text);
+    }
+
 }

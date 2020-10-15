@@ -1,5 +1,6 @@
 package yale.pageObjects;
 
+import framework.BaseElement;
 import framework.logger.Log;
 import org.openqa.selenium.By;
 
@@ -9,13 +10,16 @@ public class WebSiteSearch extends SearchPage {
 
     public WebSiteSearch addActiveWebPageFilter() {
         Log.logInfo("Add active Web Page Filter");
-        baseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_WEB_PAGE_FILTER);
+        String firstText= SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(ACTIVE_WEB_PAGE_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
     }
 
     public int getBracketsWebSiteResultNumber() {
-        baseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_WEB_PAGE_FILTER);
-        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_WEB_PAGE_FILTER);
+        String firstText= SearchPage.getSearchResultText();
+        int numberText= baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_WEB_PAGE_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return numberText;
     }
 }

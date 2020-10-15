@@ -1,7 +1,7 @@
 package yale.pageObjects;
 
-import framework.logger.Log;
 import framework.BaseElement;
+import framework.logger.Log;
 import org.openqa.selenium.By;
 
 public class EventPage extends BasePage {
@@ -15,15 +15,14 @@ public class EventPage extends BasePage {
     private final By EVENT_TAGS = By.xpath("//section[@aria-label='Tags']//div[@class='named-section__content-wrapper']");
     private final By EVENT_TAG = By.xpath("//section[@aria-label='Tag']//div[@class='named-section__content-wrapper']");
     private final By EVENT_MODAL_TITLE = By.xpath("//h2[@class='event-details-header__title']");
-    private final By EDIT_EVENT_LINK=By.xpath("//a[contains(text(), 'Edit This Event')]");
+    private final By EDIT_EVENT_LINK = By.xpath("//a[contains(text(), 'Edit This Event')]");
 
     public EventPage() {
         super(SHARE_VIA_TWITTER_LINK);
     }
 
-
     public boolean isEventDateIsDisplayed() {
-        BaseElement.waitForElementToBePresent(EVENT_DATE);
+        Log.logInfo("Check that Event date is displayed");
         return baseElement.isElementDisplayed(EVENT_DATE);
     }
 
@@ -62,16 +61,12 @@ public class EventPage extends BasePage {
     public String getEventTitle() {
         Log.logInfo("Get Event Title");
         BaseElement.waitForElementToBeClickable(SHARE_VIA_TWITTER_LINK);
-        String title = baseElement.getText(EVENT_TITLE);
-        System.out.println(title);
-        return title;
+       return baseElement.getText(EVENT_TITLE);
     }
 
     public String getEventModalTitle() {
         Log.logInfo("Get Event Modal Title");
         BaseElement.waitForElementToBeClickable(EDIT_EVENT_LINK);
-        String eventModalTitle = baseElement.getText(EVENT_MODAL_TITLE);
-        System.out.println(eventModalTitle);
-        return eventModalTitle;
+        return baseElement.getText(EVENT_MODAL_TITLE);
     }
 }

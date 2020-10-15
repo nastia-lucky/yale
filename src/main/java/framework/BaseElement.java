@@ -1,16 +1,13 @@
 package framework;
 
 import framework.logger.Log;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BaseElement {
 
@@ -26,7 +23,6 @@ public class BaseElement {
         try {
             WebElement element = new WebDriverWait(Browser.getDriver(), LONG_WAIT)
                     .until(driver -> driver.findElement(by));
-            //WebElement element = Browser.getDriver().findElement(by);
             return element;
         } catch (TimeoutException e) {
             throw e;
@@ -52,8 +48,7 @@ public class BaseElement {
     public String getTextFirstElementFromArray(By by) {
         Log.logTheText(by);
         List<WebElement> elements = getElements(by);
-        String text = elements.get(0).getText();
-        return text;
+        return elements.get(0).getText();
     }
 
     public static void waitForElementToBeClickable(By by) {
@@ -70,22 +65,13 @@ public class BaseElement {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public static void waitForElementToBePresent(By by) {
-        Log.logWaitForElementToBeDisplayed(by);
-        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), LONG_WAIT);
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-
-    public static void waitForElementsFromArrayArePresent(By by) {
-        Log.logWaitForElementsArePresent(by);
-        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), LONG_WAIT);
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
-    }
-
     public void clickFirstElementFromArray(By by) {
         Log.logClick(by);
         List<WebElement> elementsList = getElements(by);
-        elementsList.get(0).click();
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        WebElement element = elementsList.get(0);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
     }
 
     public String getAttribute(By by, String name) {
@@ -99,7 +85,6 @@ public class BaseElement {
         List<WebElement> element = getElements(by);
         action.moveToElement(element.get(0)).build().perform();
     }
-
 
     public boolean isElementsDisplayed(By by) {
         return getElements(by).get(0).isDisplayed();
@@ -116,10 +101,10 @@ public class BaseElement {
         return true;
     }
 
-    public String getText(By by) {
+    public static String getText(By by) {
         Log.logTheText(by);
-        String text = getElement(by).getText();
-        return text;
+        return getElement(by).getText();
+
     }
 
     public boolean isArrayEmpty(By by) {
@@ -128,8 +113,7 @@ public class BaseElement {
     }
 
     public String getTitle() {
-        String title = Browser.getDriver().getTitle();
-        return title;
+        return Browser.getDriver().getTitle();
     }
 
     public boolean compareText(By by, By by2, String value) {
@@ -164,8 +148,7 @@ public class BaseElement {
         String attribute = element.getAttribute(value);
         String[] stringArray = attribute.split(" ");
         String stringNumberPages = stringArray[1];
-        int numberPages = Integer.parseInt(stringNumberPages);
-        return numberPages;
+        return Integer.parseInt(stringNumberPages);
     }
 
     public String clickFirstElementFromArrayAndGetTitleText(By by) {
@@ -238,6 +221,8 @@ public class BaseElement {
         Log.logClick(by);
         List<WebElement> elementsList = getElements(by);
         WebElement element = elementsList.get(0);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         String textElement = element.getText();
         String substring = textElement.substring(textElement.lastIndexOf("(") + 1, textElement.lastIndexOf(")")).trim();
         int number = Integer.parseInt(substring);
@@ -287,9 +272,7 @@ public class BaseElement {
 
     public String getTextFromFirstElement(By by) {
         List<WebElement> elements = getElements(by);
-        String firstElementText = elements.get(0).getText();
-        System.out.println(firstElementText);
-        return firstElementText;
+        return elements.get(0).getText();
     }
 
     public boolean isAllElementsContainTexts(By by, By by2, String text, String text2) {
@@ -314,6 +297,7 @@ public class BaseElement {
 
     public String checkAndOpenElementNotContainAnother(By by1, By by2, By by3) {
         List<WebElement> elements = getElements(by1);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
         for (int i = 0; i < elements.size(); i++) {
             WebElement element = elements.get(i);
             List<WebElement> innerElements = element.findElements(by2);
@@ -321,6 +305,7 @@ public class BaseElement {
             if (innerElements.isEmpty()) {
                 WebElement element1 = clickableElements.get(0);
                 String text = element1.getText();
+                wait.until(ExpectedConditions.elementToBeClickable(element1));
                 element1.click();
                 return text;
             }
@@ -330,6 +315,7 @@ public class BaseElement {
     }
 
     public boolean checkPresenceElementInsideOtherElement(By by1, By by2) {
+        Log.logCheckPresenceElementInsideOtherElement(by1, by2);
         List<WebElement> elements = getElements(by1);
         for (WebElement element : elements) {
             List<WebElement> innerElements = element.findElements(by2);
@@ -343,17 +329,21 @@ public class BaseElement {
     public void clickWithJS(By by) {
         Log.logClick(by);
         WebElement element = getElement(by);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         JavascriptExecutor executor = (JavascriptExecutor) Browser.getDriver();
         executor.executeScript("arguments[0].click();", element);
     }
 
-    public void clickTheFirstElementWithJE(By by) {
+    public void clickTheFirstElementWithJS(By by) {
+        Log.logClick(by);
         List<WebElement> elements = getElements(by);
         JavascriptExecutor executor = (JavascriptExecutor) Browser.getDriver();
         executor.executeScript("arguments[0].click();", elements.get(0));
     }
 
     public boolean checkTheElementContainText(By by) {
+        Log.logCheckTheElementContainsText(by);
         WebElement element = getElement(by);
         String text = element.getText();
         if (text.equals("")) {
@@ -363,6 +353,7 @@ public class BaseElement {
     }
 
     public boolean checkThatEachElementInArrayContainText(By by) {
+        Log.logCheckThatEachElementInArrayContainText(by);
         List<WebElement> elements = getElements(by);
         for (WebElement element : elements) {
             String text = element.getText();
@@ -374,6 +365,7 @@ public class BaseElement {
     }
 
     public boolean checkPresenceOneOfTwoElementInsideAnother(By by, By by2, By by3) {
+        Log.logСheckPresenceOneOfTwoElementInsideAnother(by, by2, by3);
         List<WebElement> elements = getElements(by);
         for (WebElement element : elements) {
             List<WebElement> innerElements1 = element.findElements(by2);
@@ -393,6 +385,8 @@ public class BaseElement {
         int number = elements.size() - 1;
         WebElement element = elements.get(number);
         String text = element.getText();
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
         return text;
     }
@@ -403,4 +397,42 @@ public class BaseElement {
         String firstValue = text.substring(0, 1);
         return firstValue.equals(inputtedText);
     }
+
+    public static void waitForInvisibility(By by, String text) {
+        Wait<WebDriver> wait = new FluentWait(Browser.getDriver())
+                .withTimeout(30, TimeUnit.SECONDS)
+                .pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(StaleElementReferenceException.class);
+        wait.until(ExpectedConditions.invisibilityOfElementWithText(by, text));
+    }
+
+    public static void waitForText(By by, String text) {
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 30);
+        wait.until(ExpectedConditions.textToBe(by, text));
+    }
+
+    public static boolean waitForJStoLoad() {
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 30);
+
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                try {
+                    return ((Long) ((JavascriptExecutor) Browser.getDriver()).executeScript("return jQuery.active") == 0);
+                } catch (Exception e) {
+                    return true;
+                }
+            }
+        };
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) Browser.getDriver()).executeScript("return document.readyState")
+                        .toString().equals("complete");
+            }
+        };
+        return wait.until(jQueryLoad) && wait.until(jsLoad);
+    }
+
+
 }

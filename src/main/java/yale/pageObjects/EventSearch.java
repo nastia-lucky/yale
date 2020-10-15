@@ -2,6 +2,7 @@ package yale.pageObjects;
 
 import framework.logger.Log;
 import framework.BaseElement;
+import io.cucumber.java.eo.Se;
 import org.openqa.selenium.By;
 
 public class EventSearch extends SearchPage {
@@ -18,8 +19,10 @@ public class EventSearch extends SearchPage {
     }
 
     public String addActiveAudience() {
-        Log.logInfo("Add active audience");
+        Log.logInfo("Add Active Audience");
+        String firstText= SearchPage.getSearchResultText();
         String chosenAudience = baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_AUDIENCE);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return chosenAudience;
     }
 
@@ -31,12 +34,18 @@ public class EventSearch extends SearchPage {
 
     public String addActiveEventType() {
         Log.logInfo("Add Active Event Type");
-        return baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_EVENT_TYPE);
+        String firstText = SearchPage.getSearchResultText();
+        String textFirstElementFromArray=baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_EVENT_TYPE);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return textFirstElementFromArray;
     }
 
     public int getAudienceBracketsResultNumber() {
-        Log.logInfo("Get Events numbers in brackets ");
+        Log.logInfo("Get Events Numbers in brackets ");
+        String firstText= SearchPage.getSearchResultText();
         BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_AUDIENCE);
-        return baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_AUDIENCE);
+        int numberText= baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_AUDIENCE);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return numberText;
     }
 }

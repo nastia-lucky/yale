@@ -7,6 +7,11 @@
     <groupId>edu.yale.medicine</groupId>
     <artifactId>autotests</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <aspectj.version>1.8.10</aspectj.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
