@@ -1,8 +1,6 @@
 package yale.pageObjects;
 
-import com.sun.xml.internal.rngom.parse.host.Base;
 import framework.BaseElement;
-import framework.Browser;
 import framework.logger.Log;
 import org.openqa.selenium.By;
 
@@ -46,6 +44,7 @@ public class SearchPage extends BasePage {
     private final By SEARCH_RESULT_EVENT_DATE = By.xpath(".//div[@class='event-date event-date--small']");
     private final By DEFAULT_IMAGE = By.xpath(".//div[@class='search-result__image-container']//*[name()='svg']");
     private final By CLINICAL_TRIAL_TYPE = By.xpath("//p[contains(text(), 'Clinical Trial')]");
+    private final By SEARCH_BUTTON = By.xpath("//button[contains(text(), 'Search')]");
 
     public SearchPage() {
         super(SEARCH_INPUT);
@@ -53,7 +52,7 @@ public class SearchPage extends BasePage {
 
     public SearchPage chooseFirstSuggestion() {
         Log.logInfo("Choose First Suggestion");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(SUGGESTION);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
@@ -67,7 +66,7 @@ public class SearchPage extends BasePage {
 
     public ProfileSearch addPeopleFilter() {
         Log.logInfo("Add People filter");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(PEOPLE_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new ProfileSearch();
@@ -98,7 +97,7 @@ public class SearchPage extends BasePage {
 
     public ClinicalTrialSearch addClinicalTrialFilter() {
         Log.logInfo("Add Clinical Trial Filter");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(CLINICAL_TRIAL_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new ClinicalTrialSearch();
@@ -112,7 +111,7 @@ public class SearchPage extends BasePage {
 
     public EventSearch addEventFilter() {
         Log.logInfo("Add Event Filter");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(EVENT_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new EventSearch();
@@ -126,7 +125,7 @@ public class SearchPage extends BasePage {
 
     public NewsSearch addNewsFilter() {
         Log.logInfo("Add News Filter");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(NEWS_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new NewsSearch();
@@ -159,7 +158,7 @@ public class SearchPage extends BasePage {
         return this;
     }
 
-    public int getPageNumbers(String attribute)  {
+    public int getPageNumbers(String attribute) {
         Log.logInfo("Get Page Number");
         return baseElement.getNumber(PAGINATION_ITEM, attribute);
     }
@@ -171,7 +170,9 @@ public class SearchPage extends BasePage {
 
     public MediaSearch addMediaFilter() {
         Log.logInfo("Add media filter");
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(MEDIA_FILTER);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new MediaSearch();
     }
 
@@ -188,7 +189,7 @@ public class SearchPage extends BasePage {
 
     public DocumentSearch addDocumentFilter() {
         Log.logInfo("Add Document filter");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(DOCUMENT_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new DocumentSearch();
@@ -196,7 +197,7 @@ public class SearchPage extends BasePage {
 
     public WebSiteSearch addWebPageFilter() {
         Log.logInfo("Add Web Page filter");
-        String firstText=SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(WEB_PAGE_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return new WebSiteSearch();
@@ -305,7 +306,31 @@ public class SearchPage extends BasePage {
         return baseElement.getTextFirstElementFromArray(SEARCH_RESULT_TITLE);
     }
 
-    public static String getSearchResultText(){
+    public static String getSearchResultText() {
         return BaseElement.getText(SEARCH_RESULT_MESSAGE);
     }
+
+    public String clickAndGetTextDocument() {
+        Log.logInfo("Click firstDocument And Get Text");
+        return baseElement.clickAndGetTextFirstElement(SEARCH_RESULT_TITLE);
+    }
+
+    public boolean isDocumentDownloaded(String downloadPath, String filename, String text) {
+        Log.logInfo("Check the document is downloaded");
+        return baseElement.isFileDownloaded(downloadPath, filename, text);
+    }
+
+    public SearchPage inputSearchValue(String value) {
+        Log.logInfo("Input Search value " + value);
+        String firstText = SearchPage.getSearchResultText();
+        baseElement.typeTo(SEARCH_INPUT, value);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return this;
+    }
+
+    public boolean isSearchResultTypeCoincidesWithTheChosen (String value){
+        Log.logInfo("Is search Result Type coincides with the chosen "+ value);
+         return baseElement.isAllElementsInArrayContainsText(SEARCH_RESULT_TYPE, value);
+    }
+
 }

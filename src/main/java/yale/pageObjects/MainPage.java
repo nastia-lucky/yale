@@ -186,6 +186,4 @@ public class MainPage extends BasePage {
         Log.logInfo("Get Text Active Element");
         return baseElement.isChosenValueCoincidesWithTheFirstLetterOnFocus(chosenLetter);
     }
-
-
 }

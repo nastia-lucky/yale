@@ -1,22 +1,20 @@
 package yale.tests;
 
 import framework.BaseTest;
+import framework.Browser;
 import framework.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import yale.pageObjects.ProfilePage;
-import yale.pageObjects.ProfileSearch;
-import yale.pageObjects.SearchPage;
+import yale.pageObjects.*;
 import yale.services.OpenSearchPage;
 
 @Listeners({TestListener.class})
 public class SearchPeopleTest extends BaseTest {
 
-    String researchArea = "Epidemiology";
-
-    @Test
+    @Test(dependsOnMethods = {"checkPeopleFilter"})
     public void openProfilePageFromSearch() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -25,6 +23,16 @@ public class SearchPeopleTest extends BaseTest {
         ProfilePage profilePage = searchPage.clickFirstPeopleName();
         Assert.assertEquals(searchPeopleName, profilePage.getPeopleName(),
                 "People Search Name and Name on the Profile Page don't coincide");
+    }
+
+    @Test
+    public void checkPeopleFilter() {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        int numberResultsWithoutPeopleFilter = searchPage.getSearchResult();
+        int numberResultsWithPeopleFilter = searchPage.addPeopleFilter().getSearchResult();
+        Assert.assertTrue(numberResultsWithoutPeopleFilter > numberResultsWithPeopleFilter,
+                "Number of results don't changes after applying People Filter");
     }
 
     @Test
@@ -62,7 +70,7 @@ public class SearchPeopleTest extends BaseTest {
         Assert.assertTrue(profilePage.isDownLoadedImageDisplayed(), "The Image is not Downloaded");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkPeopleFilter"})
     public void checkPeopleSearchByRole() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -79,8 +87,9 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void checkResearchFilter() {
+    @Parameters({"researchArea"})
+    @Test(dependsOnMethods = {"checkPeopleFilter"})
+    public void checkResearchFilter(String researchArea) {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
         ProfileSearch profileSearch = new ProfileSearch();
@@ -100,7 +109,7 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkPeopleFilter"})
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -111,7 +120,7 @@ public class SearchPeopleTest extends BaseTest {
                 "The results numbers in brackets and on the search results page don't coincide for People Role Filter");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkPeopleFilter"})
     public void checkSearchResultPeopleInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -125,5 +134,19 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertTrue(searchPage.isEachResultHaveTitle(),
                 "Not All elements have titles");
         softAssert.assertAll();
+    }
+
+    @Parameters({"searchValue", "CVDownload"})
+    @Test
+    public void checkDownloadCV(String searchValue, String CVDownload) {
+        MainPage mainPage = new MainPage();
+        mainPage.openMainPage();
+        SearchOverlay searchOverlay = mainPage.clickPerformSearch()
+                .clickFindPeopleTab()
+                .typePeopleName(searchValue);
+        ProfilePage profilePage = searchOverlay.openFirstPeopleResult()
+                .clickDownloadCVButton();
+        String url = Browser.getCurrentUrl();
+        Assert.assertTrue(profilePage.isURLContainsText(url, CVDownload));
     }
 }

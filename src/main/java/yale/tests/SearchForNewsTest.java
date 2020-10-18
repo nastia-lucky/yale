@@ -4,6 +4,7 @@ import framework.BaseTest;
 import framework.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.NewsPage;
@@ -14,10 +15,7 @@ import yale.services.OpenSearchPage;
 @Listeners({TestListener.class})
 public class SearchForNewsTest extends BaseTest {
 
-    String keyword = "Epidemiology and Public Health";
-    String value = "aria-label";
-
-    @Test
+    @Test(dependsOnMethods = {"checkNewsFilter"})
     public void openNewsPage() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -29,7 +27,7 @@ public class SearchForNewsTest extends BaseTest {
                 "News title in search results and on the details page don't coincide");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkNewsFilter"})
     public void checkNewsFields() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -47,8 +45,9 @@ public class SearchForNewsTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void checkKeywordFilter() {
+    @Parameters({"keyword"})
+    @Test(dependsOnMethods = {"checkNewsFilter"})
+    public void checkKeywordFilter(String keyword) {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
         int numberNewsWithoutFilter = searchPage.addNewsFilter()
@@ -65,7 +64,7 @@ public class SearchForNewsTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkNewsFilter"})
     public void checkSourceFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -81,8 +80,9 @@ public class SearchForNewsTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void checkPagination() {
+    @Parameters({"keyword", "value"})
+    @Test(dependsOnMethods = {"checkNewsFilter"})
+    public void checkPagination(String keyword, String value) {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
         NewsSearch newsSearch = new NewsSearch();
@@ -96,7 +96,7 @@ public class SearchForNewsTest extends BaseTest {
                 "Expected page number doesn't coincide with the actual one");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkNewsFilter"})
     public void checkSearchResultNewsInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -113,6 +113,20 @@ public class SearchForNewsTest extends BaseTest {
                 "Not each Search News Result has Summary");
         softAssert.assertTrue(searchPage.isAllElementsHaveDate(),
                 "Not each Search News Result has Date");
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void checkNewsFilter() {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        int resultsNumberWithoutNewsFilter = searchPage.getSearchResult();
+        int resultsNumberWithNewsFilter = searchPage.addNewsFilter().getSearchResult();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(resultsNumberWithoutNewsFilter > resultsNumberWithNewsFilter,
+                "Search Result Number doesn't change after applying News Filter");
+        softAssert.assertTrue(searchPage.isSearchResultTypeCoincidesWithTheChosen("News"),
+                "The search result type doesn't coincide with the chosen");
         softAssert.assertAll();
     }
 }

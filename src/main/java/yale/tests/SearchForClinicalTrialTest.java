@@ -15,9 +15,7 @@ import yale.services.OpenSearchPage;
 @Listeners({TestListener.class})
 public class SearchForClinicalTrialTest extends BaseTest {
 
-    private String volunteerNowLink = "https://acceptance.medicine.yale.edu/ycci/clinicaltrials/find/mychart/";
-
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void openClinicalTrialPageFromSearchTest() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -28,7 +26,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
                 "Title of first trial on the results page doesn't coincide with title on the clinical trial page");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkClinicalTrialPageTest() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -46,7 +44,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkVolunteerNowButton() {
         MainPage mainPage = new MainPage();
         OpenSearchPage.openSearch();
@@ -58,7 +56,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
                 "Volunteer Now Link isn't correct");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkGenderFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -77,7 +75,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkAcceptHealthyVolunteersFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -91,7 +89,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
                 "Search Results number haven't changed after applying Accept Healthy Volunteers Filter");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkCategoryFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -110,7 +108,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -123,7 +121,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
                 "The results numbers in brackets and on the search results page don't coincide for Clinical Trial Gender Filter");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkSearchResultClinicalTrialInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -135,7 +133,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"})
     public void checkHealthProfessionalTab() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -146,5 +144,15 @@ public class SearchForClinicalTrialTest extends BaseTest {
         softAssert.assertTrue(trialPage.isTrialPurposeTitleIsDisplayed());
         softAssert.assertTrue(trialPage.isTrialDescriptionDisplayed());
         softAssert.assertAll();
+    }
+
+    @Test
+    public void checkClinicalTrialFilter() {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        int resultsNumberWithoutEventFilter = searchPage.getSearchResult();
+        int resultsNumberWithClinicalTrialFilter = searchPage.addClinicalTrialFilter().getSearchResult();
+        Assert.assertTrue(resultsNumberWithoutEventFilter > resultsNumberWithClinicalTrialFilter,
+                "Search Results Number don't changes after applying Clinical Trial Filter");
     }
 }

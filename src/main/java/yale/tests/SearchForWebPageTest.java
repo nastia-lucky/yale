@@ -35,7 +35,7 @@ public class SearchForWebPageTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test (dependsOnMethods = { "checkWebPageFilter" })
     public void checkResultsNumberInBracketsForWebPages() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -46,7 +46,7 @@ public class SearchForWebPageTest extends BaseTest {
                 "The results numbers in brackets and on the search results page don't coincide for Web Site Filter");
     }
 
-    @Test
+    @Test  (dependsOnMethods = { "checkWebPageFilter" })
     public void checkSearchResultWebPageInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();

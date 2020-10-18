@@ -4,6 +4,7 @@ import framework.BaseTest;
 import framework.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.DocumentSearch;
@@ -28,7 +29,7 @@ public class SearchForDocumentTest extends BaseTest {
                 "Search Results number haven't changed after applying Document Type filter  Filter");
     }
 
-    @Test
+    @Test (dependsOnMethods = { "searchForDocument" })
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -40,7 +41,7 @@ public class SearchForDocumentTest extends BaseTest {
                 "The results numbers in brackets and on the search results page don't coincide for Document Type Filter");
     }
 
-    @Test
+    @Test (dependsOnMethods = { "searchForDocument" })
     public void checkSearchResultDocumentInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -55,5 +56,17 @@ public class SearchForDocumentTest extends BaseTest {
         softAssert.assertTrue(searchPage.isEachDocumentResultHaveBreadcrumb(),
                 "Not each Search Document Result has BreadCrumb");
         softAssert.assertAll();
+    }
+    @Parameters({"downloadPath"})
+    @Test (dependsOnMethods = { "searchForDocument" })
+    public void checkDownloadDocument(String downloadPath ) throws InterruptedException {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        String filterType = searchPage.addDocumentFilter()
+                .addActiveDocumentFilterAndGetDocumentType();
+        String documentTitle = searchPage.clickAndGetTextDocument();
+        Thread.sleep(3000);
+        Assert.assertTrue(searchPage.isDocumentDownloaded(downloadPath, documentTitle, filterType),
+                "Downloads doesn't contain downloaded file");
     }
 }

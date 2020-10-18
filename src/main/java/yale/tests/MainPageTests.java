@@ -4,6 +4,7 @@ import framework.BaseTest;
 import framework.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.EventPage;
@@ -14,30 +15,25 @@ import yale.pageObjects.SearchPage;
 @Listeners({TestListener.class})
 public class MainPageTests extends BaseTest {
 
-    private final String patientCareLink = "https://www.yalemedicine.org/";
-    private final String YSMuRL = "https://acceptance.medicine.yale.edu/ysm/";
-    private final String mapsURL = "https://acceptance.medicine.yale.edu/maps/";
-    private final String supportUsURL = "https://acceptance.medicine.yale.edu/about/giving/";
-    private final String calendarLink = "https://acceptance.medicine.yale.edu/calendar/";
-    private final String contactUsLink = "https://acceptance.medicine.yale.edu/contact/";
-    private final String twitterLink = "https://twitter.com/YaleMed";
-
+    @Parameters({"patientCareLink"})
     @Test
-    public void openPatientCareTest() {
+    public void openPatientCareTest(String patientCareLink) {
         MainPage mainPage = new MainPage();
         mainPage.clickPatientCareLink();
         Assert.assertEquals(mainPage.getCurrentURL(), patientCareLink, "Links don't coincide");
     }
 
+    @Parameters({"YSMuRL"})
     @Test
-    public void redirectSiteIconTest() {
+    public void redirectSiteIconTest(String YSMuRL) {
         MainPage mainPage = new MainPage();
         mainPage.clickSiteIcon();
         Assert.assertEquals(mainPage.getCurrentURL(), YSMuRL, "Logo leads to incorrect URL");
     }
 
+    @Parameters({"mapsURL", "supportUsURL", "calendarLink"})
     @Test
-    public void checkFooterLinksTest() {
+    public void checkFooterLinksTest(String mapsURL, String supportUsURL, String calendarLink, String contactUsLink) {
         MainPage mainPage = new MainPage();
         SoftAssert anAssert = new SoftAssert();
         mainPage.clickMapsFooterLink();
@@ -45,7 +41,7 @@ public class MainPageTests extends BaseTest {
                 "Maps' URL is not correct");
         mainPage.clickLogo()
                 .clickSupportUsLink();
-         anAssert.assertEquals(mainPage.getCurrentURL(), supportUsURL,
+        anAssert.assertEquals(mainPage.getCurrentURL(), supportUsURL,
                 "Support Us URL is not correct");
         mainPage.clickLogo()
                 .clickCalendarLink();
@@ -93,8 +89,9 @@ public class MainPageTests extends BaseTest {
                 "Search event title doesn't coincide with title on the details page");
     }
 
+    @Parameters({"twitterLink"})
     @Test
-    public void openTwitterTest() {
+    public void openTwitterTest(String twitterLink) {
         MainPage mainPage = new MainPage();
         mainPage.goToTwitter();
         Assert.assertEquals(mainPage.getCurrentURL(), twitterLink,

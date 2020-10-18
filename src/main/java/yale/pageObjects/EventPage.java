@@ -26,7 +26,7 @@ public class EventPage extends BasePage {
         return baseElement.isElementDisplayed(EVENT_DATE);
     }
 
-    public boolean isEventTimeIsDisplayed() {
+    public boolean eventTimeIsDisplayed() {
         Log.logInfo("Check that Event Time is displayed ");
         return baseElement.isElementDisplayed(EVENT_TIME);
     }
@@ -61,7 +61,7 @@ public class EventPage extends BasePage {
     public String getEventTitle() {
         Log.logInfo("Get Event Title");
         BaseElement.waitForElementToBeClickable(SHARE_VIA_TWITTER_LINK);
-       return baseElement.getText(EVENT_TITLE);
+        return baseElement.getText(EVENT_TITLE);
     }
 
     public String getEventModalTitle() {

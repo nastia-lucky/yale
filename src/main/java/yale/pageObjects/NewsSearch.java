@@ -1,6 +1,5 @@
 package yale.pageObjects;
 
-import com.sun.xml.internal.rngom.parse.host.Base;
 import framework.BaseElement;
 import framework.logger.Log;
 import org.openqa.selenium.By;
@@ -18,10 +17,9 @@ public class NewsSearch extends SearchPage {
 
     public SearchPage addSourceNewsFilter() {
         Log.logInfo("Add Active News Source");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(ACTIVE_SOURCE);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
     }
-
 }

@@ -4,6 +4,7 @@ import framework.BaseTest;
 import framework.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.EventPage;
@@ -14,9 +15,7 @@ import yale.services.OpenSearchPage;
 @Listeners({TestListener.class})
 public class SearchForEventTest extends BaseTest {
 
-    String keyword = "Cancer";
-
-    @Test
+    @Test(dependsOnMethods = {"checkEventFilter"})
     public void openEventDetailsPageFromSearch() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -27,7 +26,7 @@ public class SearchForEventTest extends BaseTest {
                 "Title of Event From Search result and on the details page don't coincide");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkEventFilter"})
     public void checkEventFields() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -36,7 +35,7 @@ public class SearchForEventTest extends BaseTest {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(eventPage.isEventDateIsDisplayed(),
                 "The Date is not displayed on the event details page");
-        softAssert.assertTrue(eventPage.isEventTimeIsDisplayed(),
+        softAssert.assertTrue(eventPage.eventTimeIsDisplayed(),
                 "The time is not displayed on the event details page");
         softAssert.assertTrue(eventPage.isEventAdmissionIsDisplayed(),
                 "The admission is not displayed on the event details page");
@@ -47,7 +46,7 @@ public class SearchForEventTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkEventFilter"})
     public void checkAudienceFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -68,7 +67,7 @@ public class SearchForEventTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkEventFilter"})
     public void checkEventTypeFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -89,21 +88,22 @@ public class SearchForEventTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void checkKeywordFilter() {
+    @Parameters({"keyword2"})
+    @Test(dependsOnMethods = {"checkEventFilter"})
+    public void checkKeywordFilter(String keyword2) {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
         int numberEventsWithoutFilter = searchPage
                 .addEventFilter()
                 .getSearchResult();
-        int numberEventsWithKeywordFilter = searchPage.inputKeyword(keyword)
+        int numberEventsWithKeywordFilter = searchPage.inputKeyword(keyword2)
                 .chooseFirstSuggestion()
                 .getSearchResult();
         Assert.assertTrue(numberEventsWithoutFilter > numberEventsWithKeywordFilter,
                 "Search Results number haven't changed after applying Keyword Filter");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkEventFilter"})
     public void checkResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -116,7 +116,7 @@ public class SearchForEventTest extends BaseTest {
                 "The results numbers in brackets and on the search results page don't coincide for Event Audience Filter");
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkEventFilter"})
     public void checkSearchResultEventInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -132,6 +132,16 @@ public class SearchForEventTest extends BaseTest {
         softAssert.assertTrue(searchPage.isAllElementsHaveEventDate(),
                 "Not each Search Event Result has Date");
         softAssert.assertAll();
+    }
+
+    @Test
+    public void checkEventFilter() {
+        OpenSearchPage.openSearch();
+        SearchPage searchPage = new SearchPage();
+        int resultsNumberWithoutEventFilter = searchPage.getSearchResult();
+        int resultsNumberWithEventFilter = searchPage.addEventFilter().getSearchResult();
+        Assert.assertTrue(resultsNumberWithoutEventFilter > resultsNumberWithEventFilter, "" +
+                "Results Bumber doesn't change after applying Event Filter ");
     }
 }
 

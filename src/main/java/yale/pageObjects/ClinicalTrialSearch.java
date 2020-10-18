@@ -1,7 +1,7 @@
 package yale.pageObjects;
 
-import framework.logger.Log;
 import framework.BaseElement;
+import framework.logger.Log;
 import org.openqa.selenium.By;
 
 public class ClinicalTrialSearch extends SearchPage {
@@ -21,8 +21,8 @@ public class ClinicalTrialSearch extends SearchPage {
 
     public String addActiveGender() {
         Log.logInfo("Add Active Gender");
-        String firstText= SearchPage.getSearchResultText();
-        String titleText=baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_GENDER);
+        String firstText = SearchPage.getSearchResultText();
+        String titleText = baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_GENDER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return titleText;
     }
@@ -35,7 +35,7 @@ public class ClinicalTrialSearch extends SearchPage {
 
     public ClinicalTrialSearch addActiveHealthyItem() {
         Log.logInfo("Add active healthy item");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(ACTIVE_HEALTHY_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
@@ -50,7 +50,7 @@ public class ClinicalTrialSearch extends SearchPage {
     public String addActiveCategory() {
         Log.logInfo("Add Active Category");
         String firstText = SearchPage.getSearchResultText();
-        String firstTitleText= baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_CATEGORY);
+        String firstTitleText = baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_CATEGORY);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return firstTitleText;
 
@@ -58,9 +58,9 @@ public class ClinicalTrialSearch extends SearchPage {
 
     public int getBracketsGenderResultNumber() {
         Log.logInfo("Get Clinical Trials number in brackets");
-        String firstText= SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         System.out.println(firstText);
-        int numberText=baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_GENDER);
+        int numberText = baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_GENDER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return numberText;
     }

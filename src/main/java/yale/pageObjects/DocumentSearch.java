@@ -16,6 +16,14 @@ public class DocumentSearch extends SearchPage {
         return this;
     }
 
+    public String addActiveDocumentFilterAndGetDocumentType() {
+        Log.logInfo("Add Active Document Filter And Get Document Type");
+        String firstText = SearchPage.getSearchResultText();
+        String filterType = baseElement.clickFirstElementAndGetFilterType(ACTIVE_DOCUMENT);
+        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
+        return filterType;
+    }
+
     public int getBracketsDocumentTypeResultNumber() {
         Log.logInfo("Get Documents Number in brackets");
         String firstText = SearchPage.getSearchResultText();

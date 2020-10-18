@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 
 public class ProfilePage extends BasePage {
 
-    private final By PROFILE_SIDEBAR_NAME = By.xpath("//span[@class='profile-details-sidebar__name']");
     private final By PROFILE_IMAGE = By.xpath("//img[@class='profile-details-thumbnail__image']");
     private final By PROFILE_NAME = By.xpath("//h1[@class='profile-details-header__name']");
     private static final By EDIT_PROFILE_LINK = By.xpath("//div[@class='profile-details-content__edit-profile-link-container']");
@@ -18,6 +17,7 @@ public class ProfilePage extends BasePage {
     private final By CONTACT_INFORMATION_SECTION = By.xpath("//section[@aria-label='Contact Information']");
     private final By RESEARCH_PUBLICATION_TAB = By.xpath("//h2[contains(text(), 'Research & Publications')]");
     private final By RESEARCH_INTERESTS = By.xpath("//section[@aria-label='Research Interests']");
+    private  final By DOWNLOAD_CV=By.xpath("//span[contains(text(), 'Download CV')]");
 
     public ProfilePage() {
         super(EDIT_PROFILE_LINK);
@@ -100,4 +100,15 @@ public class ProfilePage extends BasePage {
          return baseElement.isElementContainsText(PROFILE_NAME, text);
     }
 
+    public ProfilePage clickDownloadCVButton(){
+        Log.logInfo("Click Download CV button");
+        baseElement.clickElement(DOWNLOAD_CV);
+        BaseElement.waitForElementDisappear(DOWNLOAD_CV);
+        return this;
+    }
+
+    public boolean isURLContainsText(String URL, String text){
+        Log.logInfo("Check that URL "+ URL+"  contains text "+ text );
+        return URL.contains(text);
+    }
 }

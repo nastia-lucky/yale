@@ -1,9 +1,8 @@
 package yale.pageObjects;
 
-import com.sun.xml.internal.rngom.parse.host.Base;
 import framework.BaseElement;
-import org.openqa.selenium.By;
 import framework.logger.Log;
+import org.openqa.selenium.By;
 
 public class ProfileSearch extends SearchPage {
 
@@ -13,21 +12,21 @@ public class ProfileSearch extends SearchPage {
 
     public String addRoleFilter() {
         Log.logInfo("Add Role Filter");
-        String firstResultText= SearchPage.getSearchResultText();
-        String text =  baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_ROLE_FILTER);
+        String firstResultText = SearchPage.getSearchResultText();
+        String text = baseElement.clickFirstElementFromArrayAndGetTitleText(ACTIVE_ROLE_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstResultText);
-        return  text;
+        return text;
     }
 
     public ProfileSearch inputResearchArea(String researchArea) {
-        Log.logInfo("Input research area "+ researchArea );
+        Log.logInfo("Input research area " + researchArea);
         baseElement.typeTo(RESEARCH_AREA_INPUT, researchArea);
         return this;
     }
 
     public ProfileSearch chooseFirstSuggestion() {
         Log.logInfo("Choose Research Area Suggestion");
-        String firstText=SearchPage.getSearchResultText();
+        String firstText = SearchPage.getSearchResultText();
         baseElement.clickFirstElementFromArray(RESEARCH_AREA_SUGGESTION);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
         return this;
@@ -36,9 +35,9 @@ public class ProfileSearch extends SearchPage {
     public int getBracketsRoleResultNumber() {
         Log.logInfo("Get Role People type numbers in brackets");
         BaseElement.waitForTheFirstElementFromArrayIsClickable(ACTIVE_ROLE_FILTER);
-        String firstText= SearchPage.getSearchResultText();
-        int numberText= baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_ROLE_FILTER);
+        String firstText = SearchPage.getSearchResultText();
+        int numberText = baseElement.clickFirstElementFromArrayAndGetNumberText(ACTIVE_ROLE_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
-        return  numberText;
+        return numberText;
     }
 }

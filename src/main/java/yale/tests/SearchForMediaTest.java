@@ -32,7 +32,7 @@ public class SearchForMediaTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkMediaFilter"})
     public void checkAudioModal() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -50,7 +50,7 @@ public class SearchForMediaTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkMediaFilter"})
     public void checkSearchResultMediaInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -70,7 +70,7 @@ public class SearchForMediaTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = {"checkMediaFilter"})
     public void checkMediaResultsNumberInBrackets() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();

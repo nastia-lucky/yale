@@ -30,7 +30,7 @@ public class Browser {
         }
         switch (config.getProperty("browser")) {
             case "chrome": {
-                String pathChrome = path + "/chromedriver 3";
+                String pathChrome = path + "/chromedriver";
                 System.setProperty(
                         "webdriver.chrome.driver", pathChrome);
                 driver = new ChromeDriver();
@@ -87,7 +87,7 @@ public class Browser {
         driver.switchTo().window(tabs.get(tabs.size() - 1));
     }
 
-    public String getCurrentUrl() {
+    public static String getCurrentUrl() {
         return Browser.getDriver().getCurrentUrl();
     }
 

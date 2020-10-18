@@ -4,6 +4,7 @@ import framework.BaseTest;
 import framework.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import yale.pageObjects.MainPage;
@@ -13,9 +14,6 @@ import yale.pageObjects.SearchPage;
 
 @Listeners({TestListener.class})
 public class SearchOverlayTest extends BaseTest {
-
-    private String searchValue1 = "Peggy";
-    private String researchArea = "Epidemiology";
 
     @Test
     public void openSearchOverlay() {
@@ -33,9 +31,9 @@ public class SearchOverlayTest extends BaseTest {
                 "Search Tab is not displayed");
         softAssert.assertAll();
     }
-
-    @Test
-    public void checkClearButton() {
+    @Parameters({"searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void checkClearButton(String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch().inputSearchPanelValue(searchValue1);
@@ -47,9 +45,9 @@ public class SearchOverlayTest extends BaseTest {
                 "Results doesn't disappeared");
         softAssert.assertAll();
     }
-
-    @Test
-    public void checkSuggestions() {
+    @Parameters({"searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void checkSuggestions(String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
@@ -58,9 +56,9 @@ public class SearchOverlayTest extends BaseTest {
         Assert.assertTrue(searchOverlay.isSearchResultContainsSearchValue(searchValue1),
                 "Search Results don't contain inputted search value");
     }
-
-    @Test
-    public void checkOpenSearchPageFromSearchOverlay() {
+    @Parameters({"searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void checkOpenSearchPageFromSearchOverlay(String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
@@ -69,9 +67,9 @@ public class SearchOverlayTest extends BaseTest {
         Assert.assertEquals(searchPage.getExistingSearchValue(), searchValue1,
                 "Search value on the search page doesn't coincide with the search value on the search overlay");
     }
-
-    @Test
-    public void openPageFromSuggestion() {
+    @Parameters({"searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void openPageFromSuggestion(String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
@@ -81,9 +79,9 @@ public class SearchOverlayTest extends BaseTest {
         Assert.assertTrue(profilePage.isTitleContainsSearchValue(searchValue1),
                 "Page title doesn't contain Search value");
     }
-
-    @Test
-    public void checkFindPeople() {
+    @Parameters({"searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void checkFindPeople(String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
@@ -92,9 +90,9 @@ public class SearchOverlayTest extends BaseTest {
         Assert.assertTrue(searchOverlay.isSearchResultContainsSearchValue(searchValue1),
                 "Search Results don't contain inputted search value");
     }
-
-    @Test
-    public void checkSearchCountByResearchArea() {
+    @Parameters({"researchArea", "searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void checkSearchCountByResearchArea(String researchArea, String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()
@@ -107,9 +105,9 @@ public class SearchOverlayTest extends BaseTest {
         Assert.assertTrue(searchCountByPeopleName > searchCountByResearchAreaAndPeopleName,
                 "Search Results number haven't changed after applying Research Area Filter");
     }
-
-    @Test
-    public void checkSearchCountByUserRole() {
+    @Parameters({"searchValue1"})
+    @Test (dependsOnMethods = { "openSearchOverlay" })
+    public void checkSearchCountByUserRole(String searchValue1) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchOverlay searchOverlay = mainPage.clickPerformSearch()

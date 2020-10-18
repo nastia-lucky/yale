@@ -1,12 +1,8 @@
 package yale.pageObjects;
 
 import framework.BaseElement;
-import framework.Browser;
 import framework.logger.Log;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 public class SearchOverlay extends SearchPage {
 
@@ -28,6 +24,7 @@ public class SearchOverlay extends SearchPage {
     private final By RESEARCH_AREA_OPTION = By.xpath("//ul[@class='research-area-input__suggestions-container']//li[@role='option']");
     private final By ROLE_DROP_DOWN = By.xpath("//div[@class='find-people-tab__roles-dropdown']");
     private final By ROLE_OPTION = By.xpath("//ul[@role='listbox']//li[@role='option']");
+
 
     public SearchPage clickSearchButton() {
         Log.logInfo("Click Search button");

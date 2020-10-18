@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -72,6 +73,26 @@ public class BaseElement {
         WebElement element = elementsList.get(0);
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
+    }
+
+    public String clickFirstElementAndGetFilterType(By by) {
+        Log.logClick(by);
+        List<WebElement> elementsList = getElements(by);
+        String type;
+        WebElement element = elementsList.get(0);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        String text = element.getText();
+        System.out.println(text);
+        element.click();
+        if (!text.contains("/")) {
+            return text;
+        }
+        {
+            type = text.substring(0, text.lastIndexOf("/"));
+            System.out.println(type);
+            return type;
+        }
     }
 
     public String getAttribute(By by, String name) {
@@ -434,5 +455,35 @@ public class BaseElement {
         return wait.until(jQueryLoad) && wait.until(jsLoad);
     }
 
+    public boolean isFileDownloaded(String downloadPath, String file, String text) {
+        File dir = new File(downloadPath);
+        File[] dirContents = dir.listFiles();
+        String fileName = file + "." + text;
+        for (int i = 0; i < dirContents.length; i++) {
+            String downloadedFile = dirContents[i].getName();
+            String fileWithoutChar = downloadedFile.replaceAll("_", " ");
+            if (fileWithoutChar.equals(fileName)) {
+                dirContents[i].delete();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String clickAndGetTextFirstElement(By by) {
+        List<WebElement> elements = getElements(by);
+        WebElement element = elements.get(0);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        String text = element.getText();
+        JavascriptExecutor executor = (JavascriptExecutor) Browser.getDriver();
+        executor.executeScript("arguments[0].click();", element);
+        return text;
+    }
+
+    public static void waitForElementDisappear(By by) {
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
 
 }
