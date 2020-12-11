@@ -1,13 +1,6 @@
 <suite name="Smoke test">
     <test name="Smoke test">
-        <parameter name="researchArea" value="Epidemiology"/>
-        <parameter name="searchValue" value="Peggy Myung"/>
         <parameter name="CVDownload" value="http://acceptance.admin.profile.yale.edu/Profiles/Cv/user/"/>
-        <parameter name="searchValue1" value="Peggy"/>
-        <parameter name="keyword" value="Epidemiology and Public Health"/>
-        <parameter name="value" value="aria-label"/>
-        <parameter name="keyword2" value="Cancer"/>
-        <parameter name="downloadPath" value="/Users/anastasiyashafalovich/Downloads/"/>
         <parameter name="volunteerNowLink" value="https://acceptance.medicine.yale.edu/ycci/clinicaltrials/find/mychart/"/>
         <parameter name="patientCareLink" value="https://www.yalemedicine.org/"/>
         <parameter name="YSMuRL" value="https://acceptance.medicine.yale.edu/ysm/"/>
@@ -16,17 +9,26 @@
         <parameter name="calendarLink" value="https://acceptance.medicine.yale.edu/calendar/"/>
         <parameter name="contactUsLink" value="https://acceptance.medicine.yale.edu/contact/"/>
         <parameter name="twitterLink" value="https://twitter.com/YaleMed"/>
+        <parameter name="researchArea" value="Epidemiology"/>
+        <parameter name="searchValue" value="Peggy Myung"/>
+        <parameter name="searchValue1" value="Peggy"/>
+        <parameter name="keyword" value="Epidemiology and Public Health"/>
+        <parameter name="value" value="aria-label"/>
+        <parameter name="keyword2" value="Cancer"/>
+        <parameter name="profileName" value="Peggy"/>
+        <parameter name="downloadPath" value="/Users/anastasiyashafalovich/Downloads/"/>
         <classes>
-            <class name="yale.tests.MainPageTests"></class>
-            <class name="yale.tests.OpenMainPageTest"></class>
-            <class name="yale.tests.SearchForClinicalTrialTest"></class>
-            <class name="yale.tests.SearchForDocumentTest"></class>
-            <class name="yale.tests.SearchForEventTest"></class>
-            <class name="yale.tests.SearchForNewsTest"></class>
-            <class name="yale.tests.SearchForWebPageTest"></class>
-            <class name="yale.tests.SearchOverlayTest"></class>
-            <class name="yale.tests.SearchPeopleTest"></class>
-            <class name="yale.tests.SearchForMediaTest"></class>
+            <class name="tests.MainPageTests"></class>
+            <class name="tests.GeneralSearchTests"></class>
+            <class name="tests.OpenMainPageTest"></class>
+            <class name="tests.SearchForClinicalTrialTest"></class>
+            <class name="tests.SearchForDocumentTest"></class>
+            <class name="tests.SearchForEventTest"></class>
+            <class name="tests.SearchForNewsTest"></class>
+            <class name="tests.SearchForWebPageTest"></class>
+            <class name="tests.SearchOverlayTest"></class>
+            <class name="tests.SearchPeopleTest"></class>
+            <class name="tests.SearchForMediaTest"></class>
         </classes>
     </test>
 </suite>

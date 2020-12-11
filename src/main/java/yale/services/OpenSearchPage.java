@@ -9,6 +9,5 @@ public class OpenSearchPage {
         mainPage.openMainPage();
         mainPage.clickPerformSearch()
                 .clickSearchButton();
-
     }
 }

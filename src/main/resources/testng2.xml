@@ -7,7 +7,7 @@
         <parameter name="keyword" value="Epidemiology and Public Health"/>
         <parameter name="value" value="aria-label"/>
         <parameter name="keyword2" value="Cancer"/>
-        <parameter name="downloadPath" value="/Users/anastasiyashafalovich/Downloads/"/>
+        <parameter name="eventTitle" value="single bonaire"/>
         <parameter name="volunteerNowLink"
                    value="https://acceptance.medicine.yale.edu/ycci/clinicaltrials/find/mychart/"/>
         <parameter name="patientCareLink" value="https://www.yalemedicine.org/"/>
@@ -17,12 +17,9 @@
         <parameter name="calendarLink" value="https://acceptance.medicine.yale.edu/calendar/"/>
         <parameter name="contactUsLink" value="https://acceptance.medicine.yale.edu/contact/"/>
         <parameter name="twitterLink" value="https://twitter.com/YaleMed"/>
+        <parameter name="profileName" value="Peggy Myung"/>
         <classes>
-            <class name="yale.tests.SearchForClinicalTrialTest">
-                <methods>
-                    <include name="checkClinicalTrialPageTest"/>
-                    <include name="checkClinicalTrialFilter"/>
-                </methods>
+            <class name="tests.SearchForDocumentTest">
             </class>
         </classes>
     </test>
