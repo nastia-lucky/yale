@@ -1,0 +1,26 @@
+2020-12-24 15:42:07 DEBUG My Logger:28 - Open page by URL : [https://acceptance.medicine.yale.edu/]
+2020-12-24 15:42:13 INFO  My Logger:14 - searchForDocument started
+2020-12-24 15:42:13 DEBUG My Logger:238 - Get Element [By.xpath: //div[@class='header-top-panel__title-wrapper']]
+2020-12-24 15:42:13 DEBUG My Logger:238 - Get Element [By.xpath: //div[@class='header-top-panel__title-wrapper']]
+2020-12-24 15:42:13 INFO  My Logger:14 - Open Main Page
+2020-12-24 15:42:13 INFO  My Logger:14 - Click Perform Search button
+2020-12-24 15:42:13 DEBUG My Logger:21 - Click element located: [By.xpath: //button[@aria-label='Perform search']]
+2020-12-24 15:42:13 DEBUG My Logger:63 - Wait for the element [By.xpath: //button[@aria-label='Perform search']] is clickable
+2020-12-24 15:42:13 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:13 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:13 INFO  My Logger:14 - Click Search button
+2020-12-24 15:42:13 DEBUG My Logger:21 - Click element located: [By.xpath: //button[@aria-label='Go to Search Page']]
+2020-12-24 15:42:13 DEBUG My Logger:63 - Wait for the element [By.xpath: //button[@aria-label='Go to Search Page']] is clickable
+2020-12-24 15:42:14 DEBUG My Logger:63 - Wait for the element [By.xpath: //div[@aria-label='Add People filter']] is clickable
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //input[@aria-label='Search input']]
+2020-12-24 15:42:17 INFO  My Logger:14 - Add Document filter
+2020-12-24 15:42:17 DEBUG My Logger:49 - The text has been got by locator [By.xpath: //span[@class='global-search-active-filter-message__text']]
+2020-12-24 15:42:17 DEBUG My Logger:238 - Get Element [By.xpath: //span[@class='global-search-active-filter-message__text']]
+2020-12-24 15:42:17 DEBUG My Logger:21 - Click element located: [By.xpath: //div[@id='accordion__heading-Document']]
+2020-12-24 15:42:17 DEBUG My Logger:63 - Wait for the element [By.xpath: //div[@id='accordion__heading-Document']] is clickable
+2020-12-24 15:42:17 DEBUG My Logger:252 - Wait for invisibility of text [Showing 93878 results] inside of element  [By.xpath: //span[@class='global-search-active-filter-message__text']]
