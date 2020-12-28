@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -26,18 +27,13 @@ public class Browser {
     private static WebDriver driver;
     protected static Browser browser;
     Config config = new Config();
-    File file = new File("src/main/resources/yale/");
+
     @Getter
     private final Path downloadPath;
 
     protected Browser() {
 
-        String path;
-        try {
-            path = file.getCanonicalPath();
-        } catch (IOException e) {
-            throw new RuntimeException("Can't get path", e);
-        }
+        String driverPath = this.getClass().getClassLoader().getResource("yale").getPath();
         try {
             downloadPath = Files.createTempDirectory("cd_downloads");
         } catch (IOException e) {
@@ -45,7 +41,7 @@ public class Browser {
         }
         switch (config.getProperty("browser")) {
             case "chrome": {
-                String pathChrome = path + "/chromedriver 4";
+                String pathChrome = driverPath + "/chromedriver 4";
                 System.setProperty("webdriver.chrome.driver", pathChrome);
 
                 String downloadFilepath = getDownloadPath().toString();
@@ -62,14 +58,14 @@ public class Browser {
                 break;
             }
             case "firefox": {
-                String pathFirefox = path + "/geckodriver";
+                String pathFirefox = driverPath + "/geckodriver";
                 System.setProperty(
                         "webdriver.gecko.driver", pathFirefox);
                 driver = new FirefoxDriver();
                 break;
             }
             case "ie": {
-                String pathIE = path + "/IEDriverServer.exe";
+                String pathIE = driverPath + "/IEDriverServer.exe";
                 System.setProperty(
                         "webdriver.ie.driver", pathIE);
                 driver = new InternetExplorerDriver();
