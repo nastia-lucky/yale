@@ -2,83 +2,94 @@ package yale.pageObjects;
 
 import framework.BaseElement;
 import framework.logger.Log;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class ClinicalTrialPage extends BasePage {
 
-
-    private final By CLINICAL_TRIAL_TITLE = By.xpath("//h1[@class='clinical-trial-details__title']");
-    private final By CLINICAL_TRIAL_INVESTIGATORS = By.xpath("//section[@aria-label='Clinical trial investigators']");
-    private final By VOLUNTEER_SUMMARY = By.xpath("//div[@class='clinical-trial-volunteer-tab__summary']");
-    private final By HEALTH_PROFESSIONALS_TAB = By.xpath("//h2[contains(text(), 'Health Professionals')]");
-    private static final By VOLUNTEER_NOW_BUTTON = By.xpath("//section[@class='clinical-trial-volunteer-contact-block']//a[@class='button button--large button--secondary button--link button-with-icon']");
-    private final By SIDEBAR_CONTACT_INFORMATION = By.xpath("//section[@aria-label='Contact Information']");
-    private final By DEMOGRAPHIC = By.xpath("//div[@class='clinical-trial-demographic-settings__item-value']");
-    private final By CONDITIONS = By.xpath("//section[@aria-label='Conditions']");
-    private final By CLINICAL_TRIAL_PURPOSE_TITLE = By.xpath("//h3[contains(text(), 'Trial Purpose and Description')]");
-    private final By CLINICAL_TRIAL_DESCRIPTION = By.xpath("//div[@class='clinical-trial-health-pro-tab__summary']");
+    private final By TTL_CLINICAL_TRIAL = By.xpath("//h1[@class='clinical-trial-details__title']");
+    private final By SCT_CLINICAL_TRIAL_INVESTIGATORS = By.xpath("//section[@aria-label='Clinical trial investigators']");
+    private final By SCT_VOLUNTEER_SUMMARY = By.xpath("//div[@class='clinical-trial-volunteer-tab__summary']");
+    private final By TAB_HEALTH_PROFESSIONALS = By.xpath("//h2[contains(text(), 'Health Professionals')]");
+    private static final By BTN_VOLUNTEER_NOW = By.xpath("//section[@class='clinical-trial-volunteer-contact-block']//a[@class='button button--large button--secondary button--link button-with-icon']");
+    private final By SCT_SIDEBAR_CONTACT_INFORMATION = By.xpath("//section[@aria-label='Contact Information']");
+    private final By ITM_DEMOGRAPHIC = By.xpath("//div[@class='clinical-trial-demographic-settings__item-value']");
+    private final By SCT_CONDITIONS = By.xpath("//section[@aria-label='Conditions']");
+    private final By TTL_CLINICAL_TRIAL_PURPOSE = By.xpath("//h3[contains(text(), 'Trial Purpose and Description')]");
+    private final By SCT_CLINICAL_TRIAL_DESCRIPTION = By.xpath("//div[@class='clinical-trial-health-pro-tab__summary']");
 
     public ClinicalTrialPage() {
-        super(VOLUNTEER_NOW_BUTTON);
+        super(BTN_VOLUNTEER_NOW);
     }
 
+    @Step("Verify that Clinical Trial Title is displayed")
     public boolean isClinicalTrialTitleDisplayed() {
         Log.logInfo("Check that Clinical Trial Title is displayed");
-        return baseElement.isElementDisplayed(CLINICAL_TRIAL_TITLE);
+        return baseElement.isElementDisplayed(TTL_CLINICAL_TRIAL);
     }
 
+    @Step("Verify that Clinical Trial Investigators Section is displayed")
     public boolean isClinicalTrialsInvestigatorsDisplayed() {
         Log.logInfo("Check that Clinical Trial Investigators Section is displayed");
-        return baseElement.isElementDisplayed(CLINICAL_TRIAL_INVESTIGATORS);
+        return baseElement.isElementDisplayed(SCT_CLINICAL_TRIAL_INVESTIGATORS);
     }
 
+    @Step("Verify that Clinical Trial Volunteer Summary is displayed")
     public boolean isVolunteerSummaryDisplayed() {
         Log.logInfo("Check that Clinical Trial Volunteer Summary is displayed");
-        return baseElement.isElementDisplayed(VOLUNTEER_SUMMARY);
+        return baseElement.isElementDisplayed(SCT_VOLUNTEER_SUMMARY);
     }
 
+    @Step("Click Volunteer Now button")
     public void clickVolunteerNowButton() {
         Log.logInfo("Click Volunteer Now button");
-        baseElement.clickElement(VOLUNTEER_NOW_BUTTON);
+        baseElement.clickElement(BTN_VOLUNTEER_NOW);
     }
 
+    @Step("Verify that Clinical Trial Contact Information is displayed")
     public boolean isContactInformationDisplayed() {
         Log.logInfo("Check that Clinical Trial Contact Information is displayed");
-        return baseElement.isElementDisplayed(SIDEBAR_CONTACT_INFORMATION);
+        return baseElement.isElementDisplayed(SCT_SIDEBAR_CONTACT_INFORMATION);
     }
 
+    @Step("Verify that Clinical Trial Gender coincides with chosen gender")
     public boolean isGenderCoincideWithChosenGender(String text) {
         Log.logInfo("Check that Clinical Trial Gender coincides with chosen gender " + text);
-        BaseElement.waitForElementToBeClickable(VOLUNTEER_NOW_BUTTON);
-        return baseElement.isTheSecondElementContainsOneOfTheTexts(DEMOGRAPHIC, text, "Both");
+        BaseElement.waitForElementToBeClickable(BTN_VOLUNTEER_NOW);
+        return baseElement.isTheSecondElementContainsOneOfTheTexts(ITM_DEMOGRAPHIC, text, "Both");
     }
 
+    @Step("Verify that Clinical Trial Conditions contain chosen category")
     public boolean isConditionsContainsChosenCategory(String chosenCategory) {
-        Log.logInfo("Check that Clinical Trial Conditions contain chosen category " + chosenCategory);
-        BaseElement.waitForElementToBeClickable(VOLUNTEER_NOW_BUTTON);
-        return baseElement.isElementContainsText(CONDITIONS, chosenCategory);
+        Log.logInfo("Check that Clinical Trial Conditions contain chosen category" + chosenCategory);
+        BaseElement.waitForElementToBeClickable(BTN_VOLUNTEER_NOW);
+        return baseElement.isElementContainsText(SCT_CONDITIONS, chosenCategory);
     }
 
+    @Step("Get Clinical Trial Page Title")
     public String getTrialPageTitle() {
         Log.logInfo("Get Clinical Trial Page Title");
-        BaseElement.waitForElementToBeClickable(HEALTH_PROFESSIONALS_TAB);
-        return baseElement.getText(CLINICAL_TRIAL_TITLE);
+        BaseElement.waitForElementToBeClickable(TAB_HEALTH_PROFESSIONALS);
+        return baseElement.getText(TTL_CLINICAL_TRIAL);
 
     }
 
+    @Step("Open Health Professional Tab")
     public ClinicalTrialPage openHealthProfessionalTab() {
         Log.logInfo("Open Health Professional Tab");
-        baseElement.clickWithJS(HEALTH_PROFESSIONALS_TAB);
+        baseElement.clickWithJS(TAB_HEALTH_PROFESSIONALS);
         return this;
     }
 
+    @Step("Verify that Trial Purpose Title is Displayed")
     public boolean isTrialPurposeTitleIsDisplayed() {
         Log.logInfo("Check that Trial Purpose Title is Displayed");
-        return baseElement.checkTheElementContainText(CLINICAL_TRIAL_PURPOSE_TITLE);
+        return baseElement.checkTheElementContainText(TTL_CLINICAL_TRIAL_PURPOSE);
     }
 
+    @Step("Verify that Trial Description is Displayed")
     public boolean isTrialDescriptionDisplayed() {
         Log.logInfo("Check that Trial Description is Displayed");
-        return baseElement.checkThatEachElementInArrayContainText(CLINICAL_TRIAL_DESCRIPTION);
+        return baseElement.checkThatEachElementInArrayContainText(SCT_CLINICAL_TRIAL_DESCRIPTION);
     }
 }

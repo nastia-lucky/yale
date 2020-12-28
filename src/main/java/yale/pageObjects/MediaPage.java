@@ -1,6 +1,7 @@
 package yale.pageObjects;
 
 import framework.logger.Log;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class MediaPage extends BasePage {
@@ -15,28 +16,33 @@ public class MediaPage extends BasePage {
         super(PLAY_BUTTON);
     }
 
+    @Step("Click Play Button")
     public MediaPage clickPlayButton() {
         Log.logInfo("Click Play Button");
         baseElement.clickElement(PLAY_BUTTON);
         return this;
     }
 
+    @Step("Verify Pause button is displayed")
     public boolean isPauseButtonIsDisplayed() {
         Log.logInfo("Check Pause button is displayed");
         return baseElement.isElementDisplayed(PAUSE_BUTTON);
     }
 
+    @Step("Click Transcript Button")
     public MediaPage clickTranscriptButton() {
         Log.logInfo("Click Transcript Button");
         baseElement.clickElement(TRANSCRIPT_BUTTON);
         return this;
     }
 
+    @Step("Verify that Media Title is displayed")
     public boolean idMediaTitleDisplayed() {
         Log.logInfo("Check that Media Title is displayed");
         return baseElement.isElementDisplayed(MEDIA_DETAILS_PAGE_TITLE);
     }
 
+    @Step("Verify that Information Tab is displayed")
     public boolean isInformationTabDisplayed() {
         Log.logInfo("Check that Information Tab is displayed");
         return baseElement.isElementDisplayed(INFORMATION_TAB);

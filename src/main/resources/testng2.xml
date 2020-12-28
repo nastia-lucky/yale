@@ -1,0 +1,26 @@
+<suite name="Smoke test">
+    <test name="Smoke test">
+        <parameter name="researchArea" value="Epidemiology"/>
+        <parameter name="searchValue" value="Peggy Myung"/>
+        <parameter name="CVDownload" value="http://acceptance.admin.profile.yale.edu/Profiles/Cv/user/"/>
+        <parameter name="searchValue1" value="Peggy"/>
+        <parameter name="keyword" value="Epidemiology and Public Health"/>
+        <parameter name="value" value="aria-label"/>
+        <parameter name="keyword2" value="Cancer"/>
+        <parameter name="eventTitle" value="single bonaire"/>
+        <parameter name="volunteerNowLink"
+                   value="https://acceptance.medicine.yale.edu/ycci/clinicaltrials/find/mychart/"/>
+        <parameter name="patientCareLink" value="https://www.yalemedicine.org/"/>
+        <parameter name="YSMuRL" value="https://acceptance.medicine.yale.edu/ysm/"/>
+        <parameter name="mapsURL" value="https://acceptance.medicine.yale.edu/maps/"/>
+        <parameter name="supportUsURL" value="https://acceptance.medicine.yale.edu/about/giving/"/>
+        <parameter name="calendarLink" value="https://acceptance.medicine.yale.edu/calendar/"/>
+        <parameter name="contactUsLink" value="https://acceptance.medicine.yale.edu/contact/"/>
+        <parameter name="twitterLink" value="https://twitter.com/YaleMed"/>
+        <parameter name="profileName" value="Peggy Myung"/>
+        <classes>
+            <class name="tests.SearchForDocumentTest">
+            </class>
+        </classes>
+    </test>
+</suite>
