@@ -59,14 +59,10 @@ public class ProfilePage extends BasePage {
         super(BIOGRAPHY_TAB);
     }
 
-    public String getName() {
-        return baseElement.getTitle();
-    }
-
     @Step("Get Profile Name")
     public String getPeopleName() {
         Log.logInfo("Get Profile Name");
-        BaseElement.waitForElementToBeClickable(BIOGRAPHY_TAB);
+        BaseElement.waitElementToBeClickable(BIOGRAPHY_TAB);
         return BaseElement.getText(PROFILE_NAME);
     }
 
@@ -95,9 +91,9 @@ public class ProfilePage extends BasePage {
     }
 
     @Step("Verify that there are tabs")
-    public boolean isTabNotExist() {
-        Log.logInfo("Check that there are tabs");
-        return baseElement.isArrayEmpty(TAB);
+    public boolean isTabExist() {
+        Log.logInfo("Check there are tabs");
+        return baseElement.isArrayNotEmpty(TAB);
     }
 
     @Step("Click Download Photo Button")
@@ -132,7 +128,7 @@ public class ProfilePage extends BasePage {
     @Step("Open Research and Publications Tab")
     public ResearchTab openResearchAndPublicationTab() {
         Log.logInfo("Open Research and Publications Tab");
-        BaseElement.waitForElementToBeClickable(EDIT_PROFILE_LINK);
+        BaseElement.waitElementToBeClickable(EDIT_PROFILE_LINK);
         baseElement.clickWithJS(RESEARCH_PUBLICATION_TAB);
         return new ResearchTab();
     }
@@ -146,7 +142,7 @@ public class ProfilePage extends BasePage {
     @Step("Verify that title contains inputted text")
     public boolean isTitleContainsSearchValue(String text) {
         Log.logInfo("Check that title contains text");
-        BaseElement.waitForElementToBeClickable(BIOGRAPHY_TAB);
+        BaseElement.waitElementToBeClickable(BIOGRAPHY_TAB);
         return baseElement.isElementContainsText(PROFILE_NAME, text);
     }
 
@@ -251,13 +247,13 @@ public class ProfilePage extends BasePage {
     @Step("Verify each Education item has degree")
     public boolean isEducationItemsHaveDegree() {
         Log.logInfo("Check each Education item has degree");
-        return baseElement.checkElementInsideOtherContainText(EDUCATION_ITEM, DEGREE_ITEM);
+        return baseElement.isElementInsideOtherContainText(EDUCATION_ITEM, DEGREE_ITEM);
     }
 
     @Step("Verify each Education item has institution")
     public boolean isEducationItemsHaveInstitution() {
         Log.logInfo("Check each Education item has institution");
-        return baseElement.checkElementInsideOtherContainText(EDUCATION_ITEM, INSTITUTION_ITEM);
+        return baseElement.isElementInsideOtherContainText(EDUCATION_ITEM, INSTITUTION_ITEM);
     }
 
     @Step("Verify Activities Section Title is Displayed")
@@ -269,19 +265,19 @@ public class ProfilePage extends BasePage {
     @Step("Verify each Activity item has title")
     public boolean isActivityItemsHaveTitle() {
         Log.logInfo("Check each Activity item has title");
-        return baseElement.checkElementInsideOtherContainText(ACTIVITY_ITEM, ACTIVITY_ITEM_TITLE);
+        return baseElement.isElementInsideOtherContainText(ACTIVITY_ITEM, ACTIVITY_ITEM_TITLE);
     }
 
     @Step("Verify each Activity item has place")
     public boolean isActivityItemsHavePlace() {
         Log.logInfo("Check each Activity item has place");
-        return baseElement.checkElementInsideOtherContainText(ACTIVITY_ITEM, ACTIVITY_ITEM_PLACE);
+        return baseElement.isElementInsideOtherContainText(ACTIVITY_ITEM, ACTIVITY_ITEM_PLACE);
     }
 
     @Step("Verify each Activity item has description")
     public boolean isActivityItemsHaveDescription() {
         Log.logInfo("Check each Activity item has description");
-        return baseElement.checkElementInsideOtherContainText(ACTIVITY_ITEM, ACTIVITY_ITEM_DESCRIPTION);
+        return baseElement.isElementInsideOtherContainText(ACTIVITY_ITEM, ACTIVITY_ITEM_DESCRIPTION);
     }
 
     @Step("Verify Honors & Recognition Section Title Displayed")
@@ -340,5 +336,4 @@ public class ProfilePage extends BasePage {
         baseElement.clickWithJS(NEWS_TAB);
         return new NewsTab();
     }
-
 }

@@ -20,100 +20,81 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class BaseElement implements WebElement {
+public class BaseElement {
 
     protected WebElement webElement;
-    private By locator;
-
-    public By getLocator() {
-        return locator;
-    }
+    Config config = new Config();
 
     public BaseElement(By by) {
-        //this.locator = by;
         this.webElement = getElement(by);
     }
 
-    public BaseElement init() {
-        if (webElement == null) {
-            this.webElement = getElement(locator);
-        }
-        return this;
-    }
-
-    private static final int LONG_WAIT = 100;
+    private static final int LONG_WAIT = 50;
 
     public void clickElement(By elementLocator) {
         Log.logClick(elementLocator);
-        waitForElementToBeClickable(elementLocator);
+        waitElementToBeClickable(elementLocator);
         Browser.getDriver().findElement(elementLocator).click();
 
     }
 
-    public static WebElement getElement(By by) {
-        Log.logGetElement(by);
+    public static WebElement getElement(By elementLocator) {
         try {
             return new WebDriverWait(Browser.getDriver(), LONG_WAIT)
-                    .until(driver -> driver.findElement(by));
+                    .until(driver -> driver.findElement(elementLocator));
         } catch (TimeoutException e) {
-            Log.logInfo("I can't find this element " + by);
+            Log.logInfo("I can't find this element " + elementLocator);
             throw e;
         }
     }
 
-    public static List<WebElement> getElements(By by) {
-        Log.logGetElements(by);
+    public static List<WebElement> getElements(By elementLocator) {
         return new WebDriverWait(Browser.getDriver(), LONG_WAIT)
-                .until(driver -> driver.findElements(by));
+                .until(driver -> driver.findElements(elementLocator));
     }
 
-    public void typeTo(By by, String inputtedValue) {
-        Log.logTypeTo(by, inputtedValue);
-        getElement(by).sendKeys(inputtedValue);
+    public void typeTo(By elementLocator, String inputtedValue) {
+        Log.logTypeTo(elementLocator, inputtedValue);
+        getElement(elementLocator).sendKeys(inputtedValue);
     }
 
-    public boolean isElementDisplayed(By by) {
-        Log.logTheElementIsDisplayed(by);
-        return getElement(by).isDisplayed();
+    public boolean isElementDisplayed(By elementLocator) {
+        Log.logTheElementIsDisplayed(elementLocator);
+        return getElement(elementLocator).isDisplayed();
     }
 
-    public String getTextFirstElementFromArray(By by) {
-        Log.logTheText(by);
-        List<WebElement> elements = getElements(by);
+    public String getTextFirstElementFromArray(By elementLocator) {
+        Log.logTheText(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         return elements.get(0).getText();
     }
 
-    public static void waitForElementToBeClickable(By by) {
-        Log.logWaitForElementToBeClickable(by);
+    public static void waitElementToBeClickable(By elementLocator) {
+        Log.logWaitForElementToBeClickable(elementLocator);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), LONG_WAIT);
-        wait.until(ExpectedConditions.elementToBeClickable(by));
+        wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
     }
 
-    public static void waitForElementToBeClickable2(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), LONG_WAIT);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-    }
-
-    public static void waitForTheFirstElementFromArrayIsClickable(By by) {
-        Log.logWaitForElementToBeClickable(by);
-        List<WebElement> elements = getElements(by);
+    public static void waitFirstElementFromArrayIsClickable(By elementLocator) {
+        Log.logWaitForElementToBeClickable(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         WebElement element = elements.get(0);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), LONG_WAIT);
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public void clickFirstElementFromArray(By by) {
-        Log.logClick(by);
-        List<WebElement> elementsList = getElements(by);
+    public void clickFirstElementFromArray(By elementLocator) {
+        Log.logClick(elementLocator);
+        List<WebElement> elementsList = getElements(elementLocator);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
         WebElement element = elementsList.get(0);
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
 
-    public String clickFirstElementAndGetFilterType(By by) {
-        Log.logClick(by);
-        List<WebElement> elementsList = getElements(by);
+    public String clickFirstElementAndGetFilterType(By elementLocator) {
+        Log.logClick(elementLocator);
+        List<WebElement> elementsList = getElements(elementLocator);
         String type;
         WebElement element = elementsList.get(0);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
@@ -129,41 +110,41 @@ public class BaseElement implements WebElement {
         }
     }
 
-    public String getAttribute(By by, String name) {
-        Log.logGetAttribute(by, name);
-        WebElement element = getElement(by);
-        return element.getAttribute(name);
+    public String getAttribute(By elementLocator, String tag) {
+        Log.logGetAttribute(elementLocator, tag);
+        WebElement element = getElement(elementLocator);
+        return element.getAttribute(tag);
     }
 
-    public void hoverOnElement(By by) {
+    public void hoverOnElement(By elementLocator) {
         Actions action = new Actions(Browser.getDriver());
-        List<WebElement> element = getElements(by);
+        List<WebElement> element = getElements(elementLocator);
         action.moveToElement(element.get(0)).build().perform();
     }
 
-    public boolean isElementsDisplayed(By by) {
-        return getElements(by).get(0).isDisplayed();
+    public boolean isElementsDisplayed(By elementLocator) {
+        return getElements(elementLocator).get(0).isDisplayed();
     }
 
-    public boolean checkAllElementsFromArray(By by, By by2) {
-        Log.logCheckAllElementContainsOtherElement(by, by2);
-        List<WebElement> elements = getElements(by);
+    public boolean isAllElementsFromArrayDisplayed(By parentLocator, By childLocator) {
+        Log.logCheckAllElementContainsOtherElement(parentLocator, childLocator);
+        List<WebElement> elements = getElements(parentLocator);
         for (WebElement element : elements) {
-            if (!element.findElement(by2).isDisplayed()) {
+            if (!element.findElement(childLocator).isDisplayed()) {
                 return false;
             }
         }
         return true;
     }
 
-    public static String getText(By by) {
-        Log.logTheText(by);
-        return getElement(by).getText();
+    public static String getText(By elementLocator) {
+        Log.logTheText(elementLocator);
+        return getElement(elementLocator).getText();
 
     }
 
-    public boolean isArrayEmpty(By by) {
-        List<WebElement> elements = getElements(by);
+    public boolean isArrayEmpty(By elementLocator) {
+        List<WebElement> elements = getElements(elementLocator);
         return elements.isEmpty();
     }
 
@@ -171,19 +152,19 @@ public class BaseElement implements WebElement {
         return Browser.getDriver().getTitle();
     }
 
-    public boolean compareText(By by, By by2, String inputtedValue) {
-        Log.logCheckComponentInsideOtherComponentContainText(by, by2, inputtedValue);
-        List<WebElement> elements = getElements(by);
+    public boolean compareText(By parentLocator, By childLocator, String inputtedValue) {
+        Log.logCheckComponentInsideOtherComponentContainText(parentLocator, childLocator, inputtedValue);
+        List<WebElement> elements = getElements(parentLocator);
         WebElement firstElement = elements.get(0);
-        List<WebElement> elements2 = firstElement.findElements(by2);
+        List<WebElement> elements2 = firstElement.findElements(childLocator);
         WebElement element2 = elements2.get(0);
         String highlightedText = element2.getText();
         return inputtedValue.contains(highlightedText);
     }
 
-    public boolean isElementsContainsText(By by, String inputtedValue) {
-        Log.logCheckElementContainsText(by, inputtedValue);
-        List<WebElement> elements = getElements(by);
+    public boolean isElementsContainsText(By elementLocator, String inputtedValue) {
+        Log.logCheckElementContainsText(elementLocator, inputtedValue);
+        List<WebElement> elements = getElements(elementLocator);
         for (WebElement element : elements) {
             String gotText = element.getText();
             if (gotText.equals(inputtedValue)) {
@@ -193,9 +174,9 @@ public class BaseElement implements WebElement {
         return false;
     }
 
-    public int getNumber(By by, String value) {
-        Log.logGetNumberFromElementByAttribute(by, value);
-        List<WebElement> elements = getElements(by);
+    public int getNumber(By elementLocator, String value) {
+        Log.logGetNumberFromElementByAttribute(elementLocator, value);
+        List<WebElement> elements = getElements(elementLocator);
         WebElement element = elements.get(elements.size() - 2);
         String attribute = element.getAttribute(value);
         String[] stringArray = attribute.split(" ");
@@ -203,9 +184,9 @@ public class BaseElement implements WebElement {
         return Integer.parseInt(stringNumberPages);
     }
 
-    public String clickFirstElementFromArrayAndGetTitleText(By by) {
-        Log.logClick(by);
-        List<WebElement> elementsList = getElements(by);
+    public String clickFirstElementFromArrayAndGetTitleText(By elementLocator) {
+        Log.logClick(elementLocator);
+        List<WebElement> elementsList = getElements(elementLocator);
         WebElement element = elementsList.get(0);
         String textElement = element.getText();
         String substring = textElement.substring(0, textElement.lastIndexOf("(")).trim();
@@ -213,27 +194,27 @@ public class BaseElement implements WebElement {
         return substring;
     }
 
-    public boolean isElementContainsText(By by, String inputtedValue) {
-        Log.logCheckElementContainsText(by, inputtedValue);
-        String elementText = getElement(by).getText();
+    public boolean isElementContainsText(By elementLocator, String inputtedValue) {
+        Log.logCheckElementContainsText(elementLocator, inputtedValue);
+        String elementText = getElement(elementLocator).getText();
         return elementText.contains(inputtedValue);
     }
 
-    public boolean isElementsContainText(By by1, By by2, String inputtedValue) {
-        Log.logCheckElementsContainText(by1, by2, inputtedValue);
-        List<WebElement> elements1 = getElements(by1);
+    public boolean isElementsContainText(By elementLocator1, By elementLocator2, String inputtedValue) {
+        Log.logCheckElementsContainText(elementLocator1, elementLocator2, inputtedValue);
+        List<WebElement> elements1 = getElements(elementLocator1);
         if (!elements1.isEmpty()) {
             String textFromElement = elements1.get(0).getText();
             return textFromElement.contains(inputtedValue);
         } else {
-            String textFromElement2 = getElement(by2).getText();
+            String textFromElement2 = getElement(elementLocator2).getText();
             return textFromElement2.contains(inputtedValue);
         }
     }
 
-    public boolean isTheSecondElementContainsOneOfTheTexts(By by, String text, String text2) {
-        Log.logCheckTheSecondElementContainsOneOfTheTexts(by, text, text2);
-        List<WebElement> elements = getElements(by);
+    public boolean isSecondElementContainsOneOfTheTexts(By elementLocator, String text, String text2) {
+        Log.logCheckTheSecondElementContainsOneOfTheTexts(elementLocator, text, text2);
+        List<WebElement> elements = getElements(elementLocator);
         String elementText = elements.get(1).getText();
         if (elementText.contains(text)) {
             return true;
@@ -243,9 +224,9 @@ public class BaseElement implements WebElement {
         }
     }
 
-    public boolean isAllElementsInArrayContainsText(By by, String text) {
-        Log.logCheckElementContainsText(by, text);
-        List<WebElement> elements = getElements(by);
+    public boolean isAllElementsInArrayContainsText(By elementLocator, String text) {
+        Log.logCheckElementContainsText(elementLocator, text);
+        List<WebElement> elements = getElements(elementLocator);
         for (WebElement element : elements) {
             String elementText = element.getText();
             if (!elementText.equals(text)) {
@@ -255,19 +236,19 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public String getTextFromElementInsideOtherElement(By by, By by2) {
-        Log.logGetTextFromElementInsideOtherElement(by, by2);
-        List<WebElement> elements = getElements(by);
+    public String getTextFromElementInsideOtherElement(By parentLocator, By childLocator) {
+        Log.logGetTextFromElementInsideOtherElement(parentLocator, childLocator);
+        List<WebElement> elements = getElements(parentLocator);
         WebElement firstElement = elements.get(0);
-        WebElement innerElement = firstElement.findElement(by2);
+        WebElement innerElement = firstElement.findElement(childLocator);
         String innerElementText = innerElement.getText();
         innerElement.click();
         return innerElementText;
     }
 
-    public int clickFirstElementFromArrayAndGetNumberText(By by) {
-        Log.logClick(by);
-        List<WebElement> elementsList = getElements(by);
+    public int clickFirstElementFromArrayAndGetNumberText(By elementLocator) {
+        Log.logClick(elementLocator);
+        List<WebElement> elementsList = getElements(elementLocator);
         WebElement element = elementsList.get(0);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
         wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -278,19 +259,19 @@ public class BaseElement implements WebElement {
         return number;
     }
 
-    public void clickTheSecondElementFromArray(By by) {
-        Log.logClick(by);
-        List<WebElement> elements = getElements(by);
+    public void clickTheSecondElementFromArray(By elementLocator) {
+        Log.logClick(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         elements.get(1).click();
     }
 
-    public boolean isEachElementHaveElementWithText(By by, By by2) {
-        Log.logCheckAllElementContainsOtherElement(by, by2);
-        List<WebElement> elements = getElements(by);
+    public boolean isEachElementHaveElementWithText(By parentLocator, By childLocator) {
+        Log.logCheckAllElementContainsOtherElement(parentLocator, childLocator);
+        List<WebElement> elements = getElements(parentLocator);
         List<String> textsList = new ArrayList<>();
         int sizeResults = elements.size();
         for (WebElement element : elements) {
-            List<WebElement> innerElements = element.findElements(by2);
+            List<WebElement> innerElements = element.findElements(childLocator);
             if (!innerElements.isEmpty()) {
                 String text = innerElements.get(0).getText();
                 if (!text.equals("")) {
@@ -301,13 +282,28 @@ public class BaseElement implements WebElement {
         return sizeResults == textsList.size();
     }
 
-    public boolean isAllElementsContainText(By by, By by2, String text) {
-        Log.logCheckElementsContainText(by, by2, text);
-        List<WebElement> elements = getElements(by);
+    public boolean isOneOfElementsHaveElementWithText(By parentLocator, By childLocator) {
+        List<WebElement> elements = getElements(parentLocator);
+        for (WebElement element : elements) {
+            List<WebElement> innerElements = element.findElements(childLocator);
+            if (!innerElements.isEmpty()) {
+                String text = innerElements.get(0).getText();
+                if (!text.equals("")) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    public boolean isAllElementsContainText(By parentLocator, By childLocator, String text) {
+        Log.logCheckElementsContainText(parentLocator, childLocator, text);
+        List<WebElement> elements = getElements(parentLocator);
         int sizeResults = elements.size();
         List<String> stringList = new ArrayList<>();
         for (WebElement element : elements) {
-            List<WebElement> innerElements = element.findElements(by2);
+            List<WebElement> innerElements = element.findElements(childLocator);
             if (!innerElements.isEmpty()) {
                 String elementText = innerElements.get(0).getText();
                 if (elementText.equals(text)) {
@@ -318,19 +314,19 @@ public class BaseElement implements WebElement {
         return sizeResults == stringList.size();
     }
 
-    public String getTextFromFirstElement(By by) {
-        Log.logGetTextFromFirstElement(by);
-        List<WebElement> elements = getElements(by);
+    public String getTextFromFirstElement(By elementLocator) {
+        Log.logGetTextFromFirstElement(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         return elements.get(0).getText();
     }
 
-    public boolean isAllElementsContainTexts(By by, By by2, String text, String text2) {
-        Log.logCheckAllElementsContainTexts(by, by2, text, text2);
-        List<WebElement> elements = getElements(by);
+    public boolean isAllElementsContainTexts(By parentLocator, By childLocator, String text, String text2) {
+        Log.logCheckAllElementsContainTexts(parentLocator, childLocator, text, text2);
+        List<WebElement> elements = getElements(parentLocator);
         int searchNumbers = elements.size();
         List<String> stringList = new ArrayList<>();
         for (WebElement element : elements) {
-            List<WebElement> innerElements = element.findElements(by2);
+            List<WebElement> innerElements = element.findElements(childLocator);
             if (!innerElements.isEmpty()) {
                 String elementText = innerElements.get(0).getText();
                 if (elementText.equals(text)) {
@@ -344,14 +340,14 @@ public class BaseElement implements WebElement {
         return searchNumbers == stringList.size();
     }
 
-    public String checkAndOpenElementNotContainAnother(By by1, By by2, By by3) {
-        Log.logCheckAndOpenElementNotContainAnother(by1, by2, by3);
-        List<WebElement> elements = getElements(by1);
+    public String checkAndOpenElementNotContainAnother(By parentLocator, By childLocator1, By childLocator2) {
+        Log.logCheckAndOpenElementNotContainAnother(parentLocator, childLocator1, childLocator2);
+        List<WebElement> elements = getElements(parentLocator);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
         for (int i = 0; i < elements.size(); i++) {
             WebElement element = elements.get(i);
-            List<WebElement> innerElements = element.findElements(by2);
-            List<WebElement> clickableElements = element.findElements(by3);
+            List<WebElement> innerElements = element.findElements(childLocator1);
+            List<WebElement> clickableElements = element.findElements(childLocator2);
             if (innerElements.isEmpty()) {
                 WebElement element1 = clickableElements.get(0);
                 String text = element1.getText();
@@ -364,11 +360,11 @@ public class BaseElement implements WebElement {
         return "Such element doesn't exist";
     }
 
-    public boolean checkPresenceElementInsideOtherElement(By by1, By by2) {
-        Log.logCheckPresenceElementInsideOtherElement(by1, by2);
-        List<WebElement> elements = getElements(by1);
+    public boolean checkPresenceElementInsideOtherElement(By parentLocator, By childLocator) {
+        Log.logCheckPresenceElementInsideOtherElement(parentLocator, childLocator);
+        List<WebElement> elements = getElements(parentLocator);
         for (WebElement element : elements) {
-            List<WebElement> innerElements = element.findElements(by2);
+            List<WebElement> innerElements = element.findElements(childLocator);
             if (innerElements.isEmpty()) {
                 return false;
             }
@@ -376,32 +372,32 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public void clickWithJS(By by) {
-        Log.logClick(by);
-        WebElement element = getElement(by);
+    public void clickWithJS(By elementLocator) {
+        Log.logClick(elementLocator);
+        WebElement element = getElement(elementLocator);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
         wait.until(ExpectedConditions.elementToBeClickable(element));
         JavascriptExecutor executor = (JavascriptExecutor) Browser.getDriver();
-        executor.executeScript("arguments[0].click();", element);
+        executor.executeScript(config.getProperty("argumentForClick"), element);
     }
 
-    public void clickTheFirstElementWithJS(By by) {
-        Log.logClick(by);
-        List<WebElement> elements = getElements(by);
+    public void clickTheFirstElementWithJS(By elementLocator) {
+        Log.logClick(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         JavascriptExecutor executor = (JavascriptExecutor) Browser.getDriver();
-        executor.executeScript("arguments[0].click();", elements.get(0));
+        executor.executeScript(config.getProperty("argumentForClick"), elements.get(0));
     }
 
-    public boolean checkTheElementContainText(By by) {
-        Log.logCheckTheElementContainsText(by);
-        WebElement element = getElement(by);
+    public boolean isElementContainText(By elementLocator) {
+        Log.logCheckTheElementContainsText(elementLocator);
+        WebElement element = getElement(elementLocator);
         String text = element.getText();
         return !text.equals("");
     }
 
-    public boolean checkThatEachElementInArrayContainText(By by) {
-        Log.logCheckThatEachElementInArrayContainText(by);
-        List<WebElement> elements = getElements(by);
+    public boolean isEachElementInArrayContainText(By elementLocator) {
+        Log.logCheckThatEachElementInArrayContainText(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         for (WebElement element : elements) {
             String text = element.getText();
             if (text.equals("")) {
@@ -411,12 +407,12 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public boolean checkPresenceOneOfTwoElementInsideAnother(By by, By by2, By by3) {
-        Log.logСheckPresenceOneOfTwoElementInsideAnother(by, by2, by3);
-        List<WebElement> elements = getElements(by);
+    public boolean isOneOfTwoElementPresentInsideAnother(By parentLocator, By childLocator1, By childLocator2) {
+        Log.logСheckPresenceOneOfTwoElementInsideAnother(parentLocator, childLocator1, childLocator2);
+        List<WebElement> elements = getElements(parentLocator);
         for (WebElement element : elements) {
-            List<WebElement> innerElements1 = element.findElements(by2);
-            List<WebElement> innerElements2 = element.findElements(by3);
+            List<WebElement> innerElements1 = element.findElements(childLocator1);
+            List<WebElement> innerElements2 = element.findElements(childLocator2);
             if (innerElements1.isEmpty() && innerElements2.isEmpty()) {
                 return false;
             }
@@ -424,8 +420,8 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public String chooseValueFromArrayAndGetText(By by) {
-        List<WebElement> elements = getElements(by);
+    public String chooseValueFromArrayAndGetText(By elementLocator) {
+        List<WebElement> elements = getElements(elementLocator);
         int number = elements.size() - 1;
         WebElement element = elements.get(number);
         String text = element.getText();
@@ -443,18 +439,18 @@ public class BaseElement implements WebElement {
         return firstValue.equals(inputtedText);
     }
 
-    public static void waitForInvisibility(By by, String text) {
-        Log.logWaitForInvisibilityOfText(by, text);
+    public static void waitForInvisibility(By elementLocator, String text) {
+        Log.logWaitForInvisibilityOfText(elementLocator, text);
         Wait<WebDriver> wait = new FluentWait(Browser.getDriver())
                 .withTimeout(30, TimeUnit.SECONDS)
                 .pollingEvery(5, TimeUnit.SECONDS)
                 .ignoring(StaleElementReferenceException.class);
-        wait.until(ExpectedConditions.invisibilityOfElementWithText(by, text));
+        wait.until(ExpectedConditions.invisibilityOfElementWithText(elementLocator, text));
     }
 
-    public static void waitForText(By by, String text) {
+    public static void waitForText(By elementLocator, String text) {
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 30);
-        wait.until(ExpectedConditions.textToBe(by, text));
+        wait.until(ExpectedConditions.textToBe(elementLocator, text));
     }
 
     public boolean isFileDownloaded(String fileName) {
@@ -462,16 +458,16 @@ public class BaseElement implements WebElement {
         return Files.exists(filePath);
     }
 
-    public String clickAndGetTextFirstElement(By by, String text) {
-        Log.logClick(by);
-        List<WebElement> elements = getElements(by);
+    public String clickAndGetTextFirstElement(By elementLocator, String text) {
+        Log.logClick(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         WebElement element = elements.get(0);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
         wait.until(ExpectedConditions.elementToBeClickable(element));
         String textOfElement = element.getAttribute(text);
         String fileName = textOfElement.substring(textOfElement.lastIndexOf("/") + 1);
         JavascriptExecutor executor = (JavascriptExecutor) Browser.getDriver();
-        executor.executeScript("arguments[0].click();", element);
+        executor.executeScript(config.getProperty("argumentForClick"), element);
         try {
             return URLDecoder.decode(fileName, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
@@ -480,10 +476,10 @@ public class BaseElement implements WebElement {
         }
     }
 
-    public static void waitForElementDisappear(By by) {
-        Log.logWaitForElementDisappear(by);
+    public static void waitForElementDisappear(By elementLocator) {
+        Log.logWaitForElementDisappear(elementLocator);
         WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(elementLocator));
     }
 
     public void scrollToTheBottom() {
@@ -498,11 +494,11 @@ public class BaseElement implements WebElement {
         return (Long) executor.executeScript("return window.pageYOffset;");
     }
 
-    public boolean isAmountOfElementsCoincideWithExpected(By by, By by2) {
-        Log.logIsAmountOfElementsCoincideWithExpected(by, by2);
-        List<WebElement> parentElements = getElements(by);
+    public boolean isAmountOfElementsCoincideWithExpected(By parentLocator, By childLocator) {
+        Log.logIsAmountOfElementsCoincideWithExpected(parentLocator, childLocator);
+        List<WebElement> parentElements = getElements(parentLocator);
         int expectedAmount = parentElements.size() + 1;
-        List<WebElement> childElements = getElements(by2);
+        List<WebElement> childElements = getElements(childLocator);
         List<String> texts = new ArrayList<>();
         for (WebElement element : childElements) {
             String textElement = element.getText();
@@ -514,23 +510,23 @@ public class BaseElement implements WebElement {
         return expectedAmount == amountOfChildElementsContainingText;
     }
 
-    public LocalDate getDate(By by, String attribute) {
-        Log.logGetDate(by);
-        List<WebElement> elements = getElements(by);
+    public LocalDate getDate(By elementLocator, String tag) {
+        Log.logGetDate(elementLocator);
+        List<WebElement> elements = getElements(elementLocator);
         WebElement element = elements.get(0);
-        String stringDate = element.getAttribute(attribute);
+        String stringDate = element.getAttribute(tag);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
         LocalDate date = LocalDate.parse(stringDate, dateTimeFormatter);
         element.click();
         return date;
     }
 
-    public LocalDate getSearchResultDate(By by, By by2, By by3) {
-        Log.logGetSearchResultDate(by2, by3);
-        List<WebElement> elements = getElements(by);
+    public LocalDate getSearchResultDate(By parentLocator, By childLocator1, By childLocator2) {
+        Log.logGetSearchResultDate(childLocator1, childLocator2);
+        List<WebElement> elements = getElements(parentLocator);
         WebElement firstElement = elements.get(0);
-        String dateMonth = firstElement.findElement(by2).getText();
-        String stringDate = firstElement.findElement(by3).getText();
+        String dateMonth = firstElement.findElement(childLocator1).getText();
+        String stringDate = firstElement.findElement(childLocator2).getText();
         int length = stringDate.length();
         if (length == 1) {
             stringDate = "0" + stringDate;
@@ -540,13 +536,13 @@ public class BaseElement implements WebElement {
         return LocalDate.parse(fullStringDate, dateTimeFormatter);
     }
 
-    public boolean checkPresenceElementInsideAnotherElement(By by1, By by2, By by3) {
-        Log.logCheckPresenceElementInsideAnotherElement(by1, by2, by3);
-        List<WebElement> parentElements = getElements(by1);
+    public boolean isElementPresentInsideAnotherElement(By parentLocator, By childLocator1, By childLocator2) {
+        Log.logCheckPresenceElementInsideAnotherElement(parentLocator, childLocator1, childLocator2);
+        List<WebElement> parentElements = getElements(parentLocator);
         for (WebElement element : parentElements) {
-            List<WebElement> innerElements = element.findElements(by2);
+            List<WebElement> innerElements = element.findElements(childLocator1);
             if (!innerElements.isEmpty()) {
-                List<WebElement> childElements = element.findElements(by3);
+                List<WebElement> childElements = element.findElements(childLocator2);
                 if (childElements.isEmpty()) {
                     return false;
                 }
@@ -555,10 +551,10 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public LocalDate getDate(By by1, By by2, int i) {
-        Log.logGetDateFromElementInsideOtherElement(by1, by2);
-        WebElement parentElement = getElement(by1);
-        List<WebElement> childElements = parentElement.findElements(by2);
+    public LocalDate getDate(By parentLocator, By childLocator, int i) {
+        Log.logGetDateFromElementInsideOtherElement(parentLocator, childLocator);
+        WebElement parentElement = getElement(parentLocator);
+        List<WebElement> childElements = parentElement.findElements(childLocator);
         String dateString = childElements.get(i - 1).getText();
         String[] stringArray = dateString.split(",");
         String firstString = stringArray[0];
@@ -568,25 +564,12 @@ public class BaseElement implements WebElement {
         return LocalDate.parse(dateUpdated, dateTimeFormatter);
     }
 
-    public void clickElementContainAnother(By by1, By by2) {
-        List<WebElement> elements = getElements(by1);
-        for (WebElement element : elements) {
-            List<WebElement> innerElements = element.findElements(by2);
-            if (!innerElements.isEmpty()) {
-                WebElement element1 = innerElements.get(0);
-                //WebDriverWait wait = new WebDriverWait(Browser.getDriver(), '5');
-                //wait.until(ExpectedConditions.elementToBeClickable(element1));
-                element1.click();
-            }
-        }
-    }
-
-    public boolean checkElementInsideOtherContainText(By by, By by1) {
-        Log.logCheckElementInsideOtherContainText(by, by1);
-        List<WebElement> parentElements = getElements(by);
+    public boolean isElementInsideOtherContainText(By parentLocator, By childLocator) {
+        Log.logCheckElementInsideOtherContainText(parentLocator, childLocator);
+        List<WebElement> parentElements = getElements(parentLocator);
         for (WebElement element : parentElements) {
             List<String> stringsList1 = new ArrayList<>();
-            WebElement childElement1 = element.findElement(by1);
+            WebElement childElement1 = element.findElement(childLocator);
             String textChildElement1 = childElement1.getText();
             if (!textChildElement1.equals("")) {
                 stringsList1.add(textChildElement1);
@@ -598,29 +581,24 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public boolean isCountOfElementsCorrect(By by, int expectedCount) {
-        Log.logIsCountOfElementsCorrect(by, expectedCount);
-        List<WebElement> elements = getElements(by);
+    public boolean isCountOfElementsCorrect(By elementLocator, int expectedCount) {
+        Log.logIsCountOfElementsCorrect(elementLocator, expectedCount);
+        List<WebElement> elements = getElements(elementLocator);
         return elements.size() == expectedCount;
     }
 
-    public int getHeight(By by) {
-        WebElement element = getElement(by);
-        return element.getSize().height;
-    }
-
-    public boolean checkOneOfTwoArraysIsNotEmpty(By by1, By by2) {
-        List<WebElement> elements = getElements(by1);
-        List<WebElement> elements2 = getElements(by2);
+    public boolean isOneOfTwoArraysIsNotEmpty(By elementLocator1, By elementLocator2) {
+        List<WebElement> elements = getElements(elementLocator1);
+        List<WebElement> elements2 = getElements(elementLocator2);
         if (elements.isEmpty() && elements2.isEmpty()) {
             return false;
         }
         return true;
     }
 
-    public boolean isAllElementsFromOneOfTheArrayContainText(By by1, By by2) {
-        List<WebElement> elements = getElements(by1);
-        List<WebElement> elements2 = getElements(by2);
+    public boolean isAllElementsFromOneOfTheArrayContainText(By elementLocator1, By elementLocator2) {
+        List<WebElement> elements = getElements(elementLocator1);
+        List<WebElement> elements2 = getElements(elementLocator2);
         if (elements.isEmpty() && elements2.isEmpty()) {
             return false;
         }
@@ -639,8 +617,8 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public boolean isAllElementsInArrayContainText(By by) {
-        List<WebElement> elements = getElements(by);
+    public boolean isAllElementsInArrayContainText(By elementLocator) {
+        List<WebElement> elements = getElements(elementLocator);
         if (elements.isEmpty()) {
             return false;
         }
@@ -653,8 +631,8 @@ public class BaseElement implements WebElement {
         return true;
     }
 
-    public boolean isArrayNotEmpty(By by) {
-        List<WebElement> elements = getElements(by);
+    public boolean isArrayNotEmpty(By elementLocator) {
+        List<WebElement> elements = getElements(elementLocator);
         if (elements.isEmpty()) {
             return false;
         }
@@ -671,9 +649,9 @@ public class BaseElement implements WebElement {
         return string.contains(string2);
     }
 
-    public boolean isAmountOfElementsCoincide(By by1, By by2) {
-        List<WebElement> elements1 = getElements(by1);
-        List<WebElement> elements2 = getElements(by2);
+    public boolean isAmountOfElementsCoincide(By elementLocator1, By elementLocator2) {
+        List<WebElement> elements1 = getElements(elementLocator1);
+        List<WebElement> elements2 = getElements(elementLocator2);
         List<String> stringList1 = new ArrayList<>();
         List<String> stringList2 = new ArrayList<>();
         if (elements1.isEmpty()) {
@@ -700,14 +678,11 @@ public class BaseElement implements WebElement {
                 stringList2.add(text);
             }
         }
-        if (stringList1.size() != stringList2.size()) {
-            return false;
-        }
-        return true;
+        return stringList1.size() == stringList2.size();
     }
 
-    public int getNumberText(By by) {
-        List<WebElement> elementsList = getElements(by);
+    public int getNumberText(By elementLocator) {
+        List<WebElement> elementsList = getElements(elementLocator);
         int numberResults = 0;
         for (WebElement element : elementsList) {
             String textElement = element.getText();
@@ -718,89 +693,9 @@ public class BaseElement implements WebElement {
         return numberResults;
     }
 
-    @Override
-    public void click() {
-        waitForElementToBeClickable2(webElement);
-        webElement.click();
-    }
-
-    @Override
-    public void submit() {
-
-    }
-
-    @Override
-    public void sendKeys(CharSequence... keysToSend) {
-        webElement.sendKeys(keysToSend);
-    }
-
-    @Override
-    public void clear() {
-        webElement.clear();
-    }
-
-    @Override
-    public String getTagName() {
-        return webElement.getTagName();
-    }
-
-    @Override
-    public String getAttribute(String name) {
-        return webElement.getAttribute(name);
-    }
-
-    @Override
-    public boolean isSelected() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    @Override
-    public String getText() {
-        return null;
-    }
-
-    @Override
-    public List<WebElement> findElements(By by) {
-        return Browser.getDriver().findElements(by);
-    }
-
-    @Override
-    public WebElement findElement(By by) {
-        return Browser.getDriver().findElement(by);
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return false;
-    }
-
-    @Override
-    public Point getLocation() {
-        return null;
-    }
-
-    @Override
-    public Dimension getSize() {
-        return webElement.getSize();
-    }
-
-    @Override
-    public Rectangle getRect() {
-        return null;
-    }
-
-    @Override
-    public String getCssValue(String propertyName) {
-        return null;
-    }
-
-    @Override
-    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
-        return null;
+    public String typeAndGetValue(By elementLocator, String inputtedValue) {
+        Log.logTypeTo(elementLocator, inputtedValue);
+        getElement(elementLocator).sendKeys(inputtedValue);
+        return inputtedValue;
     }
 }

@@ -87,35 +87,35 @@ public class EventPage extends BasePage {
     @Step("Get Event Audience")
     public String getAudience() {
         Log.logInfo("Get Event Audience");
-        BaseElement.waitForElementToBeClickable(SHARE_VIA_TWITTER_LINK);
-        return baseElement.getText(EVENT_AUDIENCE);
+        BaseElement.waitElementToBeClickable(SHARE_VIA_TWITTER_LINK);
+        return BaseElement.getText(EVENT_AUDIENCE);
     }
 
     @Step("Check that Event Tags contain chosen keyword")
     public boolean isTagsContainsChosenEventType(String chosenTag) {
         Log.logInfo("Check that Event Tags contain chosen keyword " + chosenTag);
-        BaseElement.waitForElementToBeClickable(SHARE_VIA_TWITTER_LINK);
+        BaseElement.waitElementToBeClickable(SHARE_VIA_TWITTER_LINK);
         return baseElement.isElementsContainText(EVENT_TAG, EVENT_TAGS, chosenTag);
     }
 
     @Step("Get Event Title")
     public String getEventTitle() {
         Log.logInfo("Get Event Title");
-        BaseElement.waitForElementToBeClickable(SHARE_VIA_TWITTER_LINK);
-        return baseElement.getText(EVENT_TITLE);
+        BaseElement.waitElementToBeClickable(SHARE_VIA_TWITTER_LINK);
+        return BaseElement.getText(EVENT_TITLE);
     }
 
     @Step("Get Event Modal Title")
     public String getEventModalTitle() {
         Log.logInfo("Get Event Modal Title");
-        BaseElement.waitForElementToBeClickable(EDIT_EVENT_LINK);
-        return baseElement.getText(EVENT_MODAL_TITLE);
+        BaseElement.waitElementToBeClickable(EDIT_EVENT_LINK);
+        return BaseElement.getText(EVENT_MODAL_TITLE);
     }
 
     @Step("Verify Speaker Section Title is displayed")
-    public boolean idSpeakerSectionTitleDisplayed() {
+    public boolean isSpeakerSectionTitleDisplayed() {
         Log.logInfo("Check Speaker Section Title is displayed");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(SPEAKER_SECTION_TITLE, SPEAKERS_SECTION_TITLE);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(SPEAKER_SECTION_TITLE, SPEAKERS_SECTION_TITLE);
     }
 
     @Step("Verify Speaker Section is not empty")
@@ -127,7 +127,7 @@ public class EventPage extends BasePage {
     @Step("Verify Contact Section Title is displayed")
     public boolean isContactSectionTitleDisplayed() {
         Log.logInfo("Check Contact Section Title is displayed");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(CONTACT_SECTION_TITLE, CONTACTS_SECTION_TITLE);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(CONTACT_SECTION_TITLE, CONTACTS_SECTION_TITLE);
     }
 
     @Step("Verify Contact Section is not empty")
@@ -139,7 +139,7 @@ public class EventPage extends BasePage {
     @Step("Verify Host Section Title is displayed")
     public boolean isHostSectionTitleDisplayed() {
         Log.logInfo("Check Host Section Title is displayed");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(HOST_SECTION_TITLE, HOSTS_SECTION_TITLE);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(HOST_SECTION_TITLE, HOSTS_SECTION_TITLE);
     }
 
     @Step("Verify Host Section is not empty")
@@ -151,25 +151,25 @@ public class EventPage extends BasePage {
     @Step("Verify Host Organization Section Title is displayed")
     public boolean isHostOrganizationSectionTitleDisplayed() {
         Log.logInfo("Check Host Organization Section Title is displayed");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(HOST_ORGANIZATION_SECTION_TITLE, HOST_ORGANIZATIONS_SECTION_TITLE);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(HOST_ORGANIZATION_SECTION_TITLE, HOST_ORGANIZATIONS_SECTION_TITLE);
     }
 
     @Step("Verify Host Organization Section is not empty")
     public boolean isHostOrganizationSectionNotEmpty() {
         Log.logInfo("Check Host Organization Section is not empty");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(HOST_ORGANIZATION_ITEM, HOST_ORGANIZATIONS_ITEM);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(HOST_ORGANIZATION_ITEM, HOST_ORGANIZATIONS_ITEM);
     }
 
     @Step("Verify Tags Section Title is displayed")
     public boolean isTagsSectionTitleIsDisplayed() {
         Log.logInfo("Check Tags Section Title is displayed");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(TAGS_SECTION_TITLE, TAG_SECTION_TITLE);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(TAGS_SECTION_TITLE, TAG_SECTION_TITLE);
     }
 
     @Step("Verify Tags Section is not empty")
     public boolean isTagsSectionNotEmpty() {
         Log.logInfo("Check Tags Section is not empty");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(TAG_ITEM, TAGS_ITEM);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(TAG_ITEM, TAGS_ITEM);
     }
 
     @Step("Verify Food Section Title is Displayed")
@@ -205,7 +205,7 @@ public class EventPage extends BasePage {
     @Step("Verify Related Links Section Title is displayed")
     public boolean isRelatedLinksSectionTitleIsDisplayed() {
         Log.logInfo("Check Related Links Section Title is displayed");
-        return baseElement.checkOneOfTwoArraysIsNotEmpty(RELATED_LINKS_SECTION_TITLE, RELATED_LINK_SECTION_TITLE);
+        return baseElement.isOneOfTwoArraysIsNotEmpty(RELATED_LINKS_SECTION_TITLE, RELATED_LINK_SECTION_TITLE);
     }
 
     @Step("Verify Related Links Section is not empty")
@@ -240,15 +240,14 @@ public class EventPage extends BasePage {
     }
 
     @Step("Get Current URL")
-    public String  getCurrentURL() {
+    public String getCurrentURL() {
         Log.logInfo("Get Current URL");
-         return baseElement.getCurrentURL();
+        return baseElement.getCurrentURL();
     }
 
     @Step("Verify that Current URL includes Google Map")
-    public boolean isURLIncludeGoogleMapLink(String string){
+    public boolean isURLIncludeGoogleMapLink(String string) {
         Log.logInfo("Check that Current URL includes Google Map");
         return baseElement.isStringContainsAnotherString(string, "https://www.google.com/maps");
     }
-
 }

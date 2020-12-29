@@ -52,7 +52,7 @@ public class SearchForDocumentTest extends BaseTest {
                 "Not each Search Document Result has Title");
         softAssert.assertTrue(searchPage.isEachSearchResultHaveType("Document"),
                 "Not each Search Document Result has type Document");
-        softAssert.assertTrue(searchPage.isEachDocumentResultHaveBreadcrumb(),
+        softAssert.assertTrue(searchPage.isOneDocumentResultHaveBreadcrumb(),
                 "Not each Search Document Result has BreadCrumb");
         softAssert.assertAll();
     }

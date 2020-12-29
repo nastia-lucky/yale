@@ -7,11 +7,11 @@ import org.openqa.selenium.By;
 
 import java.time.LocalDate;
 
-public class SearchPage extends BasePage {
+public class SearchPage extends MainPage {
 
     private final By REMOVE_TOP_STORIES_FILTER = By.xpath("//ul[@class='global-search-active-entity-filter__list']//button[@aria-label='Remove top stories filter']");
     private static final By SEARCH_INPUT = By.xpath("//input[@aria-label='Search input']");
-    protected  static  final By PEOPLE_FILTER = By.xpath("//div[@aria-label='Add People filter']");
+    protected static final By PEOPLE_FILTER = By.xpath("//div[@aria-label='Add People filter']");
     private final By PEOPLE_SEARCH_RESULT = By.xpath("//ul[@class='global-search-results']//a[@class='search-result']");
     private final By SEARCH_RESULT_TYPE = By.xpath(".//p[@class='search-result__type']");
     private final By SEARCH_RESULT_IMAGE = By.xpath(".//img[@class='profile-search-result__image']");
@@ -54,16 +54,11 @@ public class SearchPage extends BasePage {
     private final By RECURRING_EVENT_TYPE = By.xpath(".//p[@class='search-result__type'][contains(text(),'Recurring Event')]");
     protected final By SECURE_SEARCH_RESULTS_LINK = By.xpath("//section[@aria-label='Secure Search Results']//a[contains(text(), 'Log into CAS')]");
     private final By SEARCH_PAGE_FILTER = By.xpath("//span[@class='global-search-filter-panel__accordion-item-button-text']");
-    private final String ATTRIBUTE="href";
-    private final By SEARCH_RESULT_LINK=By.xpath("//ul[@class='global-search-results']//a[@href]");
-
-    //WebElement btnSecureSearch = BaseElement.getElement(By.xpath("//section[@aria-label='Secure Search Results']//a[contains(text(), 'Log into CAS')]"));
-
-    //Button btn = new Button(By.xpath("//section[@aria-label='Secure Search Results']//a[contains(text(), 'Log into CAS')]"));
-
+    private final String ATTRIBUTE = "href";
+    private final By SEARCH_RESULT_LINK = By.xpath("//ul[@class='global-search-results']//a[@href]");
 
     public SearchPage() {
-        super(SEARCH_INPUT);
+        super();
     }
 
     @Step("Choose First Suggestion")
@@ -78,14 +73,14 @@ public class SearchPage extends BasePage {
     @Step("Verify that Remove Top Stories Filter Button is displayed")
     public boolean isRemoveTopStoriesFilterDisplayed() {
         Log.logInfo("Check that Remove Top Stories Filter Button is displayed");
-        BaseElement.waitForElementToBeClickable(REMOVE_TOP_STORIES_FILTER);
+        BaseElement.waitElementToBeClickable(REMOVE_TOP_STORIES_FILTER);
         return baseElement.isElementDisplayed(REMOVE_TOP_STORIES_FILTER);
     }
 
     @Step("Add People filter")
     public ProfileSearch addPeopleFilter() {
         Log.logInfo("Add People filter");
-        BaseElement.waitForElementToBeClickable(PEOPLE_FILTER);
+        BaseElement.waitElementToBeClickable(PEOPLE_FILTER);
         String firstText = SearchPage.getSearchResultText();
         baseElement.clickElement(PEOPLE_FILTER);
         BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
@@ -94,18 +89,18 @@ public class SearchPage extends BasePage {
 
     public boolean isSearchResultPeopleTypeIsDisplayed() {
         Log.logInfo("Check People Type");
-        return baseElement.checkAllElementsFromArray(PEOPLE_SEARCH_RESULT, SEARCH_RESULT_TYPE);
+        return baseElement.isAllElementsFromArrayDisplayed(PEOPLE_SEARCH_RESULT, SEARCH_RESULT_TYPE);
     }
 
     public boolean isSearchResultPeopleImageIsDisplayed() {
         Log.logInfo("Check People Image");
-        return baseElement.checkAllElementsFromArray(PEOPLE_SEARCH_RESULT, SEARCH_RESULT_IMAGE);
+        return baseElement.isAllElementsFromArrayDisplayed(PEOPLE_SEARCH_RESULT, SEARCH_RESULT_IMAGE);
     }
 
     @Step("Click first People name")
     public ProfilePage clickFirstPeopleName() {
         Log.logInfo("Click first People name");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_IMAGE);
+        BaseElement.waitFirstElementFromArrayIsClickable(SEARCH_RESULT_IMAGE);
         baseElement.clickTheFirstElementWithJS(SEARCH_RESULT_IMAGE);
         return new ProfilePage();
     }
@@ -113,7 +108,7 @@ public class SearchPage extends BasePage {
     @Step("Verify that Remove Events Filter Button is displayed")
     public boolean isRemoveEventsFilterIsDisplayed() {
         Log.logInfo("Check that Remove Events Filter Button is displayed");
-        BaseElement.waitForElementToBeClickable(REMOVE_EVENTS_FILTER);
+        BaseElement.waitElementToBeClickable(REMOVE_EVENTS_FILTER);
         return baseElement.isElementDisplayed(REMOVE_EVENTS_FILTER);
     }
 
@@ -168,7 +163,7 @@ public class SearchPage extends BasePage {
     @Step("Get existing inserted value from Search input")
     public String getExistingSearchValue() {
         Log.logInfo("Get existing inserted value from Search input");
-        BaseElement.waitForElementToBeClickable(PEOPLE_FILTER);
+        BaseElement.waitElementToBeClickable(PEOPLE_FILTER);
         return baseElement.getAttribute(SEARCH_INPUT, "value");
     }
 
@@ -243,21 +238,21 @@ public class SearchPage extends BasePage {
     @Step("Open first Web Site Result")
     public String openAndGetTextFromFirstWebSiteSearchResult() {
         Log.logInfo("Open first Web Site Result");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(WEB_RESULT_BREAD_CRUMB);
+        BaseElement.waitFirstElementFromArrayIsClickable(WEB_RESULT_BREAD_CRUMB);
         return baseElement.getTextFromElementInsideOtherElement(SEARCH_RESULTS, WEB_RESULT_BREAD_CRUMB);
     }
 
     @Step("Get First Search Result Type")
     public String getFirstSearchResultType() {
         Log.logInfo("Get First Search Result Type");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_TYPE);
+        BaseElement.waitFirstElementFromArrayIsClickable(SEARCH_RESULT_TYPE);
         return baseElement.getTextFirstElementFromArray(SEARCH_RESULT_TYPE);
     }
 
-    @Step("Verify that each web page result has breadcrumb")
-    public boolean isEachWebPageResultHaveBreadcrumb() {
-        Log.logInfo("Check that each web page result has breadcrumb");
-        return baseElement.isEachElementHaveElementWithText(SEARCH_RESULTS, WEB_RESULT_BREAD_CRUMB);
+    @Step("Verify one web page result has breadcrumb")
+    public boolean isOneWebPageResultHaveBreadcrumb() {
+        Log.logInfo("Check one web page result has breadcrumb");
+        return baseElement.isOneOfElementsHaveElementWithText(SEARCH_RESULTS, WEB_RESULT_BREAD_CRUMB);
     }
 
     @Step("Verify that each web page result has type")
@@ -278,10 +273,10 @@ public class SearchPage extends BasePage {
         return baseElement.isAllElementsContainText(SEARCH_RESULTS, SEARCH_RESULT_TYPE, text);
     }
 
-    @Step("Verify that each document result has breadcrumb")
-    public boolean isEachDocumentResultHaveBreadcrumb() {
-        Log.logInfo("Check that each document result has breadcrumb");
-        return baseElement.isEachElementHaveElementWithText(SEARCH_RESULTS, DOCUMENT_RESULT_BREADCRUMB);
+    @Step("Verify one of document result has breadcrumb")
+    public boolean isOneDocumentResultHaveBreadcrumb() {
+        Log.logInfo("Check one of document result has breadcrumb");
+        return baseElement.isOneOfElementsHaveElementWithText(SEARCH_RESULTS, DOCUMENT_RESULT_BREADCRUMB);
     }
 
     @Step("Verify that each media has duration")
@@ -293,20 +288,20 @@ public class SearchPage extends BasePage {
     @Step("Get First Clinical Trial Title")
     public String getFirstClinicalTrialTitle() {
         Log.logInfo("Get First Clinical Trial Title");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(CLINICAL_TRIAL_TYPE);
+        BaseElement.waitFirstElementFromArrayIsClickable(CLINICAL_TRIAL_TYPE);
         return baseElement.getTextFromFirstElement(SEARCH_RESULT_TITLE);
     }
 
     @Step("Get First Event Title")
     public String getFirstEventTitle() {
         Log.logInfo("Get First Event Title");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(EVENT_SEARCH_RESULT_TIME);
+        BaseElement.waitFirstElementFromArrayIsClickable(EVENT_SEARCH_RESULT_TIME);
         return baseElement.getTextFromFirstElement(SEARCH_RESULT_TITLE);
     }
 
     public boolean isEachEventSearchResultHaveTypes(String text, String text2) {
         Log.logInfo("Check that each result has types " + text + " " + text2);
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_TYPE);
+        BaseElement.waitFirstElementFromArrayIsClickable(SEARCH_RESULT_TYPE);
         return baseElement.isAllElementsContainTexts(SEARCH_RESULTS, SEARCH_RESULT_TYPE, text, text2);
     }
 
@@ -330,7 +325,7 @@ public class SearchPage extends BasePage {
     @Step("Verify profile results have photo or default image")
     public boolean isAllElementsHavePhotoOrDefaultImage() {
         Log.logInfo("Check each profile result has photo or default image");
-        return baseElement.checkPresenceOneOfTwoElementInsideAnother(PROFILE_SEARCH_RESULT, SEARCH_RESULT_IMAGE, DEFAULT_IMAGE);
+        return baseElement.isOneOfTwoElementPresentInsideAnother(PROFILE_SEARCH_RESULT, SEARCH_RESULT_IMAGE, DEFAULT_IMAGE);
     }
 
     @Step("Verify each profile result has type")
@@ -339,16 +334,16 @@ public class SearchPage extends BasePage {
         return baseElement.checkPresenceElementInsideOtherElement(PROFILE_SEARCH_RESULT, SEARCH_RESULT_TYPE);
     }
 
-    @Step("Verify each search result has summary")
-    public boolean isAllElementsHaveSummary() {
-        Log.logInfo("Check each search result has summary");
-        return baseElement.isEachElementHaveElementWithText(SEARCH_RESULTS, SEARCH_RESULT_SUMMARY);
+    @Step("Verify one of search results has summary")
+    public boolean isOneOfElementsHaveSummary() {
+        Log.logInfo("Check one of search results has summary");
+        return baseElement.isOneOfElementsHaveElementWithText(SEARCH_RESULTS, SEARCH_RESULT_SUMMARY);
     }
 
     @Step("Verify each search result has thumbnail or default image")
     public boolean isAllElementsHaveThumbnailOrDefaultImage() {
         Log.logInfo("Check each search result has thumbnail or default image");
-        return baseElement.checkPresenceOneOfTwoElementInsideAnother(SEARCH_RESULTS, NEWS_ARTICLE_THUMBNAIL, DEFAULT_IMAGE);
+        return baseElement.isOneOfTwoElementPresentInsideAnother(SEARCH_RESULTS, NEWS_ARTICLE_THUMBNAIL, DEFAULT_IMAGE);
     }
 
     @Step("Verify each search result has date")
@@ -365,7 +360,7 @@ public class SearchPage extends BasePage {
 
     public String getFirstTitleText() {
         Log.logInfo("Check each search result has date");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(SEARCH_RESULT_TITLE);
+        BaseElement.waitFirstElementFromArrayIsClickable(SEARCH_RESULT_TITLE);
         return baseElement.getTextFirstElementFromArray(SEARCH_RESULT_TITLE);
     }
 
@@ -383,14 +378,6 @@ public class SearchPage extends BasePage {
     public boolean isDocumentDownloaded(String filename) {
         Log.logInfo("Check the document is downloaded");
         return baseElement.isFileDownloaded(filename);
-    }
-
-    public SearchPage inputSearchValue(String value) {
-        Log.logInfo("Input Search value " + value);
-        String firstText = SearchPage.getSearchResultText();
-        baseElement.typeTo(SEARCH_INPUT, value);
-        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
-        return this;
     }
 
     @Step("Verify search Result Type coincides with the chosen")
@@ -424,7 +411,7 @@ public class SearchPage extends BasePage {
     @Step("Verify the recurring events have circle")
     public boolean isTheRecurringEventsHaveCircle() {
         Log.logInfo("Check the recurring events have circle");
-        return baseElement.checkPresenceElementInsideAnotherElement(SEARCH_RESULT_DETAILS, RECURRING_EVENT_TYPE, RECURRING_CIRCLE);
+        return baseElement.isElementPresentInsideAnotherElement(SEARCH_RESULT_DETAILS, RECURRING_EVENT_TYPE, RECURRING_CIRCLE);
     }
 
     @Step("Verify that Secure Search Results Link Is Displayed")
@@ -440,17 +427,9 @@ public class SearchPage extends BasePage {
         return new ProfilePage();
     }
 
-    public void addInput(String text) {
-        String firstText = SearchPage.getSearchResultText();
-        baseElement.typeTo(SEARCH_INPUT, text);
-        BaseElement.waitForInvisibility(SEARCH_RESULT_MESSAGE, firstText);
-    }
-
     @Step("Get sum of values from search page filters")
     public int getSumFiltersNumberValue() {
         Log.logInfo("Get sum of values from search page filters");
         return baseElement.getNumberText(SEARCH_PAGE_FILTER);
     }
-
-
 }

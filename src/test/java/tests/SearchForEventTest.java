@@ -185,7 +185,7 @@ public class SearchForEventTest extends BaseTest {
                 "Event Date is not Displayed");
         softAssert.assertTrue(eventPage.eventTimeIsDisplayed(),
                 "Event Time is not Displayed");
-        softAssert.assertTrue(eventPage.idSpeakerSectionTitleDisplayed(),
+        softAssert.assertTrue(eventPage.isSpeakerSectionTitleDisplayed(),
                 "Speaker Section Title is not displayed");
         softAssert.assertTrue(eventPage.isSpeakerSectionNotEmpty(),
                 "Speaker Section is empty");
@@ -241,16 +241,6 @@ public class SearchForEventTest extends BaseTest {
         Assert.assertTrue(eventPage.isURLIncludeGoogleMapLink(currentURL),
                 "Current URL doesn't include Google Map link");
     }
-
-    @Test(description = "Verify Next Occurrences Section")
-    public void checkGoogleMapOpen() {
-        MainPage mainPage = new MainPage();
-        mainPage.openMainPage();
-        SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("recurring bonaire")
-                .clickSearchButton();
-        EventPage eventPage = searchPage.openFirstEvent();}
-
 }
 
 

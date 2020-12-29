@@ -127,4 +127,32 @@ public class SearchOverlayTest extends BaseTest {
         Assert.assertTrue(searchCountByPeopleName > searchCountByUserRoleAndPeopleName,
                 "Search Results number haven't changed after applying User Role Filter");
     }
+
+    @Parameters({"eventTitle", "newsTitle", "profileName"})
+    @Test(dependsOnMethods = {"openSearchOverlay"}, description = "Verify Recent Search section")
+    public void checkRecentSearch(String eventTitle, String newsTitle, String profileName) {
+        MainPage mainPage = new MainPage();
+        mainPage.openMainPage();
+        SearchOverlay searchOverlay = mainPage.clickPerformSearch();
+        String firstInputValue = searchOverlay.inputSearchValue(eventTitle);
+        searchOverlay.clickSearchButton()
+                .clickLogo()
+                .clickPerformSearch();
+        String secondInputValue = searchOverlay.inputSearchValue(newsTitle);
+        searchOverlay.clickSearchButton()
+                .clickLogo()
+                .clickPerformSearch();
+        String thirdInputValue = searchOverlay.inputSearchValue(profileName);
+        searchOverlay.clickSearchButton()
+                .clickLogo()
+                .clickPerformSearch();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(searchOverlay.isRecentSearchesContainInputtedValue(firstInputValue),
+                "Recent Searches section doesn't contain First Inputted Value");
+        softAssert.assertTrue(searchOverlay.isRecentSearchesContainInputtedValue(secondInputValue),
+                "Recent Searches section doesn't contain Second Inputted Value");
+        softAssert.assertTrue(searchOverlay.isRecentSearchesContainInputtedValue(thirdInputValue),
+                "Recent Searches section doesn't contain Third Inputted Value");
+        softAssert.assertAll();
+    }
 }

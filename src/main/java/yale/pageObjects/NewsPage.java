@@ -54,14 +54,14 @@ public class NewsPage extends BasePage {
     @Step("Verify that tags on the news details page contain chosen keyword")
     public boolean isTagsListContainsInputtedKeyword(String keyword) {
         Log.logInfo("Check that tags on the news details page contain chosen keyword");
-        BaseElement.waitForTheFirstElementFromArrayIsClickable(TAG_ITEM);
+        BaseElement.waitFirstElementFromArrayIsClickable(TAG_ITEM);
         return baseElement.isElementsContainsText(TAG_ITEM, keyword);
     }
 
     @Step("Verify that Related Links Section Title is displayed")
     public boolean isRelatedLinksTitleIsDisplayed() {
         Log.logInfo("Check that Related Links Section Title is displayed");
-        BaseElement.waitForElementToBeClickable(SHARE_VIA_TWITTER_LINK);
+        BaseElement.waitElementToBeClickable(SHARE_VIA_TWITTER_LINK);
         return baseElement.isElementDisplayed(RELATED_LINKS_TITLE);
     }
 

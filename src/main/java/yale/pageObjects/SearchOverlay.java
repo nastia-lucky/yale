@@ -5,9 +5,8 @@ import framework.logger.Log;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-public class SearchOverlay extends SearchPage  {
+public class SearchOverlay extends SearchPage {
 
-    private final By SEARCH_INPUT = By.xpath("//input[@type='search']");
     private final static By SEARCH_BUTTON = By.xpath("//button[@aria-label='Go to Search Page']");
     private final By INPUT_SEARCH_PANEL = By.xpath("//input[@aria-label='Search input']");
     private final By FIND_PEOPLE_TAB = By.xpath("//ul[@role='tablist']//li[@aria-label='Find People']");
@@ -18,15 +17,15 @@ public class SearchOverlay extends SearchPage  {
     private final By SEARCH_RESULT_TITLE = By.xpath("//h4[@class='search-result__title']");
     private final By HIGHLIGHTED_TEXT = By.xpath("//span[@class='search-result__text-highlighted']");
     private final By FIRST_SEARCH_RESULT = By.xpath("//ul[@class='search-results-list__search-results']//a[@class='search-result']");
-    private final By PAGE_TITLE = By.xpath("//h1[@class='profile-details-header__name']");
     private final By PEOPLE_NAME_INPUT = By.xpath("//input[@id='peopleName']");
     private final static By SEARCH_COUNT = By.xpath("//h3[@class='find-people-tab__results-count']");
     private final By RESEARCH_AREA_INPUT = By.xpath("//input[@id='researchArea']");
     private final By RESEARCH_AREA_OPTION = By.xpath("//ul[@class='research-area-input__suggestions-container']//li[@role='option']");
     private final By ROLE_DROP_DOWN = By.xpath("//div[@class='find-people-tab__roles-dropdown']");
     private final By ROLE_OPTION = By.xpath("//ul[@role='listbox']//li[@role='option']");
+    private final By RECENT_SEARCHES = By.xpath("//h3[contains(text(),'Your Recent Searches')]/following::ul[@class='search-overlay-featured-searches-panel__featured-searches-list'][1]//li");
 
-    SearchOverlay (){
+    SearchOverlay() {
         super();
     }
 
@@ -34,7 +33,7 @@ public class SearchOverlay extends SearchPage  {
     public SearchPage clickSearchButton() {
         Log.logInfo("Click Search button");
         baseElement.clickElement(SEARCH_BUTTON);
-        BaseElement.waitForElementToBeClickable(PEOPLE_FILTER);
+        BaseElement.waitElementToBeClickable(PEOPLE_FILTER);
         return new SearchPage();
     }
 
@@ -50,7 +49,7 @@ public class SearchOverlay extends SearchPage  {
     @Step("Verify that Input Search Panel is displayed")
     public boolean isInputSearchPanelDisplayed() {
         Log.logInfo("Check that Input Search Panel is displayed");
-        BaseElement.waitForElementToBeClickable(SEARCH_BUTTON);
+        BaseElement.waitElementToBeClickable(SEARCH_BUTTON);
         return baseElement.isElementDisplayed(INPUT_SEARCH_PANEL);
     }
 
@@ -101,7 +100,7 @@ public class SearchOverlay extends SearchPage  {
     @Step("Verify that search results contain search value")
     public boolean isSearchResultContainsSearchValue(String searchValue) {
         Log.logInfo("Check that search results contain search value " + searchValue);
-        BaseElement.waitForElementToBeClickable(SEARCH_RESULT_TITLE);
+        BaseElement.waitElementToBeClickable(SEARCH_RESULT_TITLE);
         return baseElement.compareText(SEARCH_RESULT_TITLE, HIGHLIGHTED_TEXT, searchValue);
     }
 
@@ -126,6 +125,12 @@ public class SearchOverlay extends SearchPage  {
         baseElement.typeTo(PEOPLE_NAME_INPUT, value);
         BaseElement.waitForInvisibility(SEARCH_COUNT, firstText);
         return this;
+    }
+
+    @Step("Type Search value")
+    public String inputSearchValue(String value) {
+        Log.logInfo("Input Search value " + value);
+        return baseElement.typeAndGetValue(INPUT_SEARCH_PANEL, value);
     }
 
     @Step("Type research area")
@@ -164,4 +169,12 @@ public class SearchOverlay extends SearchPage  {
         Log.logInfo("Get Search Result Count");
         return BaseElement.getText(SEARCH_COUNT);
     }
+
+    @Step("Verify Recent Searches section contains inputted value")
+    public boolean isRecentSearchesContainInputtedValue(String inputtedValue) {
+        Log.logInfo("Check Recent Searches section contains inputted value");
+        return baseElement.isElementsContainsText(RECENT_SEARCHES, inputtedValue);
+    }
+
+
 }

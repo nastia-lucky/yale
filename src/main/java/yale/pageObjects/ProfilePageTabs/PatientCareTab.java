@@ -12,7 +12,6 @@ public class PatientCareTab extends ProfilePage {
     private final By PATIENT_CARE_SECTION_TITLE = By.xpath("//h3[contains(text(),'Patient Care')]");
     private final By PATIENT_CARE_SECTION_ITEM = By.xpath("//p[@class='profile-details-patient-care-tab__text']");
     private final By CERTIFICATIONS_SECTION_TITLE = By.xpath("//h3[contains(text(), 'Certifications')]");
-    private final By CERTIFICATION_ITEM = By.xpath("//li[@class='profile-education-list-item']");
     private final By CERTIFICATION_ITEM_DEGREE = By.xpath("//div[@class='profile-education-list-item__degree']");
     private final By CERTIFICATION_ITEM_INSTITUTION = By.xpath("//div[@class='profile-education-list-item__institution']");
 

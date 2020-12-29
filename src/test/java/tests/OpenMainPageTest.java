@@ -10,7 +10,7 @@ import yale.pageObjects.MainPage;
 @Listeners({TestListener.class})
 public class OpenMainPageTest extends BaseTest {
 
-    @Test(description="Verify user can ope main page")
+    @Test(description = "Verify user can ope main page")
     public void openMainPageTest() {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();

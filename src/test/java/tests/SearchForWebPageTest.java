@@ -35,7 +35,7 @@ public class SearchForWebPageTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test (dependsOnMethods = { "checkWebPageFilter" }, description = "Verify web page search results number in brackets")
+    @Test(dependsOnMethods = {"checkWebPageFilter"}, description = "Verify web page search results number in brackets")
     public void checkResultsNumberInBracketsForWebPages() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -46,7 +46,7 @@ public class SearchForWebPageTest extends BaseTest {
                 "The results numbers in brackets and on the search results page don't coincide for Web Site Filter");
     }
 
-    @Test  (dependsOnMethods = { "checkWebPageFilter" }, description = "Verify news search result info(title, type, breadcrumb)")
+    @Test(dependsOnMethods = {"checkWebPageFilter"}, description = "Verify web page search result info(title, type, breadcrumb)")
     public void checkSearchResultWebPageInfo() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -54,8 +54,8 @@ public class SearchForWebPageTest extends BaseTest {
                 .addActiveWebPageFilter()
                 .getSearchResult();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertTrue(searchPage.isEachWebPageResultHaveBreadcrumb(),
-                "Not each web page result contains breadcrumb");
+        softAssert.assertTrue(searchPage.isOneWebPageResultHaveBreadcrumb(),
+                "Not one web page result contains breadcrumb");
         softAssert.assertTrue(searchPage.isEachWebPageResultHaveType(),
                 "Not each web page result contains type");
         softAssert.assertTrue(searchPage.isEachResultHaveTitle(),

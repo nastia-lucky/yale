@@ -55,22 +55,22 @@ public class ClinicalTrialPage extends BasePage {
     @Step("Verify that Clinical Trial Gender coincides with chosen gender")
     public boolean isGenderCoincideWithChosenGender(String text) {
         Log.logInfo("Check that Clinical Trial Gender coincides with chosen gender " + text);
-        BaseElement.waitForElementToBeClickable(BTN_VOLUNTEER_NOW);
-        return baseElement.isTheSecondElementContainsOneOfTheTexts(ITM_DEMOGRAPHIC, text, "Both");
+        BaseElement.waitElementToBeClickable(BTN_VOLUNTEER_NOW);
+        return baseElement.isSecondElementContainsOneOfTheTexts(ITM_DEMOGRAPHIC, text, "Both");
     }
 
     @Step("Verify that Clinical Trial Conditions contain chosen category")
     public boolean isConditionsContainsChosenCategory(String chosenCategory) {
         Log.logInfo("Check that Clinical Trial Conditions contain chosen category" + chosenCategory);
-        BaseElement.waitForElementToBeClickable(BTN_VOLUNTEER_NOW);
+        BaseElement.waitElementToBeClickable(BTN_VOLUNTEER_NOW);
         return baseElement.isElementContainsText(SCT_CONDITIONS, chosenCategory);
     }
 
     @Step("Get Clinical Trial Page Title")
     public String getTrialPageTitle() {
         Log.logInfo("Get Clinical Trial Page Title");
-        BaseElement.waitForElementToBeClickable(TAB_HEALTH_PROFESSIONALS);
-        return baseElement.getText(TTL_CLINICAL_TRIAL);
+        BaseElement.waitElementToBeClickable(TAB_HEALTH_PROFESSIONALS);
+        return BaseElement.getText(TTL_CLINICAL_TRIAL);
 
     }
 
@@ -84,12 +84,12 @@ public class ClinicalTrialPage extends BasePage {
     @Step("Verify that Trial Purpose Title is Displayed")
     public boolean isTrialPurposeTitleIsDisplayed() {
         Log.logInfo("Check that Trial Purpose Title is Displayed");
-        return baseElement.checkTheElementContainText(TTL_CLINICAL_TRIAL_PURPOSE);
+        return baseElement.isElementContainText(TTL_CLINICAL_TRIAL_PURPOSE);
     }
 
     @Step("Verify that Trial Description is Displayed")
     public boolean isTrialDescriptionDisplayed() {
         Log.logInfo("Check that Trial Description is Displayed");
-        return baseElement.checkThatEachElementInArrayContainText(SCT_CLINICAL_TRIAL_DESCRIPTION);
+        return baseElement.isEachElementInArrayContainText(SCT_CLINICAL_TRIAL_DESCRIPTION);
     }
 }

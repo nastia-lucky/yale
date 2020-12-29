@@ -65,7 +65,7 @@ public class SearchForMediaTest extends BaseTest {
                 "Not each Search Media Result has Title");
         softAssert.assertTrue(searchPage.isEachMediaHaveDuration(),
                 "Not each Search Media Result has Duration");
-        softAssert.assertTrue(searchPage.isAllElementsHaveSummary(),
+        softAssert.assertTrue(searchPage.isOneOfElementsHaveSummary(),
                 "Not each Search Media Result has Summary");
         softAssert.assertAll();
     }

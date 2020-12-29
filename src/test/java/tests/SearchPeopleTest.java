@@ -39,33 +39,6 @@ public class SearchPeopleTest extends BaseTest {
                 "Number of results don't changes after applying People Filter");
     }
 
-    @Parameters({"profileName"})
-    @Test(description = "Verify people info (image, name, edit profile button, share panel, tabs, title, contact information) is displayed correctly on profile page")
-    public void checkProfilePage(String profileName) {
-        MainPage mainPage = new MainPage();
-        mainPage.openMainPage();
-        SearchOverlay searchOverlay = mainPage.clickPerformSearch()
-                .clickFindPeopleTab()
-                .typePeopleName(profileName);
-        ProfilePage profilePage = searchOverlay.openFirstPeopleResult();
-        SoftAssert softAssert = new SoftAssert();
-        softAssert.assertTrue(profilePage.isImageDisplayed(),
-                "The image is not displayed");
-        softAssert.assertTrue(profilePage.isNameIsDisplayed(),
-                "The name is not displayed");
-        softAssert.assertTrue(profilePage.isEditProfileLinkDisplayed(),
-                "Edit Profile Button is not displayed");
-        softAssert.assertTrue(profilePage.isSharePanelDisplayed(),
-                "Share panel is not displayed");
-        softAssert.assertFalse(profilePage.isTabNotExist(),
-                "Tabs are not displayed");
-        softAssert.assertTrue(profilePage.isTitleDisplayed(),
-                "Title is not Displayed");
-        softAssert.assertTrue(profilePage.isContactInformationDisplayed(),
-                "Contact Information Section is not Displayed");
-        softAssert.assertAll();
-    }
-
     @Test(description = "Verify photo can be downloaded")
     public void checkDownloadPhoto() {
         OpenSearchPage.openSearch();
@@ -158,12 +131,13 @@ public class SearchPeopleTest extends BaseTest {
         Assert.assertTrue(profilePage.isURLContainsText(url, CVDownload), "The File is not Downloaded");
     }
 
+    @Parameters({"profileName", "profileKeyword"})
     @Test(description = "Verify people Biography info is displayed correctly on profile page")
-    public void checkProfileBiographyContent() {
+    public void checkProfileBiographyContent(String profileName, String profileKeyword) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("Peggy Myung")
+                .inputSearchPanelValue(profileName)
                 .clickSearchButton();
         ProfilePage profilePage = searchPage.openFirstPeopleProfile();
         SoftAssert softAssert = new SoftAssert();
@@ -199,7 +173,7 @@ public class SearchPeopleTest extends BaseTest {
                 "YM Link is not Displayed");
         softAssert.assertTrue(profilePage.isBiographySectionTitleDisplayed(),
                 "Biography Section Title is not Displayed");
-        softAssert.assertTrue(profilePage.isBiographySectionNotEmpty("Bonaire"),
+        softAssert.assertTrue(profilePage.isBiographySectionNotEmpty(profileKeyword),
                 "Biography Section is Empty");
         softAssert.assertTrue(profilePage.isEducationAndTrainingSectionTitleDisplayed(),
                 "Education and Training Section Title is not Displayed");
@@ -230,12 +204,13 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    @Parameters({"profileName"})
     @Test(description = "Verify Biography info is displayed correctly on profile page")
-    public void checkProfileResearchAndPublicationsContent() {
+    public void checkProfileResearchAndPublicationsContent(String profileName) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("Peggy Myung")
+                .inputSearchPanelValue(profileName)
                 .clickSearchButton();
         ResearchTab researchPage = searchPage.openFirstPeopleProfile().openResearchAndPublicationTab();
         SoftAssert softAssert = new SoftAssert();
@@ -268,12 +243,13 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    @Parameters({"profileName"})
     @Test(description = "Verify Patient Care info is displayed correctly on profile page")
-    public void checkProfilePatientCareContent() {
+    public void checkProfilePatientCareContent(String profileName) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("Caroline J. (Kendall) Schmidt")
+                .inputSearchPanelValue(profileName)
                 .clickSearchButton();
         PatientCareTab patientCarePage = searchPage.openFirstPeopleProfile().openPatientCareTab();
         SoftAssert softAssert = new SoftAssert();
@@ -292,12 +268,13 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    @Parameters({"profileName"})
     @Test(description = "Verify Location info is displayed correctly on profile page")
-    public void checkProfileLocationsContent() {
+    public void checkProfileLocationsContent(String profileName) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("Caroline J. (Kendall) Schmidt")
+                .inputSearchPanelValue(profileName)
                 .clickSearchButton();
         LocationsTab locationsPage = searchPage.openFirstPeopleProfile().openLocationsTab();
         SoftAssert softAssert = new SoftAssert();
@@ -308,12 +285,13 @@ public class SearchPeopleTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    @Parameters({"profileName"})
     @Test(description = "Verify News info is displayed correctly on profile page")
-    public void checkProfileNewsContent() {
+    public void checkProfileNewsContent(String profileName) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("Peggy Myung")
+                .inputSearchPanelValue(profileName)
                 .clickSearchButton();
         NewsTab newsTab = searchPage.openFirstPeopleProfile().openNewsTab();
         SoftAssert softAssert = new SoftAssert();

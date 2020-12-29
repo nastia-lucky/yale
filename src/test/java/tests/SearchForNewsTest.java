@@ -110,7 +110,7 @@ public class SearchForNewsTest extends BaseTest {
                 "Not each Search News Result has Title");
         softAssert.assertTrue(searchPage.isAllElementsHaveThumbnailOrDefaultImage(),
                 "Not each Search News Result has Thumbnail");
-        softAssert.assertTrue(searchPage.isAllElementsHaveSummary(),
+        softAssert.assertTrue(searchPage.isOneOfElementsHaveSummary(),
                 "Not each Search News Result has Summary");
         softAssert.assertTrue(searchPage.isAllElementsHaveDate(),
                 "Not each Search News Result has Date");
@@ -131,12 +131,13 @@ public class SearchForNewsTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    @Parameters({"newsTitle"})
     @Test(description = "Verify that news page contain all possible content")
-    public void checkNewsContent() {
+    public void checkNewsContent(String newsTitle) {
         MainPage mainPage = new MainPage();
         mainPage.openMainPage();
         SearchPage searchPage = mainPage.clickPerformSearch()
-                .inputSearchPanelValue("internal bonaire")
+                .inputSearchPanelValue(newsTitle)
                 .clickSearchButton();
         NewsPage newsPage = searchPage.openFirstNews();
         SoftAssert softAssert = new SoftAssert();

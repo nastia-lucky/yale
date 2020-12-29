@@ -15,7 +15,7 @@ import yale.services.OpenSearchPage;
 @Listeners({TestListener.class})
 public class SearchForClinicalTrialTest extends BaseTest {
 
-    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description="Verify user can open clinical trial from search")
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description = "Verify user can open clinical trial from search")
     public void openClinicalTrialPageFromSearchTest() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -26,7 +26,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
                 "Title of first trial on the results page doesn't coincide with title on the clinical trial page");
     }
 
-    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description="Verify that clinical trial info (title, volunteer and physician summary, criteria text and investigators) is displayed correctly")
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description = "Verify that clinical trial info (title, volunteer and physician summary, criteria text and investigators) is displayed correctly")
     public void checkClinicalTrialPageTest() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();
@@ -44,7 +44,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description="Verify after cicking Volunteer Now button user is redirected to Volunteer Online with MyChart web-page")
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description = "Verify after cicking Volunteer Now button user is redirected to Volunteer Online with MyChart web-page")
     public void checkVolunteerNowButton() {
         MainPage mainPage = new MainPage();
         OpenSearchPage.openSearch();
@@ -56,7 +56,7 @@ public class SearchForClinicalTrialTest extends BaseTest {
                 "Volunteer Now Link isn't correct");
     }
 
-    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description="Verify that clinical trials search results are refined after applying Gender filter")
+    @Test(dependsOnMethods = {"checkClinicalTrialFilter"}, description = "Verify that clinical trials search results are refined after applying Gender filter")
     public void checkGenderFilter() {
         OpenSearchPage.openSearch();
         SearchPage searchPage = new SearchPage();

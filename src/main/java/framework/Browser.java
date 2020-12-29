@@ -12,11 +12,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +43,6 @@ public class Browser {
                 System.setProperty("webdriver.chrome.driver", pathChrome);
 
                 String downloadFilepath = getDownloadPath().toString();
-                //String downloadFilepath = "/Users/anastasiyashafalovich/IdeaProjects/yale/downloads";
                 HashMap<String, Object> chromePrefs = new HashMap<>();
                 chromePrefs.put("profile.default_content_settings.popups", 0);
                 chromePrefs.put("download.default_directory", downloadFilepath);
@@ -114,8 +111,4 @@ public class Browser {
         return Browser.getDriver().getCurrentUrl();
     }
 
-    public void clickBackButton() {
-        Log.logInfo("Click Back Button");
-        driver.navigate().back();
-    }
 }

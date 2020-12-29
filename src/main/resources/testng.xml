@@ -15,8 +15,11 @@
         <parameter name="keyword" value="Epidemiology and Public Health"/>
         <parameter name="value" value="aria-label"/>
         <parameter name="keyword2" value="Cancer"/>
-        <parameter name="profileName" value="Peggy"/>
+        <parameter name="profileName" value="Peggy Myung"/>
         <parameter name="downloadPath" value="/Users/anastasiyashafalovich/Downloads/"/>
+        <parameter name="newsTitle" value="internal bonaire"/>
+        <parameter name="eventTitle" value="single bonaire"/>
+        <parameter name="profileKeyword" value="Sandy"/>
         <classes>
             <class name="tests.MainPageTests"></class>
             <class name="tests.GeneralSearchTests"></class>

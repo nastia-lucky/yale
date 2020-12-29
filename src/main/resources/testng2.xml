@@ -18,8 +18,10 @@
         <parameter name="contactUsLink" value="https://acceptance.medicine.yale.edu/contact/"/>
         <parameter name="twitterLink" value="https://twitter.com/YaleMed"/>
         <parameter name="profileName" value="Peggy Myung"/>
+        <parameter name="newsTitle" value="internal bonaire"/>
+        <parameter name="profileKeyword" value="Sandy"/>
         <classes>
-            <class name="tests.SearchForDocumentTest">
+            <class name="tests.SearchOverlayTest">
             </class>
         </classes>
     </test>

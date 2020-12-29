@@ -172,20 +172,4 @@ public class MainPageTests extends BaseTest {
                 "Not 4 events on the main page");
     }
 
-     /*@Test
-    public void checkMenu() throws InterruptedException {
-        MainPage mainPage = new MainPage();
-        mainPage.hoverOnDiversity();
-        Thread.sleep(15000);
-        mainPage.clickTrainingLink();
-    } */
-
-   /* @Test
-    public void checkCollapseExpandedHeader() throws InterruptedException {
-        MainPage mainPage = new MainPage();
-        int heightBeforeScrolling = mainPage.getHeaderHeight();
-        mainPage.scrollToTheBottom();
-        Thread.sleep(3000);
-        int heightAfterBottomScrolling = mainPage.getHeaderHeight();
-    } */
 }

@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 
 public class Log {
 
+    Log() {
+    }
+
 
     private static Logger logger = Logger.getLogger("My Logger");
 
